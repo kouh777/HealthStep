@@ -30,38 +30,48 @@ public class btn_Character implements Button{
         m_iNextSceneID = m_GameView.m_SceneMenu;
 
         // load background image resources
-        m_btn_Resource = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.border);
+        m_btn_Resource = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.boy_waku);
+
+        // for centering character image
+        int w = (int)( m_btn_Resource.getIntrinsicWidth() *  menu_Character.SCALE_INBUTTON);
+        int h = (int)( m_btn_Resource.getIntrinsicHeight() *  menu_Character.SCALE_INBUTTON);
+
+        int ww = (int)( m_btn_Resource.getIntrinsicWidth() *  menu_Character.SCALE_BUTTON);
+        int hh =  (int)( m_btn_Resource.getIntrinsicHeight() *  menu_Character.SCALE_BUTTON);
+
+        int cx = (ww-w) >> 1;
+        int cy = (hh-h) >> 1;
 
         // check whether player have character or don't have character
         if(found){
             switch (char_num) {
                 //
-                case 0: m_CharacterBase = new char_Akemi(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 1: m_CharacterBase = new char_Urara(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 2: m_CharacterBase = new char_Sizuku(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 3: m_CharacterBase = new char_Nekoko(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 4: m_CharacterBase = new char_Miki(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 5: m_CharacterBase = new char_Momoka(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 6: m_CharacterBase = new char_Rimika(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 7: m_CharacterBase = new char_Rin(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 8: m_CharacterBase = new char_Yukito(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 9: m_CharacterBase = new char_Kaito(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 10: m_CharacterBase = new char_Syu(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 11: m_CharacterBase = new char_Shouta(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 12: m_CharacterBase = new char_Banjyo(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 13: m_CharacterBase = new char_Hibiki(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 14: m_CharacterBase = new char_Huyuki(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 15: m_CharacterBase = new char_Rokurou(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 16: m_CharacterBase = new char_Konsuke(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 17: m_CharacterBase = new char_Donta(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 18: m_CharacterBase = new char_Minmi(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                case 19: m_CharacterBase = new char_Ryu(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
-                default: m_CharacterBase = new char_Unknown(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 0: m_CharacterBase = new char_Akemi(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 1: m_CharacterBase = new char_Urara(gv,posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 2: m_CharacterBase = new char_Sizuku(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 3: m_CharacterBase = new char_Nekoko(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 4: m_CharacterBase = new char_Miki(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 5: m_CharacterBase = new char_Momoka(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 6: m_CharacterBase = new char_Rimika(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 7: m_CharacterBase = new char_Rin(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 8: m_CharacterBase = new char_Yukito(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 9: m_CharacterBase = new char_Kaito(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 10: m_CharacterBase = new char_Syu(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 11: m_CharacterBase = new char_Shouta(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 12: m_CharacterBase = new char_Banjyo(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 13: m_CharacterBase = new char_Hibiki(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 14: m_CharacterBase = new char_Huyuki(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 15: m_CharacterBase = new char_Rokurou(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 16: m_CharacterBase = new char_Konsuke(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 17: m_CharacterBase = new char_Donta(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 18: m_CharacterBase = new char_Minmi(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                case 19: m_CharacterBase = new char_Ryu(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
+                default: m_CharacterBase = new char_Unknown(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
             }
 
             //　image size
-            m_iBtnWidth  = (int)((m_btn_Resource.getIntrinsicWidth() >> 1) * menu_Character.SCALE_BUTTON);
-            m_iBtnHeight = (int)((m_btn_Resource.getIntrinsicHeight() >> 1) * menu_Character.SCALE_BUTTON);
+            m_iBtnWidth  = (int)((m_btn_Resource.getIntrinsicWidth() ) * menu_Character.SCALE_BUTTON);
+            m_iBtnHeight = (int)((m_btn_Resource.getIntrinsicHeight() ) * menu_Character.SCALE_BUTTON);
 
             //　image resize
             m_iBtnWidth *= gv.getGamePerWidth();
@@ -71,7 +81,7 @@ public class btn_Character implements Button{
             m_iPosY *= gv.getGamePerHeight();
 
         }else{
-            m_CharacterBase = new char_Unknown(gv, posX, posY, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO);
+            m_CharacterBase = new char_Unknown(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO);
         }
     }
 
@@ -90,7 +100,7 @@ public class btn_Character implements Button{
     public void draw(Canvas c) {
         if (m_btn_Resource != null){
             m_btn_Resource.setBounds(m_iPosX, m_iPosY, m_iPosX+m_iBtnWidth, m_iPosY+m_iBtnHeight);
-//            m_btn_Resource.draw(c);
+            m_btn_Resource.draw(c);
         }
         if(m_CharacterBase != null){
             m_CharacterBase.draw(c);

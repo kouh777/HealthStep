@@ -5,14 +5,19 @@ import android.graphics.Canvas;
 /**
  * Created by KOUHO on 2014/10/15.
  */
+
+enum CharacterKind{
+    KIND_GIRL,KIND_BOY,KIND_BEAST
+};
+
 public class menu_Character{
     // selecting char ID
     public int CharacterID;
 
     // define scale value
     static final float SCALE_NO = 1.5f;
-    static final float SCALE_BUTTON = 0.25f;
-    static final float SCALE_INBUTTON = 0.5f;
+    static final float SCALE_BUTTON = 0.5f;
+    static final float SCALE_INBUTTON = 0.35f;
 
     // define animation flag
     static boolean ANIM_OK = true;

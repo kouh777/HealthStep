@@ -21,7 +21,10 @@ public class char_Akemi implements CharacterBase {
     private int m_iIndex;
     private boolean m_bAnimFlg;
 
+    private CharacterKind m_CharacterKind;
+
     public char_Akemi(GameView gv, int posX, int posY, float scale, boolean anim_flg){
+        m_CharacterKind = CharacterKind.KIND_GIRL;
         m_iIndex = 0;
         m_iTimer = 0;
 

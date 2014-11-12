@@ -3,7 +3,8 @@ package applewatch.apple_watch;
 /**
  * Created by KOUHO on 2014/10/13.
  */
-
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
@@ -32,7 +33,7 @@ public class scene_Title implements GamePart{
 
         // background resource
         m_TitleBack = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.bg);
-        m_TitleLogo = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.m_title_logo);
+        m_TitleLogo = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.title_logo);
 
         //　タイトルロゴの描画サイズの決定
         m_iTitleLogoWidth  = m_TitleLogo.getIntrinsicWidth();
@@ -41,6 +42,7 @@ public class scene_Title implements GamePart{
         //　画像の縮小率を適用
         m_iTitleLogoWidth	 *= gv.getGamePerWidth();
         m_iTitleLogoHeight *= gv.getGamePerHeight();
+
         reset();
     }
 
@@ -72,9 +74,13 @@ public class scene_Title implements GamePart{
             m_TitleBack.draw(c);
         }
         if (m_TitleLogo != null){
-            m_TitleLogo.setBounds((w>>1)-(m_iTitleLogoWidth>>1),
-                    (h>>1)-(m_iTitleLogoHeight>>1),(w>>1)+(m_iTitleLogoWidth>>1),
-                    (h>>1)+(m_iTitleLogoHeight>>1));
+            // for centering logo
+            m_TitleLogo.setBounds(
+                    (w - m_iTitleLogoWidth) >> 1,
+                    (h - m_iTitleLogoHeight) >> 1,
+                    (w + m_iTitleLogoWidth) >> 1,
+                    (h + m_iTitleLogoHeight) >> 1
+            );
             m_TitleLogo.draw(c);
         }
     }
