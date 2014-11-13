@@ -129,7 +129,10 @@ public class scene_Menu implements GamePart{
         }
         */
         if( m_MessageCharacter != null ){
-            m_MessageCharacter.draw(c);
+            switch(m_Character.CharacterID) {
+                case menu_Character.CHAR_AKEMI_ID :
+                    m_MessageCharacter.draw(c);
+            }
         }
     }
 

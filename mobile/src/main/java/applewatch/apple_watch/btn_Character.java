@@ -80,8 +80,26 @@ public class btn_Character implements Button{
             m_iPosX *= gv.getGamePerWidth();
             m_iPosY *= gv.getGamePerHeight();
 
+            // cahnge border
+            switch( m_CharacterBase.getCharacterKind() ){
+                case KIND_BOY:
+                    m_btn_Resource = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.boy_waku);
+                    break;
+
+                case KIND_GIRL:
+                    m_btn_Resource = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.girl_waku);
+                    break;
+
+                case KIND_BEAST:
+                    m_btn_Resource = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.beast_waku);
+                    break;
+
+                default:
+                    m_btn_Resource = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.unknown_waku);
+                    break;
+            }
         }else{
-            m_CharacterBase = new char_Unknown(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO);
+            m_CharacterBase = new char_Unknown(gv, posX, posY, menu_Character.SCALE_BUTTON, menu_Character.ANIM_NO);
         }
     }
 
@@ -116,13 +134,13 @@ public class btn_Character implements Button{
             int y = (int)event.getY();
             if( x > m_iPosX && x < m_iPosX + m_iBtnWidth &&
                     y > m_iPosY && y < m_iPosY + m_iBtnHeight){
-                Log.d("TEST", "Touch image inside");
+//                Log.d("TEST", "Touch image inside");
 
                 // if button touch change select character
                 PlayerData.getInstance().setSelectCharacter(m_CharacterBase.characterID());
                 m_bIsTouched = true;
             }else{
-                Log.d("TEST", "Touch image outside");
+//                Log.d("TEST", "Touch image outside");
                 return;
             }
         }

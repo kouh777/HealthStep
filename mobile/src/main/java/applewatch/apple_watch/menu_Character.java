@@ -7,7 +7,7 @@ import android.graphics.Canvas;
  */
 
 enum CharacterKind{
-    KIND_GIRL,KIND_BOY,KIND_BEAST
+    KIND_GIRL,KIND_BOY,KIND_BEAST,KIND_UNKNOWN
 };
 
 public class menu_Character{
