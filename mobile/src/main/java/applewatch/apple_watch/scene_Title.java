@@ -11,10 +11,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.view.MotionEvent;
 import android.util.Log;
 
-public class scene_Title implements GamePart{
+public class scene_Title extends Task{
     private Paint m_Paint;
     // image resources
-    private BitmapDrawable	m_TitleBack;
     private BitmapDrawable m_TitleLogo;
     // image status
     private int	m_iTitleLogoWidth;
@@ -22,17 +21,15 @@ public class scene_Title implements GamePart{
 
     private boolean m_bMove;
 
-    private int m_iNextScene;
     private GameView m_GameView;
 
     // constract
-    public scene_Title(GameView gv){
+    public scene_Title(GameView gv, int prio){
+        super(prio);
         m_Paint = null;
         m_GameView = gv;
-        m_iNextScene = gv.m_SceneMenu;
 
-        // background resource
-        m_TitleBack = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.bg);
+        // logo resource
         m_TitleLogo = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.title_logo);
 
         //　タイトルロゴの描画サイズの決定
@@ -44,6 +41,11 @@ public class scene_Title implements GamePart{
         m_iTitleLogoHeight *= gv.getGamePerHeight();
 
         reset();
+    }
+
+    @Override
+    public void update(){
+
     }
 
     @Override
@@ -59,20 +61,10 @@ public class scene_Title implements GamePart{
     }
 
     @Override
-    // value of next scene
-    public int nextSceneID(){
-        return m_iNextScene;
-    }
-
-    @Override
     // draw
     public void    draw(Canvas c){
         int w = m_GameView.getWidth();
         int h = m_GameView.getHeight();
-        if (m_TitleBack != null){
-            m_TitleBack.setBounds(0,0,w,h);
-            m_TitleBack.draw(c);
-        }
         if (m_TitleLogo != null){
             // for centering logo
             m_TitleLogo.setBounds(
@@ -94,13 +86,8 @@ public class scene_Title implements GamePart{
             return;
         }else {
             Log.d("TEST", "get Touch action");
-            m_iNextScene = m_GameView.m_SceneMenu;
+            new scene_Menu(m_GameView, 22);
             m_bMove = true;
         }
-    }
-
-    // getter
-    public GameView getGameView(){
-        return m_GameView;
     }
 }

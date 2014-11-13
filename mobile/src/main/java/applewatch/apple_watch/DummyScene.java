@@ -9,15 +9,20 @@ import android.view.MotionEvent;
 /**
  * Created by KOUHO on 2014/10/15.
  */
-public class DummyScene implements GamePart {
+public class DummyScene extends Task {
     private boolean m_bMove;
-    private int m_iNextScene;
     private GameView m_GameView;
 
     // constract
-    public DummyScene(GameView gv){
+    public DummyScene(GameView gv, int prio){
+        super(prio);
         m_GameView = gv;
         reset();
+    }
+
+    @Override
+    public void update(){
+
     }
 
     @Override
@@ -30,12 +35,6 @@ public class DummyScene implements GamePart {
     // go to next scene
     public boolean move(){
         return false;
-    }
-
-    @Override
-    // value of next scene
-    public int nextSceneID(){
-        return m_GameView.m_SceneTitle;
     }
 
     @Override

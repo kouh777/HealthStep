@@ -32,6 +32,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     private int m_Int = 0;
     private GamePart m_GamePart = null;
 
+
     // define scene names
     private int m_iPhase = 0;           // control game scene
     private int m_iNowSceneID = 0;     // new GamePart's secondary class one time
@@ -56,8 +57,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     // game back ground.this image size is base of screen size
     BitmapDrawable m_GameScr;
 
-
-    int test = 0;
+    private boolean m_bSceneFlg;
 
     public GameView(Context context){
         super(context);
@@ -117,6 +117,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
         setClickable(true); // for getting motion event
         setFocusable(true); // for getting key event
         m_bActive = true;
+
         m_Thread = new Thread(this);
         m_Thread.start();
     }
@@ -131,99 +132,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
 
     public void doAnim(){
         m_Int++;
-        switch(m_iPhase){
-            case m_SceneInit:
-                m_GamePart = new DummyScene(this);
-                m_iPhase = m_GamePart.nextSceneID();
-                break;
-
-            case m_SceneTitle:
-                if(m_GamePart != null){
-                    // new Title only at once
-                    if(m_iNowSceneID != m_SceneTitle){
-                        m_GamePart = new scene_Title(this);
-                        m_iNowSceneID = m_SceneTitle;
-                    }
-                    // move()
-                    if(m_GamePart.move() == false){
-                        break;
-                    }
-                }
-                // 次に遷移するページのID
-                m_iPhase = m_GamePart.nextSceneID();
-                break;
-
-            case m_SceneMenu:
-                if(m_GamePart != null){
-                    // new Menu only at once
-                    if(m_iNowSceneID != m_SceneMenu){
-                        m_GamePart = new scene_Menu(this);
-                        m_iNowSceneID = m_SceneMenu;
-                    }
-                    // move()
-                    if(m_GamePart.move() == false){
-                        break;
-                    }
-                }
-                // 次に遷移するページのID
-                m_iPhase = m_GamePart.nextSceneID();
-                break;
-
-            case m_SceneRanking:
-                if(m_GamePart != null){
-                    // new Title only at once
-                    if(m_iNowSceneID != m_SceneRanking){
-                        m_GamePart = new scene_Ranking(this);
-                        m_iNowSceneID = m_SceneRanking;
-                    }
-                    // move()
-                    if(m_GamePart.move() == false){
-                        break;
-                    }
-                }
-                // 次に遷移するページのID
-                m_iPhase = m_GamePart.nextSceneID();
-                break;
-
-            case m_SceneGallery:
-                if(m_GamePart != null){
-                    // new Galeery only at once
-                    if(m_iNowSceneID != m_SceneGallery){
-                        m_GamePart = new scene_Gallery(this);
-                        m_iNowSceneID = m_SceneGallery;
-                    }
-                    // move()
-                    if(m_GamePart.move() == false){
-                        break;
-                    }
-                }
-                // 次に遷移するページのID
-                m_iPhase = m_GamePart.nextSceneID();
-                break;
-
-            case m_SceneGacha:
-                if(m_GamePart != null){
-                    // new Gacha only at once
-                    if(m_iNowSceneID != m_SceneGacha){
-                        m_GamePart = new scene_Gacha(this);
-                        m_iNowSceneID = m_SceneGacha;
-                    }
-                    // move()
-                    if(m_GamePart.move() == false){
-                        break;
-                    }
-                }
-                // 次に遷移するページのID
-                m_iPhase = m_GamePart.nextSceneID();
-                break;
+        if(!m_bSceneFlg) {
+            new scene_BackMain(this,100);
+            new scene_Title(this, 10);
+            m_bSceneFlg = true;
         }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event){
-        if (m_GamePart != null) {
-            m_GamePart.touch(event);
-        }
+        TaskManager.getInstance().touch(event);
         return super.onTouchEvent(event);
     }
 
@@ -233,9 +151,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     }
 
     public void doDraw(Canvas c){
-        if(m_GamePart != null){
-            m_GamePart.draw(c);
-        }
+        TaskManager.getInstance().update();
+        TaskManager.getInstance().draw(c);
         //PutDataRequest mPutDataRequest = new PutDataRequest("/path/to/data");
     }
 

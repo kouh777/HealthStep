@@ -38,5 +38,5 @@ public class char_Akemi extends CharacterBase {
 
     public void draw(Canvas c) { super.draw(c); }
     public void doAnim(){ super.doAnim(); }
-    public int characterID(){ return super.characterID(); }
+    public int characterID(){ return m_CharacterID; }
 }
