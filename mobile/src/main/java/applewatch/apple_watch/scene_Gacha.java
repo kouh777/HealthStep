@@ -20,6 +20,7 @@ public class scene_Gacha extends Task {
 
     private int GachaCharacter;
     private gacha_Character m_gacha_Character;
+    private gacha_Animation m_gacha_Animation;
 
     // constract
     public scene_Gacha(GameView gv, int prio){
@@ -33,6 +34,8 @@ public class scene_Gacha extends Task {
 
     @Override
     public void update(){
+        if(m_gacha_Animation != null)
+            m_gacha_Animation.update();
     }
 
     @Override
@@ -56,7 +59,8 @@ public class scene_Gacha extends Task {
                 GachaCharacter = rnd;
                 b_Flg = true;
             }
-            m_gacha_Character = new gacha_Character(m_GameView, this, w ,400);
+            m_gacha_Animation = new gacha_Animation(m_GameView,0,0);
+//            m_gacha_Character = new gacha_Character(m_GameView, this, w ,400);
         }
         Log.d("TEST", "scene_Gacha::Reset");
     }
@@ -76,6 +80,11 @@ public class scene_Gacha extends Task {
         if(m_UiGroup != null){
             m_UiGroup.draw(c);
         }
+        // draw gacha animation
+        if(m_gacha_Animation != null){
+            m_gacha_Animation.draw(c);
+        }
+
         // draw get character
         if(m_gacha_Character != null){
             m_gacha_Character.draw(c);

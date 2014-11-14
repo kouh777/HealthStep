@@ -6,7 +6,7 @@ package applewatch.apple_watch;
 
 // use a design pattern 'singleton'
 public class PlayerData{
-    private int SelectCharacter;
+    private int m_iSelectCharacter;
     private boolean[] UnlockCharacter;
 
     private int m_iPrefecture;
@@ -26,7 +26,7 @@ public class PlayerData{
 
     // set method
     public void setSelectCharacter(int select_character){
-        SelectCharacter = select_character;
+        m_iSelectCharacter = select_character;
     }
     public void setPrefecture(int prefectrure){
         m_iPrefecture = prefectrure;
@@ -61,8 +61,8 @@ public class PlayerData{
     }
 
     // getter
-    public int getSelectCharacter(int select_character){
-        return SelectCharacter;
+    public int getSelectCharacter(){
+        return m_iSelectCharacter;
     }
     public int getPrefacture(){
         return m_iPrefecture;

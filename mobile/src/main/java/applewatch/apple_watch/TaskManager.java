@@ -26,9 +26,10 @@ public class TaskManager {
     public void addList(Task add_task){
         Class clname = add_task.getClass();
         boolean add_flg = true;     // add flag
+        int size = FTasks.size();
 
         // if add_task doesn't exist in FTasks
-        for (int i = 0; i < FTasks.size(); i++) {
+        for (int i = 0; i < size; i++) {
             if (FTasks.elementAt(i).getClass() == clname) {
                 add_flg = false;
                 Log.d("TM::addList","double class");
@@ -37,7 +38,7 @@ public class TaskManager {
         }
 
         if(add_flg) {
-            for (int i = 0; i < FTasks.size(); i++) {
+            for (int i = 0; i < size; i++) {
                 if (FTasks.elementAt(i).GetPriority() <= add_task.GetPriority()) {
                     FTasks.insertElementAt(add_task, i);
                     Log.d("TM::addList(inLoop)",add_task.toString());
@@ -54,7 +55,8 @@ public class TaskManager {
     }
 
     public void update(){
-        for(int i = 0; i < FTasks.size(); i++){
+        int size = FTasks.size();
+        for(int i = 0; i < size; i++){
             if( FTasks.elementAt(i) != null) {
                 if( !FTasks.elementAt(i).move() ){
                     FTasks.elementAt(i).update();
@@ -62,13 +64,15 @@ public class TaskManager {
                 if( FTasks.elementAt(i).move() ){
                     Log.d("TM::update(remove)",FTasks.elementAt(i).toString());
                     FTasks.removeElementAt(i);
+                    break;
                 }
             }
         }
     }
 
     public void draw(Canvas c){
-        for(int i = 0; i < FTasks.size(); i++){
+        int size = FTasks.size();
+        for(int i = 0; i < size; i++){
             if (FTasks.elementAt(i) != null)
                 FTasks.elementAt(i).draw(c);
         }

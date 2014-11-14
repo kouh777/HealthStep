@@ -11,16 +11,19 @@ import android.view.MotionEvent;
 public class btn_Character implements Button{
     private GameView m_GameView;
 
-    private BitmapDrawable m_btn_Resource;
+    private BitmapDrawable m_btnBackGround;
     // for now select image
     private BitmapDrawable m_SelectBorder;
     private BitmapDrawable m_SelectScreen;
     private BitmapDrawable m_SelectLogo;
+    // select image flag
+    private boolean m_bIsSelected;
 
+    // character number
+    private int m_CharacterNumber;
 
     private int m_iBtnWidth;
     private int m_iBtnHeight;
-    private int m_iNextSceneID;
 
     private int m_iPosX;
     private int m_iPosY;
@@ -32,10 +35,11 @@ public class btn_Character implements Button{
         m_GameView = gv;
         m_iPosX = posX;
         m_iPosY = posY;
-        m_iNextSceneID = m_GameView.m_SceneMenu;
+        m_bIsSelected = false;
+        m_CharacterNumber = char_num;
 
         // load background image resources
-        m_btn_Resource = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.boy_waku);
+        m_btnBackGround = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.boy_waku);
 
         // load select image resource
         m_SelectBorder = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.sentaku1);
@@ -43,18 +47,18 @@ public class btn_Character implements Button{
         m_SelectLogo = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.sentaku3);
 
         // for centering character image
-        int w = (int)( m_btn_Resource.getIntrinsicWidth() *  menu_Character.SCALE_INBUTTON);
-        int h = (int)( m_btn_Resource.getIntrinsicHeight() *  menu_Character.SCALE_INBUTTON);
+        int w = (int)( m_btnBackGround.getIntrinsicWidth() *  menu_Character.SCALE_INBUTTON);
+        int h = (int)( m_btnBackGround.getIntrinsicHeight() *  menu_Character.SCALE_INBUTTON);
 
-        int ww = (int)( m_btn_Resource.getIntrinsicWidth() *  menu_Character.SCALE_BUTTON);
-        int hh =  (int)( m_btn_Resource.getIntrinsicHeight() *  menu_Character.SCALE_BUTTON);
+        int ww = (int)( m_btnBackGround.getIntrinsicWidth() *  menu_Character.SCALE_BUTTON);
+        int hh =  (int)( m_btnBackGround.getIntrinsicHeight() *  menu_Character.SCALE_BUTTON);
 
         int cx = (ww-w) >> 1;
         int cy = (hh-h) >> 1;
 
         // check whether player have character or don't have character
         if(found){
-            switch (char_num) {
+            switch (m_CharacterNumber) {
                 //
                 case 0: m_CharacterBase = new char_Akemi(gv, posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
                 case 1: m_CharacterBase = new char_Urara(gv,posX+cx, posY+cy, menu_Character.SCALE_INBUTTON, menu_Character.ANIM_NO); break;
@@ -80,8 +84,8 @@ public class btn_Character implements Button{
             }
 
             //　image size
-            m_iBtnWidth  = (int)((m_btn_Resource.getIntrinsicWidth() ) * menu_Character.SCALE_BUTTON);
-            m_iBtnHeight = (int)((m_btn_Resource.getIntrinsicHeight() ) * menu_Character.SCALE_BUTTON);
+            m_iBtnWidth  = (int)((m_btnBackGround.getIntrinsicWidth() ) * menu_Character.SCALE_BUTTON);
+            m_iBtnHeight = (int)((m_btnBackGround.getIntrinsicHeight() ) * menu_Character.SCALE_BUTTON);
 
             //　image resize
             m_iBtnWidth *= gv.getGamePerWidth();
@@ -93,19 +97,19 @@ public class btn_Character implements Button{
             // cahnge border
             switch( m_CharacterBase.getCharacterKind() ){
                 case KIND_BOY:
-                    m_btn_Resource = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.boy_waku);
+                    m_btnBackGround = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.boy_waku);
                     break;
 
                 case KIND_GIRL:
-                    m_btn_Resource = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.girl_waku);
+                    m_btnBackGround = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.girl_waku);
                     break;
 
                 case KIND_BEAST:
-                    m_btn_Resource = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.beast_waku);
+                    m_btnBackGround = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.beast_waku);
                     break;
 
                 default:
-                    m_btn_Resource = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.unknown_waku);
+                    m_btnBackGround = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.unknown_waku);
                     break;
             }
         }else{
@@ -120,18 +124,47 @@ public class btn_Character implements Button{
     }
     //
     @Override
-    public int nextSceneID() {
-        return m_iNextSceneID;
-    }
+    public int nextSceneID() { return 0;}
 
     @Override
     public void draw(Canvas c) {
-        if (m_btn_Resource != null){
-            m_btn_Resource.setBounds(m_iPosX, m_iPosY, m_iPosX+m_iBtnWidth, m_iPosY+m_iBtnHeight);
-            m_btn_Resource.draw(c);
+        CheckSelect();
+
+        // if select this character
+        if(m_bIsSelected){
+            // draw select border
+            if(m_SelectBorder != null){
+                m_SelectBorder.setBounds(m_iPosX, m_iPosY, m_iPosX + m_iBtnWidth, m_iPosY + m_iBtnHeight);
+                m_SelectBorder.draw(c);
+            }
+            // draw buton background
+            if (m_btnBackGround != null) {
+                m_btnBackGround.setBounds(m_iPosX, m_iPosY, m_iPosX + m_iBtnWidth, m_iPosY + m_iBtnHeight);
+                m_btnBackGround.draw(c);
+            }
+            // draw character
+            if (m_CharacterBase != null) {
+                m_CharacterBase.draw(c);
+            }
+            // draw select screen
+            if(m_SelectScreen != null){
+                m_SelectScreen.setBounds(m_iPosX, m_iPosY, m_iPosX + m_iBtnWidth, m_iPosY + m_iBtnHeight);
+                m_SelectScreen.draw(c);
+            }
+            // draw select logo
+            if(m_SelectLogo != null){
+                m_SelectLogo.setBounds(m_iPosX, m_iPosY, m_iPosX + m_iBtnWidth, m_iPosY + m_iBtnHeight);
+                m_SelectLogo.draw(c);
+            }
         }
-        if(m_CharacterBase != null){
-            m_CharacterBase.draw(c);
+        else{
+            if (m_btnBackGround != null) {
+                m_btnBackGround.setBounds(m_iPosX, m_iPosY, m_iPosX + m_iBtnWidth, m_iPosY + m_iBtnHeight);
+                m_btnBackGround.draw(c);
+            }
+            if (m_CharacterBase != null) {
+                m_CharacterBase.draw(c);
+            }
         }
     }
 
@@ -145,7 +178,7 @@ public class btn_Character implements Button{
             if( x > m_iPosX && x < m_iPosX + m_iBtnWidth &&
                     y > m_iPosY && y < m_iPosY + m_iBtnHeight){
 
-                // if button touch change select character
+                int id = menu_Character.numToID(m_CharacterNumber);
                 PlayerData.getInstance().setSelectCharacter(m_CharacterBase.characterID());
                 m_bIsTouched = true;
             }else{
@@ -153,4 +186,20 @@ public class btn_Character implements Button{
             }
         }
     }
+
+    // this method is only used in this class
+    private void CheckSelect(){
+        int s = PlayerData.getInstance().getSelectCharacter();
+        if( s == menu_Character.numToID(m_CharacterNumber) ){
+            m_bIsSelected = true;
+        }else{
+            m_bIsSelected = false;
+        }
+    }
+
+    // settter
+    public void setIsSelected( boolean select){
+        m_bIsSelected = select;
+    }
+
 }

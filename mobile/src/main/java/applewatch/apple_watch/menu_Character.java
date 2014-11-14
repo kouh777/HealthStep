@@ -55,7 +55,7 @@ public class menu_Character{
 
     // constract
     menu_Character(GameView gv, int posX, int posY){
-        CharacterID = PlayerData.getInstance().getSelectCharacter(CharacterID);
+        CharacterID = PlayerData.getInstance().getSelectCharacter();
         m_bFlg = false;
         switch(CharacterID){
             // girls(100-199)
@@ -209,4 +209,30 @@ public class menu_Character{
             m_Character.draw(c);
         }
     }
-}
+
+    static int numToID(int num){
+        switch(num){
+            case  0: return CHAR_AKEMI_ID;
+            case  1: return CHAR_URARA_ID;
+            case  2: return CHAR_SIZUKU_ID;
+            case  3: return CHAR_NEKOKO_ID;
+            case  4: return CHAR_MIKI_ID;
+            case  5: return CHAR_MOMOKA_ID;
+            case  6: return CHAR_RIMIKA_ID;
+            case  7: return CHAR_RIN_ID;
+            case  8: return CHAR_YUKITO_ID;
+            case  9: return CHAR_KAITO_ID;
+            case 10: return CHAR_SYU_ID;
+            case 11: return CHAR_SHOUTA_ID;
+            case 12: return CHAR_BANJYO_ID;
+            case 13: return CHAR_HIBIKI_ID;
+            case 14: return CHAR_HUYUKI_ID;
+            case 15: return CHAR_ROKUROU_ID;
+            case 16: return CHAR_KONSUKE_ID;
+            case 17: return CHAR_DONTA_ID;
+            case 18: return CHAR_MINMI_ID;
+            case 19: return CHAR_RYU_ID;
+            default: return CHAR_UNKNOWN_ID;
+        }
+    }
+ }
