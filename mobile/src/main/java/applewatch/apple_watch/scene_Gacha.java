@@ -16,6 +16,10 @@ public class scene_Gacha extends Task {
     private boolean m_bMove;
     private GameView m_GameView;
     private MenuGroup m_MenuGroup;
+    private UiGroup m_UiGroup;
+
+    private int GachaCharacter;
+    private gacha_Character m_gacha_Character;
 
     // constract
     public scene_Gacha(GameView gv, int prio){
@@ -23,6 +27,7 @@ public class scene_Gacha extends Task {
         m_Paint = null;
         m_GameView = gv;
         m_MenuGroup = new MenuGroup(gv);
+        m_UiGroup = new UiGroup(gv, 0 ,0);
         reset();
     }
 
@@ -34,6 +39,8 @@ public class scene_Gacha extends Task {
     public void reset(){
         m_bMove = false;
         boolean b_Flg = false;
+        int w = m_GameView.getWidth();
+        int h = m_GameView.getHeight();
 
         // create random number(from 0 to character data size)
         Random r = new Random();
@@ -44,11 +51,12 @@ public class scene_Gacha extends Task {
             if (PlayerData.getInstance().CharacterComplete() == true){
                 b_Flg = true;
             }
-
             if (PlayerData.getInstance().getUnlockCharacter()[rnd] == false) {
                 PlayerData.getInstance().setUnlockCharacter(rnd, true);
+                GachaCharacter = rnd;
                 b_Flg = true;
             }
+            m_gacha_Character = new gacha_Character(m_GameView, this, w ,400);
         }
         Log.d("TEST", "scene_Gacha::Reset");
     }
@@ -62,12 +70,17 @@ public class scene_Gacha extends Task {
     @Override
     // draw
     public void    draw(Canvas c){
-        int w = m_GameView.getWidth();
-        int h = m_GameView.getHeight();
         if (m_MenuGroup != null) {
             m_MenuGroup.draw(c);
         }
+        if(m_UiGroup != null){
+            m_UiGroup.draw(c);
+        }
         // draw get character
+        if(m_gacha_Character != null){
+            m_gacha_Character.draw(c);
+        }
+
     }
 
     @Override
@@ -76,5 +89,9 @@ public class scene_Gacha extends Task {
         if( m_MenuGroup != null)
             m_MenuGroup.touch(event);
             m_bMove = m_MenuGroup.move();
+    }
+
+    public int getGachaCharacter(){
+        return GachaCharacter;
     }
 }

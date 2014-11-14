@@ -100,4 +100,11 @@ public class CharacterBase {
     // getter
     public int characterID(){ return m_CharacterID; }
     public CharacterKind getCharacterKind(){ return m_CharacterKind; }
+    public int getPosX(){ return m_iPosX;}
+    public int getPosY(){ return m_iPosY;}
+    public int getWidth(){ return m_iCharWidth;}
+
+    // setter
+    public void setPosX(int mx){ m_iPosX = mx;}
+    public void setPosY(int my){ m_iPosY = my;}
 }

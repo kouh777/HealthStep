@@ -12,6 +12,11 @@ public class btn_Character implements Button{
     private GameView m_GameView;
 
     private BitmapDrawable m_btn_Resource;
+    // for now select image
+    private BitmapDrawable m_SelectBorder;
+    private BitmapDrawable m_SelectScreen;
+    private BitmapDrawable m_SelectLogo;
+
 
     private int m_iBtnWidth;
     private int m_iBtnHeight;
@@ -31,6 +36,11 @@ public class btn_Character implements Button{
 
         // load background image resources
         m_btn_Resource = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.boy_waku);
+
+        // load select image resource
+        m_SelectBorder = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.sentaku1);
+        m_SelectScreen = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.sentaku2);
+        m_SelectLogo = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.sentaku3);
 
         // for centering character image
         int w = (int)( m_btn_Resource.getIntrinsicWidth() *  menu_Character.SCALE_INBUTTON);

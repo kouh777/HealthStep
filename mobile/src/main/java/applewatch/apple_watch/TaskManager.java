@@ -1,6 +1,7 @@
 package applewatch.apple_watch;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.Vector;
@@ -30,6 +31,7 @@ public class TaskManager {
         for (int i = 0; i < FTasks.size(); i++) {
             if (FTasks.elementAt(i).getClass() == clname) {
                 add_flg = false;
+                Log.d("TM::addList","double class");
                 break;
             }
         }
@@ -38,10 +40,12 @@ public class TaskManager {
             for (int i = 0; i < FTasks.size(); i++) {
                 if (FTasks.elementAt(i).GetPriority() <= add_task.GetPriority()) {
                     FTasks.insertElementAt(add_task, i);
+                    Log.d("TM::addList(inLoop)",add_task.toString());
                     return;
                 }
             }
             FTasks.addElement(add_task);
+            Log.d("TM::addList(outsideLoop)",add_task.toString());
         }
     }
 
@@ -52,9 +56,11 @@ public class TaskManager {
     public void update(){
         for(int i = 0; i < FTasks.size(); i++){
             if( FTasks.elementAt(i) != null) {
-                if (!FTasks.elementAt(i).move()) {
+                if( !FTasks.elementAt(i).move() ){
                     FTasks.elementAt(i).update();
-                } else {
+                }
+                if( FTasks.elementAt(i).move() ){
+                    Log.d("TM::update(remove)",FTasks.elementAt(i).toString());
                     FTasks.removeElementAt(i);
                 }
             }
