@@ -98,6 +98,26 @@ public class GameSprite {
         m_iHeight = h;
     }
 
+    // receive center ( X,Y ) and draw from center;
+    public void draw(Canvas c, int cx, int cy){
+        int w = m_GameView.getWidth();
+        int h = m_GameView.getHeight();
+        int ww = m_ImageResource.getIntrinsicWidth();
+        int hh = m_ImageResource.getIntrinsicHeight();
+        int cpx = (int)( cx * m_GameView.getGamePerWidth() ) ;
+        int cpy = (int)( cy * m_GameView.getGamePerHeight() );
+
+        ww = (int)( ww * m_dScaleX * m_GameView.getGamePerWidth() );
+        hh = (int)( hh * m_dScaleY * m_GameView.getGamePerHeight() );
+        int x = cpx - (ww >> 1);
+        int y = cpy - (hh >> 1);
+
+        if (m_ImageResource != null){
+            m_ImageResource.setBounds( x , y , x + ww , y + hh );
+            m_ImageResource.draw(c);
+        }
+    }
+
     // if touch in sprite, return true
     public void touch(MotionEvent event){
         if (event.getAction() != MotionEvent.ACTION_DOWN) {
