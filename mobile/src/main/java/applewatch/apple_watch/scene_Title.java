@@ -12,45 +12,57 @@ import android.view.MotionEvent;
 import android.util.Log;
 
 public class scene_Title extends Task{
-    private Paint m_Paint;
-    // image resources
-    private BitmapDrawable m_TitleLogo;
-    // image status
-    private int	m_iTitleLogoWidth;
-    private int 	m_iTitleLogoHeight;
-
     private boolean m_bMove;
-
     private GameView m_GameView;
+    private GameSprite m_TouchStart;
+    private GameSprite m_TitleLogo;
+
+    // define image position, from center of screen
+    private final int LOGO_Y = -100;
+    private final int TOUCH_START_Y_FROM_CENTER = 300;
+
+    // define Timer
+    private final int BLINK_SPAN = 10;
+
+    // for animation
+    private int m_iTimer;
+    private boolean m_bTouchStart;
 
     // constract
     public scene_Title(GameView gv, int prio){
         super(prio);
-        m_Paint = null;
         m_GameView = gv;
 
-        // logo resource
-        m_TitleLogo = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.title_logo);
-
-        //　タイトルロゴの描画サイズの決定
-        m_iTitleLogoWidth  = m_TitleLogo.getIntrinsicWidth();
-        m_iTitleLogoHeight = m_TitleLogo.getIntrinsicHeight();
-
-        //　画像の縮小率を適用
-        m_iTitleLogoWidth	 *= gv.getGamePerWidth();
-        m_iTitleLogoHeight *= gv.getGamePerHeight();
+        m_TitleLogo = new GameSprite(gv,R.drawable.title_logo_new);
+        m_TouchStart = new GameSprite(gv,R.drawable.touchtostart);
 
         reset();
     }
 
     @Override
     public void update(){
-
+        m_iTimer++;
+        if(m_iTimer % BLINK_SPAN == 0){
+            m_bTouchStart = Switch(m_bTouchStart);
+        }
     }
 
     @Override
     public void    reset(){
+        m_iTimer = 0;
+        m_bTouchStart = false;
         m_bMove = false;
+        // set position
+        if( m_TitleLogo != null){
+            m_TitleLogo.alignCenterHorizontal();
+            m_TitleLogo.alignCenterVertical();
+            m_TitleLogo.setY( m_TitleLogo.getY() + LOGO_Y );
+        }
+        if( m_TouchStart != null){
+            m_TouchStart.alignCenterHorizontal();
+            m_TouchStart.alignCenterVertical();
+            m_TouchStart.setY( m_TouchStart.getY() + TOUCH_START_Y_FROM_CENTER );
+        }
         Log.d("TEST", "New Title Class");
     }
 
@@ -63,16 +75,10 @@ public class scene_Title extends Task{
     @Override
     // draw
     public void    draw(Canvas c){
-        int w = m_GameView.getWidth();
-        int h = m_GameView.getHeight();
-        if (m_TitleLogo != null){
-            // for centering logo
-            m_TitleLogo.setBounds(
-                    (w - m_iTitleLogoWidth) >> 1,
-                    (h - m_iTitleLogoHeight) >> 1,
-                    (w + m_iTitleLogoWidth) >> 1,
-                    (h + m_iTitleLogoHeight) >> 1
-            );
+        if(m_TouchStart != null && m_bTouchStart){
+            m_TouchStart.draw(c);
+        }
+        if(m_TitleLogo != null){
             m_TitleLogo.draw(c);
         }
     }

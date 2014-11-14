@@ -20,6 +20,14 @@ public abstract class Task {
     public abstract boolean move();    // scene move
     public abstract void touch(MotionEvent event);
 
+    // change flg
+    public boolean Switch( boolean flg ){
+        if(flg)
+            return false;
+        else
+            return true;
+    }
+
     // getter
     public int GetPriority(){ return m_iPriority;}
 }
