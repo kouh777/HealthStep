@@ -79,10 +79,12 @@ public class TaskManager {
     }
 
     public void touch(MotionEvent event){
-        int size = FTasks.size();
-        for(int i = 0; i < size; i++){
-            if (FTasks.elementAt(i) != null)
-                FTasks.elementAt(i).touch(event);
+        if( !FTasks.isEmpty() ) {
+            int size = FTasks.size();
+            for (int i = 0; i < size; i++) {
+                if (FTasks.elementAt(i) != null)
+                    FTasks.elementAt(i).touch(event);
+            }
         }
     }
 

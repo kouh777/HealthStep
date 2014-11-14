@@ -12,7 +12,7 @@ public class gacha_Animation {
     private int m_iPosX;
     private int m_iPosY;
 
-    private boolean m_bFlg;
+    private boolean m_bGachaEndFlg;
 
     // gacha resource
     private BitmapDrawable m_GachaCapselBottom;
@@ -53,24 +53,50 @@ public class gacha_Animation {
     private int m_iGachaCoreLightX;
     private int m_iGachaCoreLightY;
 
-
-
-
     // set animation
     private int m_iTimer;
 
     private int m_iMoveX;
     private int M_iMoveY;
 
+    // define time
+    // in this case, count time line with myself so I want to count time automatically
     private final int DELAY_TIME = 10;  // gacha delay time
-    private final int OPEN_SPEED = 10;
+    private final int CLOUD_MIN_FADEOUT_TIME = 14;
+    private final int CLOUD_BIG_FADEOUT_TIME = 24;
+    private final int CAPSEL_TOP_OPEN_START_TIME = 28;
+    private final int CAPSEL_TOP_OPEN_END_TIME = 30;
+    private final int SPOT_LIGHT_START_TIME = 36;
+    private final int CAPSEL_TOP_FADEOUT_TIME = 60;
+    private final int ALL_ANIMATION_END_TIME = 64;
+
+    // define speed
+    private final int CLOUD_MIN_DOWN_SPEED = 20;
+    private final int CLOUD_BIG_UP_SPEED = 40;
+    private final int CAPSEL_TOP_OPEN_START_SPEED = 1;
+    private final int CAPSEL_TOP_OPEN_SPEED = 2;
+    private final int CAPSEL_TOP_OPEN_AFTER_SPEED = 6;
+
+    // define alpha value
+    private final int ALPHA_TRANSPARENT = 255;
+    private final int ALPHA_OPACITY = 0;
+
+    // fade speed
+    private int m_iGachaCloudMinAlpha;
+    private int m_iGachaCloudBigAlpha;
+    private int m_iGachaCapselTopAlpha;
+    private int m_iGachaSpotLightAlpha;
+
+    // touch enable flag
+    private boolean m_bTouchEnable;
 
     // construct
     gacha_Animation(GameView gv, int posX, int posY){
         m_GameView = gv;
-        m_bFlg = false;
+        m_bGachaEndFlg = false;
         m_iPosX = posX;
         m_iPosY = posY;
+        m_bTouchEnable = false;
 
         // read resource
         m_GachaCapselBottom =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_capsel_bottom);
@@ -78,9 +104,15 @@ public class gacha_Animation {
         m_GachaCapselTop =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_capsel_top);
         m_GachaCloudMin =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_cloud_min);
         m_GachaCloudBig =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_cloud_big);
-        m_GachaHighLight =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_high_light);
+        m_GachaHighLight =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_core_light_32);
         m_GachaSpotLight =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_spot_light);
-        m_GachaCoreLight =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_core_light);
+        m_GachaCoreLight =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_high_light);
+
+        reset();
+    }
+
+    public void reset(){
+        m_iTimer = 0;
 
         // reset flag
         m_bGachaCapselBottom = false;
@@ -91,16 +123,82 @@ public class gacha_Animation {
         m_bGachaHighLight = false;
         m_bGachaSpotLight = false;
         m_bGachaCoreLight = false;
+
+        // reset alpha
+        m_iGachaCloudMinAlpha = ALPHA_TRANSPARENT;
+        m_iGachaCloudBigAlpha = ALPHA_TRANSPARENT;
+        m_iGachaCapselTopAlpha = ALPHA_TRANSPARENT;
+        m_iGachaSpotLightAlpha = ALPHA_TRANSPARENT;
     }
 
     public void update(){
         m_iTimer++;
-        // delay time = 10
-        if( m_iTimer > DELAY_TIME){
+        if( m_iTimer > DELAY_TIME && m_iTimer < CLOUD_MIN_FADEOUT_TIME){
             m_bGachaCloudMin = true;
+            // moving object
+            m_iGachaCloudMinY += CLOUD_MIN_DOWN_SPEED;
+
+            // set alpha and fade out object
+            int fade_out_speed = 255/(CLOUD_MIN_FADEOUT_TIME - DELAY_TIME);
+            m_iGachaCloudMinAlpha -= fade_out_speed;
+            if( m_iGachaCloudMinAlpha < ALPHA_OPACITY) m_iGachaCloudMinAlpha = ALPHA_OPACITY;
+            m_GachaCloudMin.setAlpha(m_iGachaCloudMinAlpha);
         }
-        if( m_iTimer > 20){
+        if( m_iTimer > CLOUD_MIN_FADEOUT_TIME && m_iTimer < CLOUD_BIG_FADEOUT_TIME){
+            // flags
             m_bGachaCloudMin = false;
+            m_bGachaCloudBig = true;
+            m_bGachaCapselTop = true;
+            m_bGachaCapselMiddle = true;
+            m_bGachaCapselBottom = true;
+
+            // move object
+            m_iGachaCloudBigY -= CLOUD_BIG_UP_SPEED;
+
+            // set alpha and fade out object
+            int fade_out_peed = 255/(CLOUD_BIG_FADEOUT_TIME - CLOUD_MIN_FADEOUT_TIME);
+            m_iGachaCloudBigAlpha -= fade_out_peed;
+            if( m_iGachaCloudBigAlpha < ALPHA_OPACITY) m_iGachaCloudBigAlpha = ALPHA_OPACITY;
+            m_GachaCloudBig.setAlpha(m_iGachaCloudBigAlpha);
+
+        }
+        if( m_iTimer > CLOUD_BIG_FADEOUT_TIME && m_iTimer < CAPSEL_TOP_OPEN_START_TIME){
+            m_bGachaCloudBig = false;
+        }
+        if( m_iTimer > CAPSEL_TOP_OPEN_START_TIME && m_iTimer < CAPSEL_TOP_OPEN_END_TIME){
+            m_bGachaCoreLight = true;
+            m_iGachaCapselTopY -= CAPSEL_TOP_OPEN_START_SPEED;
+            m_iGachaSpotLightY -= CAPSEL_TOP_OPEN_START_SPEED;
+        }
+        if( m_iTimer > CAPSEL_TOP_OPEN_END_TIME && m_iTimer < SPOT_LIGHT_START_TIME){
+            m_bGachaCoreLight = false;
+            m_iGachaCapselTopY -= CAPSEL_TOP_OPEN_SPEED;
+            m_iGachaSpotLightY -= CAPSEL_TOP_OPEN_SPEED;
+        }
+        if(m_iTimer > SPOT_LIGHT_START_TIME && m_iTimer < CAPSEL_TOP_FADEOUT_TIME){
+            m_bGachaHighLight= true;
+            m_bGachaSpotLight = true;
+            m_iGachaCapselTopY -= CAPSEL_TOP_OPEN_AFTER_SPEED;
+            m_iGachaSpotLightY -= CAPSEL_TOP_OPEN_AFTER_SPEED;
+
+            // set alpha and fade out object
+            int fade_out_speed = 255/(CAPSEL_TOP_FADEOUT_TIME - SPOT_LIGHT_START_TIME);
+            m_iGachaCapselTopAlpha -= fade_out_speed;
+            m_iGachaSpotLightAlpha -= fade_out_speed;
+            if(m_iGachaCapselTopAlpha < ALPHA_OPACITY) m_iGachaCapselTopAlpha = ALPHA_TRANSPARENT;
+            if( m_iGachaSpotLightAlpha < ALPHA_OPACITY) m_iGachaSpotLightAlpha = ALPHA_OPACITY;
+            m_GachaCapselTop.setAlpha(m_iGachaCapselTopAlpha);
+            m_GachaSpotLight.setAlpha(m_iGachaSpotLightAlpha);
+        }
+        if(m_iTimer > CAPSEL_TOP_FADEOUT_TIME && m_iTimer < ALL_ANIMATION_END_TIME){
+            m_bGachaCapselTop = false;
+            m_bGachaSpotLight = false;
+        }
+        if(m_iTimer > ALL_ANIMATION_END_TIME){
+            m_bGachaCapselMiddle = false;
+            m_bGachaCapselBottom = false;
+            m_bGachaHighLight= false;
+            m_bGachaEndFlg = true;
         }
     }
 
@@ -110,14 +208,6 @@ public class gacha_Animation {
         int h = m_GameView.getGameHeight();
         int ww = m_GachaCapselBottom.getIntrinsicWidth();
         int hh = m_GachaCapselBottom.getIntrinsicHeight();
-        if(m_GachaCloudMin != null && m_bGachaCloudMin){
-            m_GachaCloudMin.setBounds(m_iPosX,m_iPosY,m_iPosX + w,m_iPosY + h);
-            m_GachaCloudMin.draw(c);
-        }
-        if(m_GachaCapselBottom != null && m_bGachaCapselBottom){
-            m_GachaCapselBottom.setBounds(m_iPosX,m_iPosY,m_iPosX + w,m_iPosY + h);
-            m_GachaCapselBottom.draw(c);
-        }
         if( m_GachaCapselMiddle != null && m_bGachaCapselMiddle ){
             m_GachaCapselMiddle.setBounds(m_iPosX,m_iPosY,m_iPosX + w,m_iPosY + h);
             m_GachaCapselMiddle.draw(c);
@@ -126,21 +216,55 @@ public class gacha_Animation {
             m_GachaCoreLight.setBounds(m_iPosX,m_iPosY,m_iPosX + w,m_iPosY + h);
             m_GachaCoreLight.draw(c);
         }
+        if(m_GachaCapselBottom != null && m_bGachaCapselBottom){
+            m_GachaCapselBottom.setBounds(
+                    m_iPosX + m_iGachaCapselBottomX,
+                    m_iPosY + m_iGachaCapselBottomY,
+                    m_iPosX + w + m_iGachaCapselBottomX,
+                    m_iPosY + h + m_iGachaCapselBottomY
+            );
+            m_GachaCapselBottom.draw(c);
+        }
         if( m_GachaHighLight != null && m_bGachaHighLight){
             m_GachaHighLight.setBounds(m_iPosX,m_iPosY,m_iPosX + w,m_iPosY + h);
             m_GachaHighLight.draw(c);
         }
-        if( m_GachaCapselTop != null && m_bGachaCapselTop){
-            m_GachaCapselTop.setBounds(m_iPosX,m_iPosY,m_iPosX + w,m_iPosY + h);
-            m_GachaCapselTop.draw(c);
-        }
         if(m_GachaSpotLight != null && m_bGachaSpotLight){
-            m_GachaSpotLight.setBounds(m_iPosX,m_iPosY,m_iPosX + w,m_iPosY + h);
+            m_GachaSpotLight.setBounds(
+                    m_iPosX + m_iGachaSpotLightX,
+                    m_iPosY + m_iGachaSpotLightY,
+                    m_iPosX + w + m_iGachaSpotLightX,
+                    m_iPosY + h + m_iGachaSpotLightY
+            );
             m_GachaSpotLight.draw(c);
         }
+        if( m_GachaCapselTop != null && m_bGachaCapselTop){
+            m_GachaCapselTop.setBounds(
+                    m_iPosX + m_iGachaCapselTopX,
+                    m_iPosY + m_iGachaCapselTopY,
+                    m_iPosX + w + m_iGachaCapselTopX,
+                    m_iPosY + h + m_iGachaCapselTopY
+            );
+            m_GachaCapselTop.draw(c);
+        }
         if(m_GachaCloudBig != null && m_bGachaCloudBig){
-            m_GachaCloudBig.setBounds(m_iPosX,m_iPosY,m_iPosX + w,m_iPosY + h);
+            m_GachaCloudBig.setBounds(
+                    m_iPosX + m_iGachaCloudBigX,
+                    m_iPosY + m_iGachaCloudBigY,
+                    m_iPosX + w +  m_iGachaCloudBigX,
+                    m_iPosY + h + m_iGachaCloudBigY
+            );
             m_GachaCloudBig.draw(c);
         }
+        if(m_GachaCloudMin != null && m_bGachaCloudMin){
+            m_GachaCloudMin.setBounds(
+                    m_iPosX + m_iGachaCloudMinX,
+                    m_iPosY + m_iGachaCloudMinY,
+                    m_iPosX + w + m_iGachaCloudMinX,
+                    m_iPosY + h + m_iGachaCloudMinY
+            );
+            m_GachaCloudMin.draw(c);
+        }
     }
+    public boolean move(){ return m_bGachaEndFlg;}
 }

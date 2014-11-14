@@ -22,6 +22,10 @@ public class scene_Gacha extends Task {
     private gacha_Character m_gacha_Character;
     private gacha_Animation m_gacha_Animation;
 
+    private boolean m_bIsGachaCharacter;
+    private BitmapDrawable m_GachaBack;
+
+
     // constract
     public scene_Gacha(GameView gv, int prio){
         super(prio);
@@ -29,13 +33,22 @@ public class scene_Gacha extends Task {
         m_GameView = gv;
         m_MenuGroup = new MenuGroup(gv);
         m_UiGroup = new UiGroup(gv, 0 ,0);
+        m_bIsGachaCharacter = false;
+        m_GachaBack = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.black_bg);
         reset();
     }
 
     @Override
-    public void update(){
-        if(m_gacha_Animation != null)
-            m_gacha_Animation.update();
+    public void update() {
+        if(m_gacha_Animation != null){
+            if( !m_gacha_Animation.move() ){
+                m_gacha_Animation.update();
+            }else if( !m_bIsGachaCharacter ){
+                m_gacha_Animation = null;
+                m_gacha_Character = new gacha_Character(m_GameView, this, m_GameView.getGameWidth() ,400);
+                m_bIsGachaCharacter = true;
+            }
+        }
     }
 
     @Override
@@ -57,10 +70,9 @@ public class scene_Gacha extends Task {
             if (PlayerData.getInstance().getUnlockCharacter()[rnd] == false) {
                 PlayerData.getInstance().setUnlockCharacter(rnd, true);
                 GachaCharacter = rnd;
+                m_gacha_Animation = new gacha_Animation(m_GameView,0,0);
                 b_Flg = true;
             }
-            m_gacha_Animation = new gacha_Animation(m_GameView,0,0);
-//            m_gacha_Character = new gacha_Character(m_GameView, this, w ,400);
         }
         Log.d("TEST", "scene_Gacha::Reset");
     }
@@ -74,6 +86,11 @@ public class scene_Gacha extends Task {
     @Override
     // draw
     public void    draw(Canvas c){
+        if(m_GachaBack != null){
+            m_GachaBack.setBounds(0,0,m_GameView.getGameWidth(),m_GameView.getGameHeight());
+            m_GachaBack.setAlpha(50);
+            m_GachaBack.draw(c);
+        }
         if (m_MenuGroup != null) {
             m_MenuGroup.draw(c);
         }
@@ -84,7 +101,6 @@ public class scene_Gacha extends Task {
         if(m_gacha_Animation != null){
             m_gacha_Animation.draw(c);
         }
-
         // draw get character
         if(m_gacha_Character != null){
             m_gacha_Character.draw(c);
@@ -95,9 +111,10 @@ public class scene_Gacha extends Task {
     @Override
     // touch event
     public void    touch(MotionEvent event){
-        if( m_MenuGroup != null)
+        if( m_MenuGroup != null) {
             m_MenuGroup.touch(event);
             m_bMove = m_MenuGroup.move();
+        }
     }
 
     public int getGachaCharacter(){
