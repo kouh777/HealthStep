@@ -195,6 +195,45 @@ public class GameSprite {
         }
     }
 
+    // fade animation . using in update method
+    public void fade( int timer, int fade_start_time, int fade_end_time, boolean fade_in ){
+        if( timer > fade_start_time && timer < fade_end_time ){
+            int fade_speed = 256 / ( fade_end_time - fade_start_time );
+            if( fade_in ) {  // fade in
+                m_iAlpha -= fade_speed;
+            }else{ // fade out
+                m_iAlpha += fade_speed;
+            }
+        }
+        if( fade_in )
+            if( timer > fade_end_time || m_iAlpha < 0 ) m_iAlpha = 0;
+        else
+            if( timer > fade_end_time || m_iAlpha > 255) m_iAlpha = 255;
+    }
+    // moving animation using in update method
+    public void moveToX( int timer, int move_start_time, int move_end_time, int from_x, int to_x ){
+        if( timer > move_start_time && timer < move_end_time ){
+            int move_speed = ( to_x - from_x ) / ( move_end_time - move_start_time );
+            setX( getX() + move_speed );
+        }
+    }
+    public void moveToY( int timer, int move_start_time, int move_end_time, int from_y, int to_y ){
+        if( timer > move_start_time && timer < move_end_time ){
+            int move_speed = ( to_y - from_y ) / ( move_end_time - move_start_time );
+            setY( getY() + move_speed );
+        }
+    }
+    public void moveX( int timer, int move_start_time, int move_end_time, int speed ){
+        if( timer > move_start_time && timer < move_end_time ){
+            setX( getX() + speed);
+        }
+    }
+    public void moveY( int timer, int move_start_time, int move_end_time, int speed ){
+        if( timer > move_start_time && timer < move_end_time ){
+            setY( getY() + speed);
+        }
+    }
+
     // getter
     public int getX(){ return m_iPosX; }
     public int getY(){ return m_iPosY; }

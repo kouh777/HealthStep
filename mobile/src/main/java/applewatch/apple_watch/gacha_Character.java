@@ -179,7 +179,6 @@ public class gacha_Character {
         if(m_Character != null){
             int w = m_GameView.getGameWidth();
             int ww = m_Character.getWidth();
-
             if(m_Character.getPosX() > (w-ww)>>1) {
                 m_Character.setPosX(m_Character.getPosX() -m_iSlideSpeed);
             }else{
