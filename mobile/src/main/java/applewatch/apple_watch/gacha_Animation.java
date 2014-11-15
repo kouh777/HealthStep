@@ -14,50 +14,18 @@ public class gacha_Animation {
 
     private boolean m_bGachaEndFlg;
 
-    // gacha resource
-    private BitmapDrawable m_GachaCapselBottom;
-    private BitmapDrawable m_GachaCapselMiddle;
-    private BitmapDrawable m_GachaCapselTop;
-    private BitmapDrawable m_GachaCloudMin;
-    private BitmapDrawable m_GachaCloudBig;
-    private BitmapDrawable m_GachaHighLight;
-    private BitmapDrawable m_GachaSpotLight;
-    private BitmapDrawable m_GachaCoreLight;
-
-    // display flag
-    private boolean m_bGachaCapselBottom;
-    private boolean m_bGachaCapselMiddle;
-    private boolean m_bGachaCapselTop;
-    private boolean m_bGachaCloudMin;
-    private boolean m_bGachaCloudBig;
-    private boolean m_bGachaHighLight;
-    private boolean m_bGachaSpotLight;
-    private boolean m_bGachaCoreLight;
-
-    // image pos
-    // it may create too many member, but use this way;
-    private int m_iGachaCapselBottomX;
-    private int m_iGachaCapselBottomY;
-    private int m_iGachaCapselMiddleX;
-    private int m_iGachaCapselMiddleY;
-    private int m_iGachaCapselTopX;
-    private int m_iGachaCapselTopY;
-    private int m_iGachaCloudMinX;
-    private int m_iGachaCloudMinY;
-    private int m_iGachaCloudBigX;
-    private int m_iGachaCloudBigY;
-    private int m_iGachaHighLightX;
-    private int m_iGachaHighLightY;
-    private int m_iGachaSpotLightX;
-    private int m_iGachaSpotLightY;
-    private int m_iGachaCoreLightX;
-    private int m_iGachaCoreLightY;
+    // sprites
+    private GameSprite m_GachaCapselBottom;
+    private GameSprite m_GachaCapselMiddle;
+    private GameSprite m_GachaCapselTop;
+    private GameSprite m_GachaCloudMin;
+    private GameSprite m_GachaCloudBig;
+    private GameSprite m_GachaHighLight;
+    private GameSprite m_GachaSpotLight;
+    private GameSprite m_GachaCoreLight;
 
     // set animation
     private int m_iTimer;
-
-    private int m_iMoveX;
-    private int M_iMoveY;
 
     // define time
     // in this case, count time line with myself so I want to count time automatically
@@ -81,12 +49,6 @@ public class gacha_Animation {
     private final int ALPHA_TRANSPARENT = 255;
     private final int ALPHA_OPACITY = 0;
 
-    // fade speed
-    private int m_iGachaCloudMinAlpha;
-    private int m_iGachaCloudBigAlpha;
-    private int m_iGachaCapselTopAlpha;
-    private int m_iGachaSpotLightAlpha;
-
     // touch enable flag
     private boolean m_bTouchEnable;
 
@@ -98,15 +60,15 @@ public class gacha_Animation {
         m_iPosY = posY;
         m_bTouchEnable = false;
 
-        // read resource
-        m_GachaCapselBottom =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_capsel_bottom);
-        m_GachaCapselMiddle =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_capsel_middle);
-        m_GachaCapselTop =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_capsel_top);
-        m_GachaCloudMin =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_cloud_min);
-        m_GachaCloudBig =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_cloud_big);
-        m_GachaHighLight =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_core_light_32);
-        m_GachaSpotLight =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_spot_light);
-        m_GachaCoreLight =  (BitmapDrawable)gv.getResources().getDrawable(R.drawable.gacha_high_light);
+        // read sprites
+        m_GachaCapselBottom = new GameSprite( gv, R.drawable.gacha_capsel_bottom );
+        m_GachaCapselMiddle = new GameSprite( gv, R.drawable.gacha_capsel_middle );
+        m_GachaCapselTop = new GameSprite( gv, R.drawable.gacha_capsel_top );
+        m_GachaCloudMin = new GameSprite( gv, R.drawable.gacha_cloud_min );
+        m_GachaCloudBig = new GameSprite( gv, R.drawable.gacha_cloud_big );
+        m_GachaHighLight = new GameSprite( gv, R.drawable.gacha_core_light_32 );
+        m_GachaSpotLight = new GameSprite( gv, R.drawable.gacha_spot_light );
+        m_GachaCoreLight = new GameSprite( gv, R.drawable.gacha_high_light );
 
         reset();
     }
@@ -115,154 +77,112 @@ public class gacha_Animation {
         m_iTimer = 0;
 
         // reset flag
-        m_bGachaCapselBottom = false;
-        m_bGachaCapselMiddle = false;
-        m_bGachaCapselTop = false;
-        m_bGachaCloudMin = false;
-        m_bGachaCloudBig = false;
-        m_bGachaHighLight = false;
-        m_bGachaSpotLight = false;
-        m_bGachaCoreLight = false;
-
-        // reset alpha
-        m_iGachaCloudMinAlpha = ALPHA_TRANSPARENT;
-        m_iGachaCloudBigAlpha = ALPHA_TRANSPARENT;
-        m_iGachaCapselTopAlpha = ALPHA_TRANSPARENT;
-        m_iGachaSpotLightAlpha = ALPHA_TRANSPARENT;
+        m_GachaCapselBottom.setDisplay(false);
+        m_GachaCapselMiddle.setDisplay(false);
+        m_GachaCapselTop.setDisplay(false);
+        m_GachaCloudMin.setDisplay(false);
+        m_GachaCloudBig.setDisplay(false);
+        m_GachaHighLight.setDisplay(false);
+        m_GachaSpotLight.setDisplay(false);
+        m_GachaCoreLight.setDisplay(false);
     }
 
     public void update(){
         m_iTimer++;
         if( m_iTimer > DELAY_TIME && m_iTimer < CLOUD_MIN_FADEOUT_TIME){
-            m_bGachaCloudMin = true;
+            m_GachaCloudMin.setDisplay(true);
             // moving object
-            m_iGachaCloudMinY += CLOUD_MIN_DOWN_SPEED;
+            m_GachaCloudMin.setY( m_GachaCloudMin.getY() + CLOUD_MIN_DOWN_SPEED );
 
             // set alpha and fade out object
             int fade_out_speed = 255/(CLOUD_MIN_FADEOUT_TIME - DELAY_TIME);
-            m_iGachaCloudMinAlpha -= fade_out_speed;
-            if( m_iGachaCloudMinAlpha < ALPHA_OPACITY) m_iGachaCloudMinAlpha = ALPHA_OPACITY;
-            m_GachaCloudMin.setAlpha(m_iGachaCloudMinAlpha);
+            m_GachaCloudMin.setAlpha( m_GachaCloudMin.getAlpha() - fade_out_speed );
+            if( m_GachaCloudMin.getAlpha() < ALPHA_OPACITY)
+                m_GachaCloudMin.setAlpha( 0 );
         }
         if( m_iTimer > CLOUD_MIN_FADEOUT_TIME && m_iTimer < CLOUD_BIG_FADEOUT_TIME){
             // flags
-            m_bGachaCloudMin = false;
-            m_bGachaCloudBig = true;
-            m_bGachaCapselTop = true;
-            m_bGachaCapselMiddle = true;
-            m_bGachaCapselBottom = true;
+            m_GachaCloudMin.setDisplay(false);
+            m_GachaCloudBig.setDisplay(true);
+            m_GachaCapselTop.setDisplay(true);
+            m_GachaCapselMiddle.setDisplay(true);
+            m_GachaCapselBottom.setDisplay(true);
 
             // move object
-            m_iGachaCloudBigY -= CLOUD_BIG_UP_SPEED;
+            m_GachaCloudBig.setY( m_GachaCloudBig.getY() - CLOUD_BIG_UP_SPEED );
 
             // set alpha and fade out object
             int fade_out_peed = 255/(CLOUD_BIG_FADEOUT_TIME - CLOUD_MIN_FADEOUT_TIME);
-            m_iGachaCloudBigAlpha -= fade_out_peed;
-            if( m_iGachaCloudBigAlpha < ALPHA_OPACITY) m_iGachaCloudBigAlpha = ALPHA_OPACITY;
-            m_GachaCloudBig.setAlpha(m_iGachaCloudBigAlpha);
+            m_GachaCloudBig.setAlpha( m_GachaCloudBig.getAlpha() - fade_out_peed );
+            if( m_GachaCloudBig.getAlpha() < ALPHA_OPACITY)
+                m_GachaCloudBig.setAlpha( 0 );
 
         }
         if( m_iTimer > CLOUD_BIG_FADEOUT_TIME && m_iTimer < CAPSEL_TOP_OPEN_START_TIME){
-            m_bGachaCloudBig = false;
+            m_GachaCloudBig.setDisplay(false);
         }
         if( m_iTimer > CAPSEL_TOP_OPEN_START_TIME && m_iTimer < CAPSEL_TOP_OPEN_END_TIME){
-            m_bGachaCoreLight = true;
-            m_iGachaCapselTopY -= CAPSEL_TOP_OPEN_START_SPEED;
-            m_iGachaSpotLightY -= CAPSEL_TOP_OPEN_START_SPEED;
+            m_GachaCoreLight.setDisplay(true);
+            m_GachaCapselTop.setY( m_GachaCapselTop.getY() - CAPSEL_TOP_OPEN_START_SPEED );
+            m_GachaSpotLight.setY( m_GachaSpotLight.getY() - CAPSEL_TOP_OPEN_START_SPEED );
         }
         if( m_iTimer > CAPSEL_TOP_OPEN_END_TIME && m_iTimer < SPOT_LIGHT_START_TIME){
-            m_bGachaCoreLight = false;
-            m_iGachaCapselTopY -= CAPSEL_TOP_OPEN_SPEED;
-            m_iGachaSpotLightY -= CAPSEL_TOP_OPEN_SPEED;
+            m_GachaCoreLight.setDisplay(false);
+            m_GachaCapselTop.setY( m_GachaCapselTop.getY() - CAPSEL_TOP_OPEN_SPEED );
+            m_GachaSpotLight.setY( m_GachaSpotLight.getY() - CAPSEL_TOP_OPEN_SPEED );
         }
         if(m_iTimer > SPOT_LIGHT_START_TIME && m_iTimer < CAPSEL_TOP_FADEOUT_TIME){
-            m_bGachaHighLight= true;
-            m_bGachaSpotLight = true;
-            m_iGachaCapselTopY -= CAPSEL_TOP_OPEN_AFTER_SPEED;
-            m_iGachaSpotLightY -= CAPSEL_TOP_OPEN_AFTER_SPEED;
+            m_GachaHighLight.setDisplay(true);
+            m_GachaSpotLight.setDisplay(true);
+            m_GachaCapselTop.setY( m_GachaCapselTop.getY() - CAPSEL_TOP_OPEN_AFTER_SPEED );
+            m_GachaSpotLight.setY( m_GachaSpotLight.getY() - CAPSEL_TOP_OPEN_AFTER_SPEED );
 
             // set alpha and fade out object
             int fade_out_speed = 255/(CAPSEL_TOP_FADEOUT_TIME - SPOT_LIGHT_START_TIME);
-            m_iGachaCapselTopAlpha -= fade_out_speed;
-            m_iGachaSpotLightAlpha -= fade_out_speed;
-            if(m_iGachaCapselTopAlpha < ALPHA_OPACITY) m_iGachaCapselTopAlpha = ALPHA_TRANSPARENT;
-            if( m_iGachaSpotLightAlpha < ALPHA_OPACITY) m_iGachaSpotLightAlpha = ALPHA_OPACITY;
-            m_GachaCapselTop.setAlpha(m_iGachaCapselTopAlpha);
-            m_GachaSpotLight.setAlpha(m_iGachaSpotLightAlpha);
+            m_GachaCapselTop.setAlpha( m_GachaCapselTop.getAlpha() - fade_out_speed );
+            m_GachaSpotLight.setAlpha( m_GachaSpotLight.getAlpha() - fade_out_speed );
+            if( m_GachaCapselTop.getAlpha() < 0 )
+                m_GachaCapselTop.setAlpha( 0 );
+
+            if( m_GachaSpotLight.getAlpha() < ALPHA_OPACITY )
+                m_GachaSpotLight.setAlpha( m_GachaSpotLight.getAlpha() - ALPHA_OPACITY );
         }
         if(m_iTimer > CAPSEL_TOP_FADEOUT_TIME && m_iTimer < ALL_ANIMATION_END_TIME){
-            m_bGachaCapselTop = false;
-            m_bGachaSpotLight = false;
+            m_GachaCapselTop.setDisplay(false);
+            m_GachaSpotLight.setDisplay(false);
         }
         if(m_iTimer > ALL_ANIMATION_END_TIME){
-            m_bGachaCapselMiddle = false;
-            m_bGachaCapselBottom = false;
-            m_bGachaHighLight= false;
+            m_GachaCapselMiddle.setDisplay(false);
+            m_GachaCapselBottom.setDisplay(false);
+            m_GachaHighLight.setDisplay(false);
             m_bGachaEndFlg = true;
         }
     }
 
     // draw
     public void draw(Canvas c){
-        int w = m_GameView.getGameWidth();
-        int h = m_GameView.getGameHeight();
-        int ww = m_GachaCapselBottom.getIntrinsicWidth();
-        int hh = m_GachaCapselBottom.getIntrinsicHeight();
-        if( m_GachaCapselMiddle != null && m_bGachaCapselMiddle ){
-            m_GachaCapselMiddle.setBounds(m_iPosX,m_iPosY,m_iPosX + w,m_iPosY + h);
+        if( m_GachaCapselMiddle != null){
             m_GachaCapselMiddle.draw(c);
         }
-        if( m_GachaCoreLight != null && m_bGachaCoreLight){
-            m_GachaCoreLight.setBounds(m_iPosX,m_iPosY,m_iPosX + w,m_iPosY + h);
+        if( m_GachaCoreLight != null){
             m_GachaCoreLight.draw(c);
         }
-        if(m_GachaCapselBottom != null && m_bGachaCapselBottom){
-            m_GachaCapselBottom.setBounds(
-                    m_iPosX + m_iGachaCapselBottomX,
-                    m_iPosY + m_iGachaCapselBottomY,
-                    m_iPosX + w + m_iGachaCapselBottomX,
-                    m_iPosY + h + m_iGachaCapselBottomY
-            );
+        if(m_GachaCapselBottom != null){
             m_GachaCapselBottom.draw(c);
         }
-        if( m_GachaHighLight != null && m_bGachaHighLight){
-            m_GachaHighLight.setBounds(m_iPosX,m_iPosY,m_iPosX + w,m_iPosY + h);
+        if( m_GachaHighLight != null){
             m_GachaHighLight.draw(c);
         }
-        if(m_GachaSpotLight != null && m_bGachaSpotLight){
-            m_GachaSpotLight.setBounds(
-                    m_iPosX + m_iGachaSpotLightX,
-                    m_iPosY + m_iGachaSpotLightY,
-                    m_iPosX + w + m_iGachaSpotLightX,
-                    m_iPosY + h + m_iGachaSpotLightY
-            );
+        if(m_GachaSpotLight != null){
             m_GachaSpotLight.draw(c);
         }
-        if( m_GachaCapselTop != null && m_bGachaCapselTop){
-            m_GachaCapselTop.setBounds(
-                    m_iPosX + m_iGachaCapselTopX,
-                    m_iPosY + m_iGachaCapselTopY,
-                    m_iPosX + w + m_iGachaCapselTopX,
-                    m_iPosY + h + m_iGachaCapselTopY
-            );
+        if( m_GachaCapselTop != null){
             m_GachaCapselTop.draw(c);
         }
-        if(m_GachaCloudBig != null && m_bGachaCloudBig){
-            m_GachaCloudBig.setBounds(
-                    m_iPosX + m_iGachaCloudBigX,
-                    m_iPosY + m_iGachaCloudBigY,
-                    m_iPosX + w +  m_iGachaCloudBigX,
-                    m_iPosY + h + m_iGachaCloudBigY
-            );
+        if(m_GachaCloudBig != null){
             m_GachaCloudBig.draw(c);
         }
-        if(m_GachaCloudMin != null && m_bGachaCloudMin){
-            m_GachaCloudMin.setBounds(
-                    m_iPosX + m_iGachaCloudMinX,
-                    m_iPosY + m_iGachaCloudMinY,
-                    m_iPosX + w + m_iGachaCloudMinX,
-                    m_iPosY + h + m_iGachaCloudMinY
-            );
+        if(m_GachaCloudMin != null){
             m_GachaCloudMin.draw(c);
         }
     }

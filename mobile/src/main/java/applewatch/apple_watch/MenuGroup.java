@@ -35,7 +35,6 @@ public class MenuGroup {
         m_btn_Gallery = new btn_Gallery(gv, w>>2, h-(w>>4)*3);
         m_btn_Gacha = new btn_Gacha(gv, (w>>2)*2,  h-(w>>4)*3);
         m_btn_Ranking = new btn_Ranking(gv, (w>>2)*3, h-(w>>4)*3);
-
         reset();
     }
 

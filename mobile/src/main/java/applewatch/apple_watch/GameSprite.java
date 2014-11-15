@@ -28,6 +28,15 @@ public class GameSprite {
     private boolean m_bCenterHorizontal;
     private boolean m_bCenterVertical;
 
+    // likely to CSS of padding
+    private int m_iPaddingTop;
+    private int m_iPaddingRight;
+    private int m_iPaddingBottom;
+    private int m_iPaddingLeft;
+
+    // Image display flag
+    private boolean m_bDisplay;
+
     // easily constructer
     public GameSprite(GameView gv, int img){
         m_GameView = gv;
@@ -44,6 +53,12 @@ public class GameSprite {
         m_iAlpha = 255; // opacity
         m_bCenterHorizontal = false;
         m_bCenterVertical = false;
+
+        m_iPaddingTop = 0;
+        m_iPaddingRight = 0;
+        m_iPaddingBottom = 0;
+        m_iPaddingLeft = 0;
+        m_bDisplay = true;
     }
 
     // main constructor
@@ -62,6 +77,12 @@ public class GameSprite {
         m_iAlpha = 255; // opacity
         m_bCenterHorizontal = false;
         m_bCenterVertical = false;
+
+        m_iPaddingTop = 0;
+        m_iPaddingRight = 0;
+        m_iPaddingBottom = 0;
+        m_iPaddingLeft = 0;
+        m_bDisplay = true;
     }
 
     // detail constructor
@@ -78,6 +99,12 @@ public class GameSprite {
         m_dScaleX = scaleX;
         m_dScaleY = scaleY;
         m_iAlpha = alpha;
+
+        m_iPaddingTop = 0;
+        m_iPaddingRight = 0;
+        m_iPaddingBottom = 0;
+        m_iPaddingLeft = 0;
+        m_bDisplay = true;
     }
 
     public void draw(Canvas c){
@@ -88,12 +115,16 @@ public class GameSprite {
         w = (int)(w * m_dScaleX * m_GameView.getGamePerWidth());
         h = (int)(h * m_dScaleY * m_GameView.getGamePerHeight());
 
-        if( m_ImageResource != null){
-            m_ImageResource.setBounds( m_iPosX, m_iPosY, m_iPosX + w, m_iPosY + h);
+        if( m_ImageResource != null  && m_bDisplay ){
+            m_ImageResource.setBounds(
+                    m_iPosX + m_iPaddingLeft,
+                    m_iPosY + m_iPaddingTop,
+                    m_iPosX + w - m_iPaddingLeft - m_iPaddingRight,
+                    m_iPosY + h - m_iPaddingTop - m_iPaddingBottom
+            );
             m_ImageResource.setAlpha(m_iAlpha);
             m_ImageResource.draw(c);
         }
-
         m_iWidth = w;
         m_iHeight = h;
     }
@@ -112,8 +143,13 @@ public class GameSprite {
         int x = cpx - (ww >> 1);
         int y = cpy - (hh >> 1);
 
-        if (m_ImageResource != null){
-            m_ImageResource.setBounds( x , y , x + ww , y + hh );
+        if (m_ImageResource != null && m_bDisplay ){
+            m_ImageResource.setBounds(
+                    x + m_iPaddingLeft,
+                    y + m_iPaddingTop,
+                    x + ww - m_iPaddingLeft - m_iPaddingRight,
+                    y + hh - m_iPaddingTop - m_iPaddingBottom
+            );
             m_ImageResource.draw(c);
         }
     }
@@ -178,5 +214,18 @@ public class GameSprite {
     public void setScaleX(double sx){ m_dScaleX = sx; }
     public void setScaleY(double sy){ m_dScaleY = sy; }
     public void setAlpha(int alpha){ m_iAlpha = alpha; }
+    public void setPadding(int top, int right, int bottom, int left){
+        m_iPaddingTop = (int)( top * m_GameView.getGamePerHeight() );
+        m_iPaddingRight = (int)( right * m_GameView.getGamePerWidth() );
+        m_iPaddingBottom = (int)( bottom * m_GameView.getGamePerHeight() );
+        m_iPaddingLeft = (int)( left * m_GameView.getGamePerWidth() );
+    }
+    public void setPadding(int top_bottom, int right_left){
+        m_iPaddingTop = (int)( top_bottom * m_GameView.getGamePerHeight() );
+        m_iPaddingRight = (int)( right_left * m_GameView.getGamePerWidth() );
+        m_iPaddingBottom = (int)( top_bottom * m_GameView.getGamePerHeight() );
+        m_iPaddingLeft = (int)( right_left * m_GameView.getGamePerWidth() );
+    }
+    public void setDisplay (boolean disp ){ m_bDisplay = disp; }
 
 }
