@@ -1,6 +1,7 @@
 package applewatch.apple_watch;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 
 /**
@@ -8,10 +9,13 @@ import android.view.MotionEvent;
  */
 public abstract class Task {
     private int m_iPriority;
+    private boolean m_bTouchable;
 
     public Task( int prio ){
         m_iPriority = prio;
+        m_bTouchable = false;
         TaskManager.getInstance().addList(this);
+        Log.d("TM::constructor", this.getClass().toString());
     }
 
     public abstract void reset();       //
@@ -30,4 +34,8 @@ public abstract class Task {
 
     // getter
     public int GetPriority(){ return m_iPriority;}
+    public boolean getTouchable(){ return m_bTouchable; }
+
+    // setter
+    public void setTouchable( boolean touchable ){ m_bTouchable = touchable; }
 }

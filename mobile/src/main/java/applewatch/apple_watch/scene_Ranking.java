@@ -56,6 +56,10 @@ public class scene_Ranking extends Task {
 
     @Override
     public void update(){
+        if( m_MenuGroup != null ) {
+            m_MenuGroup.update();
+            m_bMove = m_MenuGroup.getMove();
+        }
     }
 
     @Override
@@ -78,6 +82,7 @@ public class scene_Ranking extends Task {
         m_RankingOthers.setScaleY(OHTERS_SY);
 
         m_bMove = false;
+        setTouchable( true );
         Log.d("TEST", "scene_Ranking::Reset");
     }
 
@@ -90,8 +95,6 @@ public class scene_Ranking extends Task {
     @Override
     // draw
     public void    draw(Canvas c){
-        int w = m_GameView.getWidth();
-        int h = m_GameView.getHeight();
         if( m_MenuGroup != null){
             m_MenuGroup.draw(c);
         }
@@ -118,9 +121,10 @@ public class scene_Ranking extends Task {
     @Override
     // touch event
     public void    touch(MotionEvent event){
-        if(m_MenuGroup != null){
-            m_MenuGroup.touch(event);
-            m_bMove = m_MenuGroup.move();
+        if( getTouchable() ) {
+            if (m_MenuGroup != null) {
+                m_MenuGroup.touch(event);
+            }
         }
     }
 }

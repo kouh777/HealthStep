@@ -19,32 +19,23 @@ public class TaskManager {
         return instance;
     }
 
-    // manage tasks
+    // manage tasks with vector
     private Vector<Task> FTasks;
 
     // add task
     public void addList(Task add_task){
-        Class clname = add_task.getClass();
-        boolean add_flg = true;     // add flag
         int size = FTasks.size();
+        boolean add_flg = true;
 
-        // if add_task doesn't exist in FTasks
         for (int i = 0; i < size; i++) {
-            if (FTasks.elementAt(i).getClass() == clname) {
+            if (FTasks.elementAt(i).GetPriority() <= add_task.GetPriority()) {
+                FTasks.insertElementAt(add_task, i);
+                Log.d("TM::addList(inLoop)",add_task.toString());
                 add_flg = false;
-                Log.d("TM::addList","double class");
                 break;
             }
         }
-
-        if(add_flg) {
-            for (int i = 0; i < size; i++) {
-                if (FTasks.elementAt(i).GetPriority() <= add_task.GetPriority()) {
-                    FTasks.insertElementAt(add_task, i);
-                    Log.d("TM::addList(inLoop)",add_task.toString());
-                    return;
-                }
-            }
+        if( add_flg ) {
             FTasks.addElement(add_task);
             Log.d("TM::addList(outsideLoop)",add_task.toString());
         }
@@ -55,16 +46,14 @@ public class TaskManager {
     }
 
     public void update(){
-        int size = FTasks.size();
-        for(int i = 0; i < size; i++){
+        for(int i = 0; i < FTasks.size(); i++){
             if( FTasks.elementAt(i) != null) {
                 if( !FTasks.elementAt(i).move() ){
                     FTasks.elementAt(i).update();
                 }
                 if( FTasks.elementAt(i).move() ){
-                    Log.d("TM::update(remove)",FTasks.elementAt(i).toString());
+                    Log.d("TM::update(remove)", FTasks.elementAt(i).toString());
                     FTasks.removeElementAt(i);
-                    break;
                 }
             }
         }
@@ -79,11 +68,12 @@ public class TaskManager {
     }
 
     public void touch(MotionEvent event){
-        if( !FTasks.isEmpty() ) {
-            int size = FTasks.size();
-            for (int i = 0; i < size; i++) {
-                if (FTasks.elementAt(i) != null)
-                    FTasks.elementAt(i).touch(event);
+        int size = FTasks.size();
+        for (int i = 0; i < size; i++) {
+            if (FTasks.elementAt(i) != null) {
+//                Log.d("TM::touch_before",FTasks.elementAt(i).toString());
+                FTasks.elementAt(i).touch(event);
+//                Log.d("TM::touch_after",FTasks.elementAt(i).toString());
             }
         }
     }

@@ -134,7 +134,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
         m_Int++;
         if(!m_bSceneFlg) {
             new scene_BackMain(this,100);
-            new scene_Title(this, 10);
+            new scene_Title(this, 30);
             m_bSceneFlg = true;
         }
     }
@@ -192,5 +192,4 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     public float getGamePerHeight(){
         return m_fGamePerHeight;
     }
-
 }

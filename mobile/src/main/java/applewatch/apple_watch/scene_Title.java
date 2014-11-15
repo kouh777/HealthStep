@@ -63,6 +63,7 @@ public class scene_Title extends Task{
             m_TouchStart.alignCenterVertical();
             m_TouchStart.setY( m_TouchStart.getY() + TOUCH_START_Y_FROM_CENTER );
         }
+        setTouchable( true );
         Log.d("TEST", "New Title Class");
     }
 
@@ -86,14 +87,16 @@ public class scene_Title extends Task{
     @Override
     // touch event
     public void    touch(MotionEvent event){
-        // if player don't touch
-        if (event.getAction() != MotionEvent.ACTION_DOWN) {
-            // break
-            return;
-        }else {
-            Log.d("TEST", "get Touch action");
-            new scene_Menu(m_GameView, 22);
-            m_bMove = true;
+        if( getTouchable() ) {
+            // if player don't touch
+            if (event.getAction() != MotionEvent.ACTION_DOWN) {
+                // break
+                return;
+            } else {
+                Log.d("TEST", "get Touch action");
+                new scene_Menu(m_GameView, 22);
+                m_bMove = true;
+            }
         }
     }
 }

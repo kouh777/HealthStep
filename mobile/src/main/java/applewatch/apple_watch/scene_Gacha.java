@@ -12,7 +12,6 @@ import java.util.Random;
  * Created by KOUHO on 2014/10/16.
  */
 public class scene_Gacha extends Task {
-    private Paint m_Paint;
     private boolean m_bMove;
     private GameView m_GameView;
     private MenuGroup m_MenuGroup;
@@ -33,7 +32,6 @@ public class scene_Gacha extends Task {
     // constract
     public scene_Gacha(GameView gv, int prio){
         super(prio);
-        m_Paint = null;
         m_GameView = gv;
         m_bIsGachaCharacter = false;
         m_GachaBack = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.black_bg);
@@ -48,14 +46,19 @@ public class scene_Gacha extends Task {
 
     @Override
     public void update() {
-        if(m_gacha_Animation != null){
-            if( !m_gacha_Animation.move() ){
+        if (m_gacha_Animation != null) {
+            if (!m_gacha_Animation.move()) {
                 m_gacha_Animation.update();
-            }else if( !m_bIsGachaCharacter ){
+            } else if (!m_bIsGachaCharacter) {
                 m_gacha_Animation = null;
-                m_gacha_Character = new gacha_Character(m_GameView, this, m_GameView.getGameWidth() ,400);
+                m_gacha_Character = new gacha_Character(m_GameView, this, m_GameView.getGameWidth(), 400);
                 m_bIsGachaCharacter = true;
             }
+        }
+
+        if( m_MenuGroup != null ) {
+            m_MenuGroup.update();
+            m_bMove = m_MenuGroup.getMove();
         }
     }
 
@@ -82,6 +85,7 @@ public class scene_Gacha extends Task {
                 b_Flg = true;
             }
         }
+        setTouchable( true );
         Log.d("TEST", "scene_Gacha::Reset");
     }
 
@@ -121,9 +125,10 @@ public class scene_Gacha extends Task {
     @Override
     // touch event
     public void    touch(MotionEvent event){
-        if( m_MenuGroup != null) {
-            m_MenuGroup.touch(event);
-            m_bMove = m_MenuGroup.move();
+        if( getTouchable() ) {
+            if (m_MenuGroup != null) {
+                m_MenuGroup.touch(event);
+            }
         }
     }
 

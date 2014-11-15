@@ -14,7 +14,6 @@ import android.view.MotionEvent;
 
 public class scene_Menu extends Task{
 
-    private Paint m_Paint;
     // image resources
     private boolean m_bMove;
     private GameView m_GameView;
@@ -37,7 +36,6 @@ public class scene_Menu extends Task{
     // constract
     public scene_Menu(GameView gv, int prio){
         super(prio);
-        m_Paint = null;
         m_GameView = gv;
 
         int w = gv.getGameWidth();
@@ -61,15 +59,17 @@ public class scene_Menu extends Task{
 
     @Override
     public void update(){
-
+        if( m_MenuGroup != null ) {
+            m_MenuGroup.update();
+            m_bMove = m_MenuGroup.getMove();
+        }
     }
 
     @Override
     public void reset(){
-        // set sprites
-        // m_h1Mypage.setX( m_GameView.getGameWidth() - m_h1Mypage.getWidth() );
-
         m_bMove = false;
+        setTouchable( true );
+
         Log.d("TEST", "Menu::Reset");
     }
 
@@ -118,12 +118,13 @@ public class scene_Menu extends Task{
     @Override
     // touch event
     public void    touch(MotionEvent event){
-        if(m_MenuGroup != null){
-            m_MenuGroup.touch(event);
-            m_bMove = m_MenuGroup.move();
-        }
-        if(m_btn_Walk != null){
-            m_btn_Walk.touch(event);
+        if( getTouchable() ) {
+            if (m_MenuGroup != null) {
+                m_MenuGroup.touch(event);
+            }
+            if (m_btn_Walk != null) {
+                m_btn_Walk.touch(event);
+            }
         }
     }
 }

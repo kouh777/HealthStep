@@ -11,7 +11,6 @@ import android.view.MotionEvent;
  */
 public class scene_Gallery extends Task{
 
-    private Paint m_Paint;
     private boolean m_bMove;
     private GameView m_GameView;
     private MenuGroup m_MenuGroup;
@@ -27,7 +26,6 @@ public class scene_Gallery extends Task{
     // constract
     public scene_Gallery(GameView gv, int prio){
         super(prio);
-        m_Paint = null;
         m_GameView = gv;
 
         int w = gv.getGameWidth();
@@ -52,12 +50,16 @@ public class scene_Gallery extends Task{
 
     @Override
     public void update(){
-
+        if( m_MenuGroup != null ) {
+            m_MenuGroup.update();
+            m_bMove = m_MenuGroup.getMove();
+        }
     }
 
     @Override
     public void reset(){
         m_bMove = false;
+        setTouchable( true );
         Log.d("TEST", "scene_Gallery::Reset");
     }
 
@@ -92,14 +94,15 @@ public class scene_Gallery extends Task{
     @Override
     // touch event
     public void    touch(MotionEvent event){
-        if(m_MenuGroup != null){
-            m_MenuGroup.touch(event);
-            m_bMove = m_MenuGroup.move();
-        }
-        if(m_btn_Character != null){
-            for(int i=0; i < m_btn_Character.length ; ++i) {
-                if(m_btn_Character != null){
-                    m_btn_Character[i].touch(event);
+        if( getTouchable() ) {
+            if (m_MenuGroup != null) {
+                m_MenuGroup.touch(event);
+            }
+            if (m_btn_Character != null) {
+                for (int i = 0; i < m_btn_Character.length; ++i) {
+                    if (m_btn_Character != null) {
+                        m_btn_Character[i].touch(event);
+                    }
                 }
             }
         }

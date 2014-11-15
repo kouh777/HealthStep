@@ -92,10 +92,10 @@ public class btn_Gacha implements Button {
             int y = (int)event.getY();
             if( x > m_iPosX && x < m_iPosX + m_iBtnWidth &&
                     y > m_iPosY && y < m_iPosY + m_iBtnHeight){
-//                Log.d("TEST", "Touch image inside");
+                Log.d("btn_Gacha", "Touch image inside");
                 m_bIsTouched = true;
             }else{
-//                Log.d("TEST", "Touch image outside");
+                Log.d("btn_Gacha::","Touch image outside");
                 return;
             }
         }

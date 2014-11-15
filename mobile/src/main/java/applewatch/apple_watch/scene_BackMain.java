@@ -12,7 +12,7 @@ import android.view.MotionEvent;
 public class scene_BackMain extends Task{
     private Paint m_Paint;
 
-    private GameSprite m_BackMain;
+    private GameSprite m_BackGroundMain;
     private GameSprite m_CloudLeft;
     private GameSprite m_CloudRight;
 
@@ -31,7 +31,7 @@ public class scene_BackMain extends Task{
         m_GameView = gv;
 
         // new sprite classes
-        m_BackMain = new GameSprite(gv, R.drawable.m_game_screen);
+        m_BackGroundMain = new GameSprite(gv, R.drawable.m_game_screen);
         m_CloudLeft = new GameSprite(gv, R.drawable.kumo1);
         m_CloudRight = new GameSprite(gv, R.drawable.kumo2);
 
@@ -82,8 +82,8 @@ public class scene_BackMain extends Task{
     @Override
     // draw
     public void    draw(Canvas c){
-        if (m_BackMain != null){
-            m_BackMain.draw(c);
+        if (m_BackGroundMain != null){
+            m_BackGroundMain.draw(c);
         }
         if (m_CloudLeft != null){
             m_CloudLeft.draw( c, 239, 457 );
