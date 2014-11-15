@@ -22,22 +22,24 @@ public class scene_Gallery extends Task{
 
     // define position
     private final int H1_Y = 140;
+    private final int GALLERY_Y = 220;
+    private final int GALLERY_X = 20;
 
     // constract
     public scene_Gallery(GameView gv, int prio){
         super(prio);
         m_GameView = gv;
 
-        int w = gv.getGameWidth();
-        int h = gv.getGameHeight();
-        int posX = 0;
-        int posY = 0;
-
-        final int paddingY = 150;
         m_btn_Character = new btn_Character[20];
 
         for(int i=0; i < m_btn_Character.length; ++i){
-            m_btn_Character[i] = new  btn_Character(gv, i , PlayerData.getInstance().getUnlockCharacter()[i] ,posX + (i%4) * 150,  paddingY + posY + (i/4) * 150 );
+            m_btn_Character[i] = new  btn_Character(
+                    gv,
+                    i ,
+                    PlayerData.getInstance().getUnlockCharacter()[i] ,
+                    GALLERY_X +  (i%4) * 150,
+                    GALLERY_Y +  (i/4) * 150
+            );
         }
 
         // common
@@ -72,8 +74,6 @@ public class scene_Gallery extends Task{
     @Override
     // draw
     public void    draw(Canvas c){
-        int w = m_GameView.getWidth();
-        int h = m_GameView.getHeight();
         if (m_MenuGroup != null){
             m_MenuGroup.draw(c);
         }

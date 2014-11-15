@@ -28,7 +28,7 @@ public class char_Rokurou extends CharacterBase {
 
         //　image resize
         m_iCharWidth 	 *= gv.getGamePerWidth();
-        m_iCharHeight   *= gv.getGamePerHeight();
+        m_iCharHeight  *= gv.getGamePerHeight();
 
         m_iPosX *= gv.getGamePerWidth();
         m_iPosY *= gv.getGamePerHeight();

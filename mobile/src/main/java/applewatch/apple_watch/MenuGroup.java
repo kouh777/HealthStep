@@ -47,7 +47,6 @@ public class MenuGroup {
         if(m_btn_Ranking != null && m_btn_Ranking.isTouched()){
             m_bMove = true;
             new scene_Ranking(m_GameView, 22);
-            Log.d("MenuGroup", "Touch Ranking");
         }
         if(m_btn_Gallery != null && m_btn_Gallery.isTouched()) {
             m_bMove = true;
@@ -56,7 +55,6 @@ public class MenuGroup {
         if(m_btn_Gacha != null && m_btn_Gacha.isTouched()){
             m_bMove = true;
             new scene_Gacha(m_GameView, 20);
-            Log.d("MenuGroup", "Touch Gacha");
         }
     }
 
