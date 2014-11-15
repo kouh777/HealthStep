@@ -25,16 +25,24 @@ public class scene_Gacha extends Task {
     private boolean m_bIsGachaCharacter;
     private BitmapDrawable m_GachaBack;
 
+    private GameSprite m_H1;
+
+    // define sprite position
+    private final int H1_Y = 140;
 
     // constract
     public scene_Gacha(GameView gv, int prio){
         super(prio);
         m_Paint = null;
         m_GameView = gv;
-        m_MenuGroup = new MenuGroup(gv);
-        m_UiGroup = new UiGroup(gv, 0 ,0);
         m_bIsGachaCharacter = false;
         m_GachaBack = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.black_bg);
+
+        // common
+        m_H1 = new GameSprite( gv, 0, H1_Y, R.drawable.h1_gacha );
+        m_MenuGroup = new MenuGroup(gv);
+        m_UiGroup = new UiGroup(gv, 0 ,0);
+
         reset();
     }
 
@@ -86,16 +94,19 @@ public class scene_Gacha extends Task {
     @Override
     // draw
     public void    draw(Canvas c){
-        if(m_GachaBack != null){
-            m_GachaBack.setBounds(0,0,m_GameView.getGameWidth(),m_GameView.getGameHeight());
-            m_GachaBack.setAlpha(50);
-            m_GachaBack.draw(c);
-        }
         if (m_MenuGroup != null) {
             m_MenuGroup.draw(c);
         }
         if(m_UiGroup != null){
             m_UiGroup.draw(c);
+        }
+        if(m_H1 != null){
+            m_H1.draw(c);
+        }
+        if(m_GachaBack != null){
+            m_GachaBack.setBounds(0,0,m_GameView.getGameWidth(),m_GameView.getGameHeight());
+            m_GachaBack.setAlpha(200);
+            m_GachaBack.draw(c);
         }
         // draw gacha animation
         if(m_gacha_Animation != null){
@@ -105,7 +116,6 @@ public class scene_Gacha extends Task {
         if(m_gacha_Character != null){
             m_gacha_Character.draw(c);
         }
-
     }
 
     @Override

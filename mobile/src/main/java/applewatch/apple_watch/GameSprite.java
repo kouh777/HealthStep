@@ -198,6 +198,8 @@ public class GameSprite {
     // getter
     public int getX(){ return m_iPosX; }
     public int getY(){ return m_iPosY; }
+    public int getWidth() { return m_iWidth; }
+    public int getHeight() { return m_iHeight; }
     public BitmapDrawable getImage(){ return m_ImageResource;}
     public double getScaleX(){ return m_dScaleX; }
     public double getScaleY(){ return m_dScaleY; }

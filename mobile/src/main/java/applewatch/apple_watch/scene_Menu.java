@@ -29,6 +29,11 @@ public class scene_Menu extends Task{
     // for test
     private numImage m_numImage;
 
+    private GameSprite m_H1;
+
+    // define sprite position
+    private final int H1_Y = 140;
+
     // constract
     public scene_Menu(GameView gv, int prio){
         super(prio);
@@ -38,7 +43,7 @@ public class scene_Menu extends Task{
         int w = gv.getGameWidth();
         int h = gv.getGameHeight();
 
-        m_MenuGroup = new MenuGroup(gv);
+        // message
         m_MessageCharacter = new MessageCharacter(gv, 50, 805);
 
         // for presentation
@@ -46,8 +51,10 @@ public class scene_Menu extends Task{
         m_Character = new menu_Character(gv, 100, 350);
         m_numImage = new numImage(gv,100,100,1.0f);
 
-        // ui
+        // common
+        m_H1 = new GameSprite(gv, 0, H1_Y, R.drawable.h1_mypage);
         m_UiGroup = new UiGroup(gv, 0, 0);
+        m_MenuGroup = new MenuGroup(gv);
 
         reset();
     }
@@ -59,6 +66,9 @@ public class scene_Menu extends Task{
 
     @Override
     public void reset(){
+        // set sprites
+        // m_h1Mypage.setX( m_GameView.getGameWidth() - m_h1Mypage.getWidth() );
+
         m_bMove = false;
         Log.d("TEST", "Menu::Reset");
     }
@@ -99,6 +109,9 @@ public class scene_Menu extends Task{
                         m_MessageCharacter.draw(c);
                 }
             }
+        }
+        if( m_H1 != null ){
+            m_H1.draw(c);
         }
     }
 

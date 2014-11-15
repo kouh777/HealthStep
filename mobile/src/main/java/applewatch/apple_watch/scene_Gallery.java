@@ -18,6 +18,12 @@ public class scene_Gallery extends Task{
     private btn_Character[] m_btn_Character;
     private UiGroup m_UiGroup;
 
+    // sprites
+    private GameSprite m_H1;
+
+    // define position
+    private final int H1_Y = 140;
+
     // constract
     public scene_Gallery(GameView gv, int prio){
         super(prio);
@@ -35,6 +41,9 @@ public class scene_Gallery extends Task{
         for(int i=0; i < m_btn_Character.length; ++i){
             m_btn_Character[i] = new  btn_Character(gv, i , PlayerData.getInstance().getUnlockCharacter()[i] ,posX + (i%4) * 150,  paddingY + posY + (i/4) * 150 );
         }
+
+        // common
+        m_H1 = new GameSprite( gv, 0, H1_Y, R.drawable.h1_garaly );
         m_MenuGroup = new MenuGroup(gv);
         m_UiGroup = new UiGroup(gv,0,0);
 
@@ -74,6 +83,9 @@ public class scene_Gallery extends Task{
                 if(m_btn_Character[i] != null)
                     m_btn_Character[i].draw(c);
             }
+        }
+        if(m_H1 != null){
+            m_H1.draw(c);
         }
     }
 
