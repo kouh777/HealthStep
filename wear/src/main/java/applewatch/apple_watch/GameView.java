@@ -10,17 +10,26 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
-    boolean  bActive;
-    Thread   mThread = null;
-    SurfaceHolder    mSurfaceHolder = null;
-    Paint    mPaint = null;
-    int      mInt = 0;
-    BitmapDrawable mSmile = null;  //
-    BitmapDrawable mHeartRate = null;
+    private boolean        bActive;
+    private Thread          mThread = null;
+    private SurfaceHolder   mSurfaceHolder = null;
+    private Paint           mPaint = null;
+    private int            mInt = 0;
 
-    Rect    mRect = new Rect();
+    private Rect    mRect = new Rect();
 
-    HeartRate mHearRateObject = null;
+    // size of display
+    private int m_iScreenWidth;
+    private int m_iScreenHeight;
+
+    // a field for resizing screen
+    private float m_fGamePerWidth;
+    private float m_fGamePerHeight;
+
+    // game back ground.this image size is base of screen size
+    BitmapDrawable m_GameScr = null;
+
+    private boolean m_bSceneFlag;
 
     //
     //  Thread を走らせるための run メソッド
@@ -56,25 +65,28 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
     //
     public void    doAnim(){
         mInt++;
-//        mSmileObject.doAnim();
+        if(!m_bSceneFlag) {
+            new scene_WearTitle(this, 30);
+            m_bSceneFlag = true;
+        }
     }
 
     //
     //  画面の再描画
     //
     public void    doDraw(Canvas c){
-        //  塗りつぶし
+        //  fill white
         mPaint.setARGB(255, 255, 255, 255);
         c.drawRect(0,0,c.getWidth(),getHeight(),mPaint);
 
-//        mSmileObject.draw(c);
-        mHearRateObject.draw(c);
+        // draw tasks
+        TaskManager.getInstance().update();
+        TaskManager.getInstance().draw(c);
 
-        //  文字描画
+        //  draw test
         mPaint.setARGB(255, 255, 255, 255);
-       /*
         c.drawText(String.format("%d", mInt), 10, 10, mPaint);
-        */
+
     }
 
     //
@@ -88,24 +100,14 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
         holder.addCallback(this);
         mSurfaceHolder = holder;
         bActive = true;
+        m_bSceneFlag = false;
 
-        //mSmile = (BitmapDrawable)context.getResources().getDrawable(R.drawable.smile2);
-        mHeartRate = (BitmapDrawable)context.getResources().getDrawable(R.drawable.sinpaku);
+        m_GameScr = (BitmapDrawable)context.getResources().getDrawable(R.drawable.m_wear_screen);
 
-        //  読み込んだリソースの種類を念のため確認
-        if (!(mSmile instanceof BitmapDrawable)){
-            mSmile =null;
+        // check resource kind
+        if( !(m_GameScr instanceof BitmapDrawable) ){
+            m_GameScr = null;
         }
-
-        if (!(mHeartRate instanceof BitmapDrawable)){
-            mHeartRate =null;
-        }
-
-        //  Smile オブジェクトの生成
-  //      mSmileObject = new Smile(20,20,mSmile);
-
-        mHearRateObject = new HeartRate(20,20,mHeartRate);
-
     }
     //
     //  ウィンドウがフォーカスを得た／失った
@@ -126,6 +128,16 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
     public void surfaceCreated(SurfaceHolder holder) {
         //  Thread をここで開始
         bActive = true;
+
+        // get surface size
+        m_iScreenWidth = getWidth();
+        m_iScreenHeight = getHeight();
+
+        // make uint
+        int ordWidth  = m_GameScr.getIntrinsicWidth();   //  base image width
+        int ordHeight = m_GameScr.getIntrinsicHeight();  //  base image height
+        m_fGamePerWidth = (float)getWidth() / ordWidth;		//  per width
+        m_fGamePerHeight = (float)getHeight() / ordHeight;	//  per height
 
         //  Touch イベントに対応
         setClickable(true);
@@ -148,45 +160,21 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
     //  Touch イベントの処理
     boolean mSnatch=false;
     public boolean onTouchEvent(MotionEvent event) {
-        int x = (int)event.getX();
-        int y = (int)event.getY();
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                /*
-                //  つかむ
-                if(mSmileObject.snatch(x, y)) {
-                    //  Smile をSnatch したら・・・・
-                    this.getParent().requestDisallowInterceptTouchEvent(true);  //  ACTION_CANCEL の防止
-                    mSnatch = true;
-                }
-                */
-                break;
-            case MotionEvent.ACTION_MOVE:
-                /*
-                //  動かす
-                if (mSnatch) {
-                    mSmileObject.move(x, y);
-                }
-                */
-                break;
-            case MotionEvent.ACTION_UP:
-                /*
-                //  離す
-                if (mSnatch) {
-                    mSmileObject.release(x, y);
-                    this.getParent().requestDisallowInterceptTouchEvent(false);
-                    mSnatch = false;
-                }
-                */
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                Log.v("warn","ACTION_CANCEL");
-                break;
-        }
-        if (!mSnatch)
-            return  super.onTouchEvent(event);
-        return  true;
+        TaskManager.getInstance().touch(event);
+        return super.onTouchEvent(event);
     }
 
-
+    // getter
+    public int getGameWidth(){
+        return m_iScreenWidth;
+    }
+    public int getGameHeight(){
+        return m_iScreenHeight;
+    }
+    public float getGamePerWidth(){
+        return m_fGamePerWidth;
+    }
+    public float getGamePerHeight(){
+        return m_fGamePerHeight;
+    }
 }
