@@ -39,6 +39,10 @@ public class MenuGroup {
         reset();
     }
 
+    public void    reset(){
+        Log.d("MenuGroup", "Reset");
+    }
+
     public void update(){
         if(m_btn_MyPage != null && m_btn_MyPage.isTouched()){
             m_bMove = true;
@@ -56,10 +60,6 @@ public class MenuGroup {
             m_bMove = true;
             new scene_Gacha(m_GameView, 20);
         }
-    }
-
-    public void    reset(){
-        Log.d("MenuGroup", "Reset");
     }
 
     // draw
@@ -102,4 +102,6 @@ public class MenuGroup {
     }
     // getter
     public boolean getMove(){ return m_bMove; }
+
+    public btn_Gacha getBtnGacha(){ return m_btn_Gacha; }
 }

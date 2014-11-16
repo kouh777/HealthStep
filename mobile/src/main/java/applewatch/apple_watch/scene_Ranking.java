@@ -95,9 +95,6 @@ public class scene_Ranking extends Task {
     @Override
     // draw
     public void    draw(Canvas c){
-        if( m_MenuGroup != null){
-            m_MenuGroup.draw(c);
-        }
         if( m_UiGroup != null){
             m_UiGroup.draw(c);
         }
@@ -115,6 +112,9 @@ public class scene_Ranking extends Task {
         }
         if(m_H1 != null){
             m_H1.draw(c);
+        }
+        if( m_MenuGroup != null){
+            m_MenuGroup.draw(c);
         }
     }
 

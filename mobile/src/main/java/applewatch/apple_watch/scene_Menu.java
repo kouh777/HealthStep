@@ -84,9 +84,6 @@ public class scene_Menu extends Task{
     public void    draw(Canvas c) {
         int w = m_GameView.getWidth();
         int h = m_GameView.getHeight();
-        if( m_MenuGroup != null){
-            m_MenuGroup.draw(c);
-        }
         if (m_UiGroup != null) {
             m_UiGroup.draw(c);
         }
@@ -113,6 +110,9 @@ public class scene_Menu extends Task{
         if( m_H1 != null ){
             m_H1.draw(c);
         }
+        if( m_MenuGroup != null){
+            m_MenuGroup.draw(c);
+        }
     }
 
     @Override
@@ -125,6 +125,7 @@ public class scene_Menu extends Task{
             if (m_btn_Walk != null) {
                 m_btn_Walk.touch(event);
             }
+
         }
     }
 }

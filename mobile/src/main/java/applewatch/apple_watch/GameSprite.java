@@ -2,6 +2,7 @@ package applewatch.apple_watch;
 
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.view.MotionEvent;
 
 /**
@@ -108,6 +109,7 @@ public class GameSprite {
     }
 
     public void draw(Canvas c){
+
         int w = m_ImageResource.getIntrinsicWidth();
         int h = m_ImageResource.getIntrinsicHeight();
 
@@ -165,8 +167,10 @@ public class GameSprite {
             if( x > m_iPosX && x < m_iPosX + m_iWidth &&
                     y > m_iPosY && y < m_iPosY + m_iHeight){
                 m_bTouch = true;
+                Log.d("GameSprite", "m_bTouch = true");
             }else{
                 m_bTouch = false;
+                Log.d("GameSprite", "m_bTouch = false");
                 return;
             }
         }
@@ -238,6 +242,8 @@ public class GameSprite {
     public int getX(){ return m_iPosX; }
     public int getY(){ return m_iPosY; }
     public int getWidth() { return m_iWidth; }
+    public int getCX() {return ( getX() + ( getWidth() >> 1 ) ); }      // centerX
+    public int getCY() {return ( getY() + ( getHeight() >> 1 ) ); }     // centerY
     public int getHeight() { return m_iHeight; }
     public BitmapDrawable getImage(){ return m_ImageResource;}
     public double getScaleX(){ return m_dScaleX; }

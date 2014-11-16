@@ -53,7 +53,7 @@ public class TaskManager {
                 }
                 if( FTasks.elementAt(i).move() ){
                     Log.d("TM::update(remove)", FTasks.elementAt(i).toString());
-                    FTasks.removeElementAt(i);
+                    FTasks.removeElementAt(i--);
                 }
             }
         }
