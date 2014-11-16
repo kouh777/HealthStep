@@ -16,12 +16,11 @@ public class scene_Menu extends Task{
 
     // image resources
     private boolean m_bMove;
+
     private GameView m_GameView;
     private MenuGroup m_MenuGroup;
-
     private menu_Character m_Character;
     private btn_Walk m_btn_Walk;
-
     private MessageCharacter m_MessageCharacter;
     private UiGroup m_UiGroup;
 
@@ -29,9 +28,14 @@ public class scene_Menu extends Task{
     private numImage m_numImage;
 
     private GameSprite m_H1;
+    private GameSprite m_Mail;
+    private GameSprite m_Setting;
 
     // define sprite position
     private final int H1_Y = 140;
+    private final int MAIL_X = 430;
+    private final int SETTING_X = 535;
+    private final int MAIL_SETTING_Y = 150;
 
     // constract
     public scene_Menu(GameView gv, int prio){
@@ -41,8 +45,14 @@ public class scene_Menu extends Task{
         int w = gv.getGameWidth();
         int h = gv.getGameHeight();
 
+        // mail
+        m_Mail = new GameSprite(gv, MAIL_X, MAIL_SETTING_Y, R.drawable.mail);
+
+        // setting
+        m_Setting = new GameSprite( gv, SETTING_X, MAIL_SETTING_Y, R.drawable.settei );
+
         // message
-        m_MessageCharacter = new MessageCharacter(gv, 50, 805);
+        m_MessageCharacter = new MessageCharacter(gv, 50, 775);
 
         // for presentation
         m_btn_Walk = new btn_Walk(gv, (w>>2)*3, h-(w>>1));
@@ -59,6 +69,9 @@ public class scene_Menu extends Task{
 
     @Override
     public void update(){
+        if( m_UiGroup != null ) {
+            m_UiGroup.update();
+        }
         if( m_MenuGroup != null ) {
             m_MenuGroup.update();
             m_bMove = m_MenuGroup.getMove();
@@ -89,6 +102,12 @@ public class scene_Menu extends Task{
         }
         if (m_Character != null) {
             m_Character.draw(c);
+        }
+        if( m_Mail != null ){
+            m_Mail.draw(c);
+        }
+        if( m_Setting != null ){
+            m_Setting.draw(c);
         }
         /*
         if (m_numImage != null) {
@@ -125,7 +144,12 @@ public class scene_Menu extends Task{
             if (m_btn_Walk != null) {
                 m_btn_Walk.touch(event);
             }
-
+            if( m_Mail != null ){
+                m_Mail.touch(event);
+            }
+            if( m_Setting != null ){
+                m_Setting.touch(event);
+            }
         }
     }
 }
