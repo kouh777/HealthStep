@@ -137,6 +137,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
             new scene_Title(this, 30);
             m_bSceneFlg = true;
         }
+        TaskManager.getInstance().update();
     }
 
     @Override
@@ -151,7 +152,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     }
 
     public void doDraw(Canvas c){
-        TaskManager.getInstance().update();
         TaskManager.getInstance().draw(c);
         //PutDataRequest mPutDataRequest = new PutDataRequest("/path/to/data");
     }

@@ -2,13 +2,12 @@ package applewatch.apple_watch;
 
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
 import android.view.MotionEvent;
 
 /**
  * Created by KOUHO on 2014/10/15.
  */
-public class btn_Gallery implements Button{
+public class btn_Gallery implements Buttons {
     private GameView m_GameView;
 
     private BitmapDrawable m_btn_Resource;

@@ -238,6 +238,21 @@ public class GameSprite {
         }
     }
 
+    // blink animation use in update method
+    public void blink( int timer, int blink_span ){
+        if( timer % blink_span == 0 ){
+            m_bDisplay = Switch( m_bDisplay );
+        }
+    }
+
+    // change flg
+    public boolean Switch( boolean flg ){
+        if(flg)
+            return false;
+        else
+            return true;
+    }
+
     // getter
     public int getX(){ return m_iPosX; }
     public int getY(){ return m_iPosY; }

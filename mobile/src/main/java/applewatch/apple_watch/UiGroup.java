@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
+import android.view.MotionEvent;
 
 /**
  * Created by KOUHO on 2014/11/08.
@@ -18,6 +19,9 @@ public class UiGroup {
     private GameSprite m_UiTicket;
     private GameSprite m_UiTicketNum;
     private GameSprite m_UiTicketUint;
+
+    private GameSprite m_Mail;
+    private GameSprite m_Setting;
 
     private GameView m_GameView;
 
@@ -38,6 +42,10 @@ public class UiGroup {
     private final int TU_X = 600;   // Uint of ticket X
     private final int TU_Y = 85;    // Uint of ticket Y
 
+    private final int MAIL_X = 430;
+    private final int SETTING_X = 535;
+    private final int MAIL_SETTING_Y = 150;
+
     private final double UI_SX = 0.82;
     private final double UI_SY = 0.19;
 
@@ -56,6 +64,9 @@ public class UiGroup {
         m_UiTicket = new GameSprite( gv, m_iPosX + TI_X, m_iPosY + TI_Y, R.drawable.ticket );
         m_UiTicketNum = new GameSprite( gv, m_iPosX + TN_X, m_iPosY + TN_Y, R.drawable.ticket_suji1 );
         m_UiTicketUint = new GameSprite( gv, m_iPosX + TU_X, m_iPosY + TU_Y, R.drawable.kadai_mai );
+
+        m_Mail = new GameSprite(gv, MAIL_X, MAIL_SETTING_Y, R.drawable.mail);
+        m_Setting = new GameSprite( gv, SETTING_X, MAIL_SETTING_Y, R.drawable.settei );
 
     }
 
@@ -83,11 +94,26 @@ public class UiGroup {
         if( m_UiTicket != null ){
             m_UiTicket.draw(c);
         }
+
         if( m_UiTicketNum != null ){
             m_UiTicketNum.draw(c);
         }
         if( m_UiTicketUint != null ){
             m_UiTicketUint.draw(c);
+        }
+        if( m_Mail != null ){
+            m_Mail.draw(c);
+        }
+        if( m_Setting != null ){
+            m_Setting.draw(c);
+        }
+    }
+    public void touch(MotionEvent event){
+        if( m_Mail != null ){
+            m_Mail.touch(event);
+        }
+        if( m_Setting != null ){
+            m_Setting.touch(event);
         }
     }
 }

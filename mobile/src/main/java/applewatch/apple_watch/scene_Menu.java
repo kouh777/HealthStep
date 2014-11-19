@@ -33,9 +33,6 @@ public class scene_Menu extends Task{
 
     // define sprite position
     private final int H1_Y = 140;
-    private final int MAIL_X = 430;
-    private final int SETTING_X = 535;
-    private final int MAIL_SETTING_Y = 150;
 
     // constract
     public scene_Menu(GameView gv, int prio){
@@ -45,11 +42,13 @@ public class scene_Menu extends Task{
         int w = gv.getGameWidth();
         int h = gv.getGameHeight();
 
+        /*
         // mail
         m_Mail = new GameSprite(gv, MAIL_X, MAIL_SETTING_Y, R.drawable.mail);
 
         // setting
         m_Setting = new GameSprite( gv, SETTING_X, MAIL_SETTING_Y, R.drawable.settei );
+        */
 
         // message
         m_MessageCharacter = new MessageCharacter(gv, 50, 775);
@@ -103,12 +102,15 @@ public class scene_Menu extends Task{
         if (m_Character != null) {
             m_Character.draw(c);
         }
+        /*
         if( m_Mail != null ){
             m_Mail.draw(c);
         }
         if( m_Setting != null ){
             m_Setting.draw(c);
         }
+        */
+
         /*
         if (m_numImage != null) {
             m_numImage.draw(c);
@@ -144,12 +146,14 @@ public class scene_Menu extends Task{
             if (m_btn_Walk != null) {
                 m_btn_Walk.touch(event);
             }
+            /*
             if( m_Mail != null ){
                 m_Mail.touch(event);
             }
             if( m_Setting != null ){
                 m_Setting.touch(event);
             }
+            */
         }
     }
 }

@@ -10,7 +10,7 @@ import android.view.MotionEvent;
  */
 
 // this class is made for presentation
-public class btn_Walk implements Button{
+public class btn_Walk implements Buttons {
 
     private GameView m_GameView;
 

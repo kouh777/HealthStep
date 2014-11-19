@@ -35,6 +35,7 @@ public class scene_Gallery extends Task{
         for(int i=0; i < m_btn_Character.length; ++i){
             m_btn_Character[i] = new  btn_Character(
                     gv,
+                    this,
                     i ,
                     PlayerData.getInstance().getUnlockCharacter()[i] ,
                     GALLERY_X +  (i%4) * 150,
@@ -52,6 +53,13 @@ public class scene_Gallery extends Task{
 
     @Override
     public void update(){
+        if( m_btn_Character != null ){
+            for(int i=0; i < m_btn_Character.length ; ++i) {
+                if(m_btn_Character[i] != null) {
+                    m_btn_Character[i].update();
+                }
+            }
+        }
         if( m_MenuGroup != null ) {
             m_MenuGroup.update();
             m_bMove = m_MenuGroup.getMove();

@@ -2,14 +2,15 @@ package applewatch.apple_watch;
 
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
 import android.view.MotionEvent;
 
 /**
  * Created by KOUHO on 2014/10/17.
  */
-public class btn_Character implements Button{
+public class btn_Character implements Buttons {
+
     private GameView m_GameView;
+    private scene_Gallery m_sceneGallery;
 
     private BitmapDrawable m_btnBackGround;
     // for now select image
@@ -31,11 +32,21 @@ public class btn_Character implements Button{
 
     private CharacterBase m_CharacterBase;
 
-    public btn_Character(GameView gv, int char_num, boolean found,int posX, int posY){
+    // for animation
+    private int m_iTimer;
+    private boolean m_bBlink;
+
+    // define animation
+    private final int BLINK_SPAN = 10;
+
+    public btn_Character(GameView gv, scene_Gallery sg,int char_num, boolean found,int posX, int posY){
         m_GameView = gv;
+        m_sceneGallery = sg;
+
         m_iPosX = posX;
         m_iPosY = posY;
-        m_bIsSelected = false;
+        m_bIsSelected = false;  // check select
+        m_bBlink = false;       // blink select logo
         m_CharacterNumber = char_num;
 
         // load background image resources
@@ -116,6 +127,15 @@ public class btn_Character implements Button{
             m_CharacterBase = new char_Unknown(gv, posX, posY, menu_Character.SCALE_BUTTON, menu_Character.ANIM_NO);
         }
     }
+    public void update(){
+        m_iTimer++;
+        CheckSelect();
+        if( m_SelectLogo != null ) {
+            if (m_iTimer % BLINK_SPAN == 0) {
+                m_bBlink = m_sceneGallery.Switch(m_bBlink);
+            }
+        }
+    }
 
     // if image is touched, return true.
     @Override
@@ -128,8 +148,6 @@ public class btn_Character implements Button{
 
     @Override
     public void draw(Canvas c) {
-        CheckSelect();
-
         // if select this character
         if(m_bIsSelected){
             // draw select border
@@ -152,7 +170,7 @@ public class btn_Character implements Button{
                 m_SelectScreen.draw(c);
             }
             // draw select logo
-            if(m_SelectLogo != null){
+            if(m_SelectLogo != null && m_bBlink ){
                 m_SelectLogo.setBounds(m_iPosX, m_iPosY, m_iPosX + m_iBtnWidth, m_iPosY + m_iBtnHeight);
                 m_SelectLogo.draw(c);
             }

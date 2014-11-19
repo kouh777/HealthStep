@@ -7,7 +7,7 @@ package applewatch.apple_watch;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
-public interface Button {
+public interface Buttons {
     public boolean isTouched();     // if image is touched, return true.
     public int nextSceneID();       //
     public void draw(Canvas c);

@@ -26,7 +26,6 @@ public class scene_Title extends Task{
 
     // for animation
     private int m_iTimer;
-    private boolean m_bTouchStart;
 
     // constract
     public scene_Title(GameView gv, int prio){
@@ -40,17 +39,8 @@ public class scene_Title extends Task{
     }
 
     @Override
-    public void update(){
-        m_iTimer++;
-        if(m_iTimer % BLINK_SPAN == 0){
-            m_bTouchStart = Switch(m_bTouchStart);
-        }
-    }
-
-    @Override
     public void    reset(){
         m_iTimer = 0;
-        m_bTouchStart = false;
         m_bMove = false;
         // set position
         if( m_TitleLogo != null){
@@ -68,6 +58,12 @@ public class scene_Title extends Task{
     }
 
     @Override
+    public void update(){
+        m_iTimer++;
+        m_TouchStart.blink( m_iTimer, BLINK_SPAN );
+    }
+
+    @Override
     // go to next scene
     public boolean move(){
         return m_bMove;
@@ -76,7 +72,7 @@ public class scene_Title extends Task{
     @Override
     // draw
     public void    draw(Canvas c){
-        if(m_TouchStart != null && m_bTouchStart){
+        if(m_TouchStart != null){
             m_TouchStart.draw(c);
         }
         if(m_TitleLogo != null){
@@ -93,7 +89,7 @@ public class scene_Title extends Task{
                 // break
                 return;
             } else {
-                Log.d("TEST", "get Touch action");
+                Log.d("Title", "get Touch action");
                 new scene_Menu(m_GameView, 22);
                 m_bMove = true;
             }
