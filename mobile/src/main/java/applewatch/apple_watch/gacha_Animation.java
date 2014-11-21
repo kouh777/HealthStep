@@ -35,6 +35,7 @@ public class gacha_Animation {
     private final int CAPSEL_TOP_OPEN_START_TIME = 26;
     private final int CAPSEL_TOP_OPEN_END_TIME = 28;
     private final int SPOT_LIGHT_START_TIME = 34;
+    private final int CAPSEL_BOTTOM_FADEOUT_TIME = 40;
     private final int CAPSEL_TOP_FADEOUT_TIME = 46;
     private final int ALL_ANIMATION_END_TIME = 52;
 
@@ -106,6 +107,17 @@ public class gacha_Animation {
         if( m_GachaSpotLight != null ) {
             m_GachaSpotLight.fade( m_iTimer, SPOT_LIGHT_START_TIME, CAPSEL_TOP_FADEOUT_TIME, true );
         }
+        if( m_GachaCapselBottom != null ){
+            m_GachaCapselBottom.fade( m_iTimer, CAPSEL_BOTTOM_FADEOUT_TIME, ALL_ANIMATION_END_TIME, true );
+        }
+        if( m_GachaCapselMiddle != null ){
+            m_GachaCapselMiddle.fade( m_iTimer, CAPSEL_BOTTOM_FADEOUT_TIME, ALL_ANIMATION_END_TIME, true );
+        }
+        if( m_GachaHighLight != null ){
+            m_GachaHighLight.fade( m_iTimer, CAPSEL_BOTTOM_FADEOUT_TIME, ALL_ANIMATION_END_TIME, true );
+        }
+
+        // setDisplay
         if( m_iTimer > DELAY_TIME && m_iTimer < CLOUD_MIN_FADEOUT_TIME){
             m_GachaCloudMin.setDisplay(true);
         }

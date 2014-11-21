@@ -9,12 +9,20 @@ public class gacha_Character {
     // selecting char ID
     private int CharacterID;
     private GameView m_GameView;
-    private CharacterBase m_Character;
+    private CharacterSprite m_Character;
 
     private boolean m_bFlg;
 
     // set animation(test)
     private final int m_iSlideSpeed = 100;
+
+    // define zoom center position
+    private final int ZOOM_CX = 350;
+    private final int ZOOM_CY = 500;
+
+    // define zoom animation
+    private final double ZOOM_IN_SPEED = 0.2;
+    private final double ZOOM_IN_MAX = 2.0;
 
     // construct
     gacha_Character(GameView gv, scene_Gacha sg, int posX, int posY){
@@ -172,19 +180,21 @@ public class gacha_Character {
                 }
                 break;
         }
+        m_Character.setScaleX(0);
+        m_Character.setScaleY(0);
+    }
+
+    public void update(){
+        if( m_Character != null ){
+            m_Character.update();
+            m_Character.zoom( ZOOM_IN_SPEED , ZOOM_IN_MAX );
+        }
     }
 
     // draw
     public void draw(Canvas c){
-        if(m_Character != null){
-            int w = m_GameView.getGameWidth();
-            int ww = m_Character.getWidth();
-            if(m_Character.getPosX() > (w-ww)>>1) {
-                m_Character.setPosX(m_Character.getPosX() -m_iSlideSpeed);
-            }else{
-                m_Character.setPosX((w-ww)>>1);
-            }
-            m_Character.draw(c);
+        if( m_Character != null ){
+            m_Character.draw( c, ZOOM_CX, ZOOM_CY );
         }
     }
 }

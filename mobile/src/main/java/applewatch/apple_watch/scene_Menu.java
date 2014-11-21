@@ -94,6 +94,9 @@ public class scene_Menu extends Task{
             m_MenuGroup.update();
             m_bMove = m_MenuGroup.getMove();
         }
+        if (m_Character != null) {
+            m_Character.update();
+        }
         if( m_H1 != null ){
             m_H1.fade_in( FADE_IN_SPED );
 //            m_H1.slideInX(0);

@@ -30,7 +30,7 @@ public class btn_Character implements Buttons {
     private int m_iPosY;
     private boolean m_bIsTouched;
 
-    private CharacterBase m_CharacterBase;
+    private CharacterSprite m_CharacterBase;
 
     // for animation
     private int m_iTimer;

@@ -120,11 +120,12 @@ public class scene_Gacha extends Task {
                 m_gacha_Animation.update();
             }else if (!m_bIsGachaCharacter ) {
                 m_gacha_Animation = null;
-                m_gacha_Character = new gacha_Character(m_GameView, this, m_GameView.getGameWidth(), 400);
+                m_gacha_Character = new gacha_Character(m_GameView, this, 300, 400);
                 m_bIsGachaCharacter = true;
             }
         }
         if( m_gacha_Character != null ){
+            m_gacha_Character.update();
             if( m_bIsGachaCharacter ) {
                 m_iTimer++;
             }

@@ -11,38 +11,38 @@ import android.view.MotionEvent;
 // Game Sprite Base Class
 public class GameSprite {
 
-    private GameView m_GameView;
-    private BitmapDrawable m_ImageResource;
+    protected GameView m_GameView;
+    protected BitmapDrawable m_ImageResource;
 
-    private int m_iPosX;
-    private int m_iPosY;
-    private int m_iWidth;
-    private int m_iHeight;
+    protected int m_iPosX;
+    protected int m_iPosY;
+    protected int m_iWidth;
+    protected int m_iHeight;
 
     private boolean m_bTouch;
 
-    private double m_dScaleX;
-    private double m_dScaleY;
-    private int m_iAlpha;   // in API9, I can't use  BitmapDrawable.getAlpha(), so create this
+    protected double m_dScaleX;
+    protected double m_dScaleY;
+    protected int m_iAlpha;   // in API9, I can't use  BitmapDrawable.getAlpha(), so create this
 
     // centering flag
     private boolean m_bCenterHorizontal;
     private boolean m_bCenterVertical;
 
     // likely to CSS of padding
-    private int m_iPaddingTop;
-    private int m_iPaddingRight;
-    private int m_iPaddingBottom;
-    private int m_iPaddingLeft;
+    protected int m_iPaddingTop;
+    protected int m_iPaddingRight;
+    protected int m_iPaddingBottom;
+    protected int m_iPaddingLeft;
 
     // Image display flag
-    private boolean m_bDisplay;
+    protected boolean m_bDisplay;
 
     // zoom in flag
     private boolean m_bZoomInitializeflg;
     private boolean m_bZoomIn;
 
-    // easily constructer
+    // easily constructor
     public GameSprite(GameView gv, int img){
         m_GameView = gv;
         m_bTouch = false;
@@ -278,6 +278,18 @@ public class GameSprite {
                 m_dScaleY = 1.0;
                 m_bZoomIn = true;
             }
+        }
+    }
+
+    // zoom to scaleX and scaleY
+    public void zoom( double speed, double max_scale ){
+        if( m_dScaleX < max_scale ) {
+            m_dScaleX += speed;
+            m_dScaleY += speed;
+        }
+        if( m_dScaleX > max_scale ){
+            m_dScaleX = max_scale;
+            m_dScaleY = max_scale;
         }
     }
 

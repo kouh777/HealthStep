@@ -6,10 +6,6 @@ import android.graphics.Canvas;
  * Created by KOUHO on 2014/10/15.
  */
 
-enum CharacterKind{
-    KIND_GIRL,KIND_BOY,KIND_BEAST,KIND_UNKNOWN
-};
-
 public class menu_Character{
     // selecting char ID
     public int CharacterID;
@@ -49,7 +45,7 @@ public class menu_Character{
     static final int CHAR_MINMI_ID = 302;
     static final int CHAR_RYU_ID = 303;
 
-    private CharacterBase m_Character;
+    private CharacterSprite m_Character;
 
     private boolean m_bFlg;
 
@@ -200,6 +196,13 @@ public class menu_Character{
                     m_bFlg = true;
                 }
                 break;
+        }
+    }
+
+    // update
+    public void update(){
+        if(m_Character != null){
+            m_Character.update();
         }
     }
 

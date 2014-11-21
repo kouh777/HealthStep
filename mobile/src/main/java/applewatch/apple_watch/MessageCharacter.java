@@ -50,8 +50,8 @@ public class MessageCharacter {
         Paint paint = new Paint();
         paint.setAntiAlias(true);
 
-        String str1 = "おはよう！今日も元気にいこう。";
-        String str2 = "いい天気だね！";
+        String str1 = "おはよう！いい天気だね！";    // Hello and Whether
+        String str2 = "今日も元気にいこう。";        // Yell For
         paint.setTextSize(m_FontSize);
         paint.setColor(Color.BLACK);
         c.drawText( str1, (int)(x + paddingX), (int)(y + paddingY), paint );

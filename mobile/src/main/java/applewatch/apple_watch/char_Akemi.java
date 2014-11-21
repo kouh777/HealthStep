@@ -8,35 +8,17 @@ import java.util.Vector;
 /**
  * Created by KOUHO on 2014/10/16.
  */
-public class char_Akemi extends CharacterBase {
+public class char_Akemi extends CharacterSprite {
 
     public char_Akemi(GameView gv, int posX, int posY, float scale, boolean anim_flg){
-        super( gv, posX, posY, scale, anim_flg);
+        super( gv, posX, posY, R.drawable.char100_akemi1, scale, anim_flg);
         m_CharacterKind = CharacterKind.KIND_GIRL;
-        m_CharacterID = menu_Character.CHAR_AKEMI_ID;
+        m_iCharacterID = menu_Character.CHAR_AKEMI_ID;
 
-        m_CharResource.addElement( (BitmapDrawable)gv.getResources().getDrawable(R.drawable.char100_akemi1) );
-        // if anim_flg == false , don't load those image files
-        if(anim_flg) {
-            m_CharResource.addElement((BitmapDrawable) gv.getResources().getDrawable(R.drawable.char100_akemi4));
-            m_CharResource.addElement((BitmapDrawable) gv.getResources().getDrawable(R.drawable.char100_akemi2));
-            m_CharResource.addElement((BitmapDrawable) gv.getResources().getDrawable(R.drawable.char100_akemi3));
+        if(anim_flg){
+            addImg( R.drawable.char100_akemi4 );
+            addImg( R.drawable.char100_akemi2 );
+            addImg( R.drawable.char100_akemi3 );
         }
-        m_CharNowImage = m_CharResource.elementAt(0);
-
-        //　image size
-        m_iCharWidth  = (int)((m_CharNowImage.getIntrinsicWidth()) * scale);
-        m_iCharHeight = (int)((m_CharNowImage.getIntrinsicHeight()) * scale);
-
-        //　image resize
-        m_iCharWidth 	 *= gv.getGamePerWidth();
-        m_iCharHeight   *= gv.getGamePerHeight();
-
-        m_iPosX *= gv.getGamePerWidth();
-        m_iPosY *= gv.getGamePerHeight();
     }
-
-    public void draw(Canvas c) { super.draw(c); }
-    public void doAnim(){ super.doAnim(); }
-    public int characterID(){ return m_CharacterID; }
 }
