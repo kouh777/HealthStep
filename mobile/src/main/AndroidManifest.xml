@@ -4,12 +4,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/health_step_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MobileActivity"
-            android:label="@string/app_name" >
+            android:label="へるすステップ"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

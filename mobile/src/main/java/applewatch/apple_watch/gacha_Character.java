@@ -13,9 +13,6 @@ public class gacha_Character {
 
     private boolean m_bFlg;
 
-    // set animation(test)
-    private final int m_iSlideSpeed = 100;
-
     // define zoom center position
     private final int ZOOM_CX = 350;
     private final int ZOOM_CY = 500;

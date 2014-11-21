@@ -30,21 +30,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
 
     // game scene
     private int m_Int = 0;
-    private GamePart m_GamePart = null;
-
-
-    // define scene names
-    private int m_iPhase = 0;           // control game scene
-    private int m_iNowSceneID = 0;     // new GamePart's secondary class one time
-//    private boolean m_bSceneChangeFlg = false;
-
-    static final int m_SceneInit = 1;
-    static final int m_SceneTitle = 10;
-    static final int m_SceneMenu = 20;
-    static final int m_SceneRanking = 30;
-    static final int m_SceneGallery = 40;
-    static final int m_SceneSelect = 50;
-    static final int m_SceneGacha = 60;
 
     // size of display
     private int m_iScreenWidth;
@@ -67,7 +52,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
         m_holder.addCallback(this);
         m_SurfaceHolder = m_holder;
         m_bActive = true;
-        m_iPhase = m_SceneInit;
 
         // a resource of background image
         m_GameScr = (BitmapDrawable)context.getResources().getDrawable(R.drawable.bg);

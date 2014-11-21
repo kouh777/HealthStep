@@ -31,7 +31,6 @@ public class btn_Gacha implements Buttons {
         m_GameView = gv;
         m_iPosX = posX;
         m_iPosY = posY;
-        m_iNextSceneID = m_GameView.m_SceneGacha;
 
         // load image resources
         m_btn_Resource = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.button_gatya);
