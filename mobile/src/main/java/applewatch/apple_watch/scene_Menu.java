@@ -34,6 +34,12 @@ public class scene_Menu extends Task{
     // define sprite position
     private final int H1_Y = 140;
 
+    // define fade in speed
+    private final int FADE_IN_SPED = 40;
+
+    // for test
+//    private boolean m_bSceneEnd;
+
     // constract
     public scene_Menu(GameView gv, int prio){
         super(prio);
@@ -58,12 +64,25 @@ public class scene_Menu extends Task{
         m_Character = new menu_Character(gv, 100, 350);
         m_numImage = new numImage(gv,100,100,1.0f);
 
+//        m_bSceneEnd = false;
+
         // common
         m_H1 = new GameSprite(gv, 0, H1_Y, R.drawable.h1_mypage);
         m_UiGroup = new UiGroup(gv, 0, 0);
         m_MenuGroup = new MenuGroup(gv);
 
         reset();
+    }
+
+    @Override
+    public void reset(){
+        m_bMove = false;
+        setTouchable( true );
+
+        m_H1.setAlpha(0);
+//        m_H1.setX( -600 );
+
+        Log.d("TEST", "Menu::Reset");
     }
 
     @Override
@@ -75,14 +94,11 @@ public class scene_Menu extends Task{
             m_MenuGroup.update();
             m_bMove = m_MenuGroup.getMove();
         }
-    }
-
-    @Override
-    public void reset(){
-        m_bMove = false;
-        setTouchable( true );
-
-        Log.d("TEST", "Menu::Reset");
+        if( m_H1 != null ){
+            m_H1.fade_in( FADE_IN_SPED );
+//            m_H1.slideInX(0);
+//            m_H1.setX( m_H1.getX() + 5);
+        }
     }
 
     @Override
@@ -102,15 +118,6 @@ public class scene_Menu extends Task{
         if (m_Character != null) {
             m_Character.draw(c);
         }
-        /*
-        if( m_Mail != null ){
-            m_Mail.draw(c);
-        }
-        if( m_Setting != null ){
-            m_Setting.draw(c);
-        }
-        */
-
         /*
         if (m_numImage != null) {
             m_numImage.draw(c);
@@ -136,6 +143,10 @@ public class scene_Menu extends Task{
         }
     }
 
+    public void endAnimation(){
+
+    }
+
     @Override
     // touch event
     public void    touch(MotionEvent event){
@@ -146,14 +157,6 @@ public class scene_Menu extends Task{
             if (m_btn_Walk != null) {
                 m_btn_Walk.touch(event);
             }
-            /*
-            if( m_Mail != null ){
-                m_Mail.touch(event);
-            }
-            if( m_Setting != null ){
-                m_Setting.touch(event);
-            }
-            */
         }
     }
 }

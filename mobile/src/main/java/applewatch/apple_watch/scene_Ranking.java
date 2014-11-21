@@ -34,6 +34,9 @@ public class scene_Ranking extends Task {
     private final double BEST_SY = 0.52;
     private final double OHTERS_SY = 0.52;
 
+    // define fade in speed
+    private final int FADE_IN_SPEED = 40;
+
     // constract
     public scene_Ranking(GameView gv, int prio){
         super(prio);
@@ -81,6 +84,8 @@ public class scene_Ranking extends Task {
         m_RankingOthers.setY(OTHERS_Y);
         m_RankingOthers.setScaleY(OHTERS_SY);
 
+        m_H1.setAlpha(0);
+
         m_bMove = false;
         setTouchable( true );
         Log.d("TEST", "scene_Ranking::Reset");
@@ -95,6 +100,9 @@ public class scene_Ranking extends Task {
     @Override
     // draw
     public void    draw(Canvas c){
+        if( m_H1 != null){
+            m_H1.fade_in( FADE_IN_SPEED );
+        }
         if( m_UiGroup != null){
             m_UiGroup.draw(c);
         }

@@ -25,6 +25,9 @@ public class scene_Gallery extends Task{
     private final int GALLERY_Y = 220;
     private final int GALLERY_X = 20;
 
+    // define fade in speed
+    private final int FADE_IN_SPED = 40;
+
     // constructer
     public scene_Gallery(GameView gv, int prio){
         super(prio);
@@ -64,12 +67,19 @@ public class scene_Gallery extends Task{
             m_MenuGroup.update();
             m_bMove = m_MenuGroup.getMove();
         }
+        if( m_H1 != null ){
+            m_H1.fade_in( FADE_IN_SPED );
+        }
     }
 
     @Override
     public void reset(){
         m_bMove = false;
         setTouchable( true );
+
+        // set Alpha
+        m_H1.setAlpha(0);
+
         Log.d("TEST", "scene_Gallery::Reset");
     }
 

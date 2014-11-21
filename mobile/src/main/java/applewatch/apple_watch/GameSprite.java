@@ -38,6 +38,10 @@ public class GameSprite {
     // Image display flag
     private boolean m_bDisplay;
 
+    // zoom in flag
+    private boolean m_bZoomInitializeflg;
+    private boolean m_bZoomIn;
+
     // easily constructer
     public GameSprite(GameView gv, int img){
         m_GameView = gv;
@@ -60,6 +64,8 @@ public class GameSprite {
         m_iPaddingBottom = 0;
         m_iPaddingLeft = 0;
         m_bDisplay = true;
+        m_bZoomIn = false;
+        m_bZoomInitializeflg = false;
     }
 
     // main constructor
@@ -84,6 +90,8 @@ public class GameSprite {
         m_iPaddingBottom = 0;
         m_iPaddingLeft = 0;
         m_bDisplay = true;
+        m_bZoomIn = false;
+        m_bZoomInitializeflg = false;
     }
 
     // detail constructor
@@ -106,6 +114,8 @@ public class GameSprite {
         m_iPaddingBottom = 0;
         m_iPaddingLeft = 0;
         m_bDisplay = true;
+        m_bZoomIn = false;
+        m_bZoomInitializeflg = false;
     }
 
     public void draw(Canvas c){
@@ -144,6 +154,11 @@ public class GameSprite {
         hh = (int)( hh * m_dScaleY * m_GameView.getGamePerHeight() );
         int x = cpx - (ww >> 1);
         int y = cpy - (hh >> 1);
+
+        m_iPosX = x;
+        m_iPosY = y;
+        m_iWidth = ww;
+        m_iHeight = hh;
 
         if (m_ImageResource != null && m_bDisplay ){
             m_ImageResource.setBounds(
@@ -238,6 +253,86 @@ public class GameSprite {
         }
     }
 
+    public void fade_in( int speed ){
+        m_iAlpha += speed;
+        if( m_iAlpha > 255 ) m_iAlpha = 255;
+    }
+
+    // zoom animation using in update method
+    public void zoom( double speed ){
+        // initialize zoom
+        if(!m_bZoomInitializeflg){
+            m_dScaleX = 0;
+            m_dScaleY = 0;
+            m_bZoomInitializeflg = true;
+        }
+        // if zoomIn
+        if(!m_bZoomIn) {
+            m_dScaleX += speed;
+            m_dScaleY += speed;
+            if (m_dScaleX >= 1.0) {
+                m_dScaleX = 1.0;
+                m_bZoomIn = true;
+            }
+            if (m_dScaleY >= 1.0) {
+                m_dScaleY = 1.0;
+                m_bZoomIn = true;
+            }
+        }
+    }
+
+    public void zoom_out( double speed ){
+        m_dScaleX -= speed;
+        m_dScaleY -= speed;
+        if( m_dScaleX < 0) m_dScaleX = 0;
+        if( m_dScaleY < 0) m_dScaleY = 0;
+    }
+
+    // slide in animation
+    public  void slideInX( int end_x){
+        int slide_speed = 100;
+        if( getX() < end_x ) {
+            setX( getX() + slide_speed );
+        }
+        if( getX() >= end_x ){
+            setX( end_x );
+        }
+    }
+
+    // slide out animation . if slids out is ended. return true. else return false
+    public boolean slideOutX( int end_x ){
+        int slide_speed = 100;
+        if( getX() > end_x ){
+            setX( getX() - slide_speed );
+        }
+        if( getX() <= end_x ){
+            return true;
+        }
+        return false;
+    }
+
+    /*
+    public void zoom( int start_scale, int end_scale, int speed ){
+
+    }
+    */
+
+    /* this method has bag
+    public void zoomLoop( final double min_scale , final double max_scale, double scale_speed ){
+        double speed = scale_speed;
+        setScaleX( getScaleX() + speed );
+        setScaleY( getScaleY() + speed );
+        if( getScaleX() < min_scale ){
+            setScaleX( min_scale );
+            speed *= -1;
+        }
+        if(getScaleY() > max_scale){
+            setScaleY( max_scale );
+            speed *= -1;
+        }
+    }
+    */
+
     // blink animation use in update method
     public void blink( int timer, int blink_span ){
         if( timer % blink_span == 0 ){
@@ -267,9 +362,8 @@ public class GameSprite {
     public boolean getTouch(){ return m_bTouch; }
 
     // setter
-    public void setX(int mx){
-        m_iPosX = (int)( mx * m_GameView.getGamePerWidth() );
-    }
+    public void setX(int mx){ m_iPosX = mx; }
+//    public void setX(int mx){ m_iPosX = (int)( mx * m_GameView.getGamePerWidth() ); }
     public void setY(int my){
         m_iPosY = (int)( my * m_GameView.getGamePerHeight() );
     }

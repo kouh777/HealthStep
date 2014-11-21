@@ -24,6 +24,12 @@ public class scene_BackMain extends Task{
     private final double MAX_SCALE = 0.9;       //
     private final double MINIMUM_SCALE = 0.8;  //
 
+    // define sprites' center position
+    private final int CL_L_X = 239;
+    private final int CL_L_Y = 457;
+    private final int CL_R_X = 484;
+    private final int CL_R_Y = 399;
+
     // constract
     public scene_BackMain(GameView gv, int prio){
         super(prio);
@@ -35,13 +41,14 @@ public class scene_BackMain extends Task{
         m_CloudLeft = new GameSprite(gv, R.drawable.kumo1);
         m_CloudRight = new GameSprite(gv, R.drawable.kumo2);
 
-        m_ScaleSpeed = 0.001;
+        m_ScaleSpeed = 0.0012;
 
         reset();
     }
 
     @Override
     public void update(){
+
         // left cloud
         m_CloudLeft.setScaleX( m_CloudLeft.getScaleX() - m_ScaleSpeed );
         m_CloudLeft.setScaleY( m_CloudLeft.getScaleY() - m_ScaleSpeed );
@@ -54,6 +61,7 @@ public class scene_BackMain extends Task{
             m_ScaleSpeed *= -1;
         }
 
+
         // right cloud
         m_CloudRight.setScaleX( m_CloudRight.getScaleX() - m_ScaleSpeed );
         m_CloudRight.setScaleY( m_CloudRight.getScaleY() - m_ScaleSpeed );
@@ -65,6 +73,7 @@ public class scene_BackMain extends Task{
             m_CloudRight.setScaleY( MAX_SCALE );
             m_ScaleSpeed *= -1;
         }
+
     }
 
     @Override
@@ -86,10 +95,10 @@ public class scene_BackMain extends Task{
             m_BackGroundMain.draw(c);
         }
         if (m_CloudLeft != null){
-            m_CloudLeft.draw( c, 239, 457 );
+            m_CloudLeft.draw( c, CL_L_X, CL_L_Y );
         }
         if (m_CloudRight != null){
-            m_CloudRight.draw( c, 484, 399 );
+            m_CloudRight.draw( c, CL_R_X, CL_R_Y );
         }
     }
 

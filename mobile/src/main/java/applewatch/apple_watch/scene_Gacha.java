@@ -38,6 +38,9 @@ public class scene_Gacha extends Task {
     // define sprite position
     private final int H1_Y = 140;
 
+    // define fade in speed
+    private final int FADE_IN_SPEED = 40;
+
     // constract
     public scene_Gacha(GameView gv, int prio){
         super(prio);
@@ -64,8 +67,7 @@ public class scene_Gacha extends Task {
         m_bBack = false;
         m_iTouchAciton = GachaMessage.ACT_NOTHING;
 
-        int w = m_GameView.getWidth();
-        int h = m_GameView.getHeight();
+        m_H1.setAlpha(0);
 
         setTouchable( true );
         Log.d("TEST", "scene_Gacha::Reset");
@@ -93,6 +95,9 @@ public class scene_Gacha extends Task {
 
     @Override
     public void update() {
+        if( m_H1 != null ){
+            m_H1.fade_in( FADE_IN_SPEED );
+        }
 
         if( m_GachaMessage != null ) {
             m_GachaMessage.update();

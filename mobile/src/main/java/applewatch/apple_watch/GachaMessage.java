@@ -17,9 +17,9 @@ public class GachaMessage {
     private GameView m_GameView;
 
     // define Sprite Position from center
-    private final int YES_NO_Y = 150;
-    private final int YES_X = 140;
-    private final int NO_X = 80;
+    private final int YES_NO_Y = 700;
+    private final int YES_X = 220;
+    private final int NO_X = 420;
 
     // action id
     private int m_ActionID;
@@ -48,6 +48,16 @@ public class GachaMessage {
 
     public void reset(){
         // set sprites
+        m_GachaMsgBack.setScaleX(0);
+        m_GachaMsgBack.setScaleY(0);
+
+        m_GachaYes.setScaleX(0);
+        m_GachaYes.setScaleY(0);
+
+        m_GachaNo.setScaleX(0);
+        m_GachaNo.setScaleY(0);
+
+        /*
         m_GachaMsgBack.alignCenterHorizontal();
         m_GachaMsgBack.alignCenterVertical();
 
@@ -60,30 +70,30 @@ public class GachaMessage {
         m_GachaNo.alignCenterVertical();
         m_GachaNo.setY( m_GachaNo.getY() + YES_NO_Y );
         m_GachaNo.setX( m_GachaNo.getX() + NO_X );
+        */
     }
 
     public void update(){
-        /*
-        if( m_GachaYes != null && m_GachaYes.getTouch() ){
-            m_ActionID = ACT_YES;
-            Log.d("GachaMsg","act_yes");
+        if( m_GachaMsgBack != null ){
+            m_GachaMsgBack.zoom(0.4);
         }
-        if( m_GachaNo != null && m_GachaNo.getTouch() ){
-            m_ActionID = ACT_NO;
-            Log.d("GachaMsg","act_no");
+        if( m_GachaYes != null ){
+            m_GachaYes.zoom(0.4);
         }
-        */
+        if( m_GachaNo != null ){
+            m_GachaNo.zoom(0.4);
+        }
     }
 
     public void draw(Canvas c){
         if( m_GachaMsgBack != null){
-            m_GachaMsgBack.draw(c);
+            m_GachaMsgBack.draw( c, 320, 600 );
         }
         if( m_GachaYes != null){
-            m_GachaYes.draw(c);
+            m_GachaYes.draw( c, YES_X, YES_NO_Y );
         }
         if( m_GachaNo != null){
-            m_GachaNo.draw(c);
+            m_GachaNo.draw( c, NO_X, YES_NO_Y );
         }
     }
 
@@ -107,6 +117,7 @@ public class GachaMessage {
     // getter
     public int getAction(){ return m_ActionID; }
     public boolean getDisplay(){ return m_bDisplay; }
+    public GameSprite getGachaNo(){ return m_GachaNo; }
 
     // setter
     public void setDisplay( boolean disp ){ m_bDisplay = disp; }

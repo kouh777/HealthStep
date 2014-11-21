@@ -31,19 +31,19 @@ public class gacha_Animation {
     // in this case, count time line with myself so I want to count time automatically
     private final int DELAY_TIME = 10;  // gacha delay time
     private final int CLOUD_MIN_FADEOUT_TIME = 14;
-    private final int CLOUD_BIG_FADEOUT_TIME = 24;
-    private final int CAPSEL_TOP_OPEN_START_TIME = 28;
-    private final int CAPSEL_TOP_OPEN_END_TIME = 30;
-    private final int SPOT_LIGHT_START_TIME = 36;
-    private final int CAPSEL_TOP_FADEOUT_TIME = 54;
-    private final int ALL_ANIMATION_END_TIME = 60;
+    private final int CLOUD_BIG_FADEOUT_TIME = 22;
+    private final int CAPSEL_TOP_OPEN_START_TIME = 26;
+    private final int CAPSEL_TOP_OPEN_END_TIME = 28;
+    private final int SPOT_LIGHT_START_TIME = 34;
+    private final int CAPSEL_TOP_FADEOUT_TIME = 46;
+    private final int ALL_ANIMATION_END_TIME = 52;
 
     // define speed
     private final int CLOUD_MIN_DOWN_SPEED = 20;
     private final int CLOUD_BIG_UP_SPEED = 40;
     private final int CAPSEL_TOP_OPEN_START_SPEED = 1;
     private final int CAPSEL_TOP_OPEN_SPEED = 2;
-    private final int CAPSEL_TOP_OPEN_AFTER_SPEED = 8;
+    private final int CAPSEL_TOP_OPEN_AFTER_SPEED = 10;
 
     // define alpha value
     private final int ALPHA_TRANSPARENT = 255;
