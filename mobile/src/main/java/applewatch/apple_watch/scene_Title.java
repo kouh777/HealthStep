@@ -90,7 +90,7 @@ public class scene_Title extends Task{
                 return;
             } else {
                 Log.d("Title", "get Touch action");
-                new scene_Menu(m_GameView, 22);
+                new scene_PlayerInput(m_GameView, 22);
                 m_bMove = true;
             }
         }

@@ -35,7 +35,7 @@ public class scene_Menu extends Task{
     private final int H1_Y = 140;
 
     // define fade in speed
-    private final int FADE_IN_SPED = 40;
+    private final int FADE_IN_SPEED = 40;
 
     // for test
 //    private boolean m_bSceneEnd;
@@ -98,9 +98,10 @@ public class scene_Menu extends Task{
             m_Character.update();
         }
         if( m_H1 != null ){
-            m_H1.fade_in( FADE_IN_SPED );
-//            m_H1.slideInX(0);
-//            m_H1.setX( m_H1.getX() + 5);
+            m_H1.fade_in( FADE_IN_SPEED );
+        }
+        if( m_MessageCharacter != null ){
+            m_MessageCharacter.update();
         }
     }
 

@@ -53,6 +53,7 @@ public class scene_PlayerInput extends Task{
         m_bMove = false;
 
         setTouchable( true );
+        PlayerData.getInstance().setUnlockCharacter(0,true);
 
         Log.d("TEST", "New PlayerInput Class");
     }
@@ -104,7 +105,8 @@ public class scene_PlayerInput extends Task{
                 m_InputSprite.touch(event);
                 if( m_InputSprite.getTouch() ){
                     onButtonClick();
-//                    m_bMove = true;
+                    m_bMove = true;
+                    new scene_Menu(  m_GameView, 24);
                 }
             }
         }

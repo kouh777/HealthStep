@@ -14,15 +14,16 @@ public class GameSprite {
     protected GameView m_GameView;
     protected BitmapDrawable m_ImageResource;
 
-    protected int m_iPosX;
-    protected int m_iPosY;
-    protected int m_iWidth;
-    protected int m_iHeight;
+    protected int m_iPosX;      // position X
+    protected int m_iPosY;      // position Y
+    protected int m_iWidth;     // width
+    protected int m_iHeight;    // height
 
-    private boolean m_bTouch;
+    private boolean m_bTouch;   // touch flag
 
-    protected double m_dScaleX;
-    protected double m_dScaleY;
+    protected double m_dScaleX; // scale X
+    protected double m_dScaleY; // scale Y
+
     protected int m_iAlpha;   // in API9, I can't use  BitmapDrawable.getAlpha(), so create this
 
     // centering flag
@@ -293,6 +294,27 @@ public class GameSprite {
         }
     }
 
+    //
+    public void zoomIn( AnimKind kind, double speed , double max_scale){
+        if( kind == AnimKind.ANIM_SX ) {
+            if (m_dScaleX < max_scale) {
+                m_dScaleX += speed;
+            }
+            if (m_dScaleX > max_scale) {
+                m_dScaleX = max_scale;
+            }
+        }
+        if( kind == AnimKind.ANIM_SY ){
+            if (m_dScaleY < max_scale) {
+                m_dScaleY += speed;
+            }
+            if (m_dScaleY > max_scale) {
+                m_dScaleY = max_scale;
+            }
+        }
+    }
+
+    // zoom out image
     public void zoom_out( double speed ){
         m_dScaleX -= speed;
         m_dScaleY -= speed;

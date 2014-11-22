@@ -9,52 +9,97 @@ import android.graphics.drawable.BitmapDrawable;
  * Created by KOUHO on 2014/11/06.
  */
 public class MessageCharacter {
-    private BitmapDrawable m_MessageBackGround;
+    private GameSprite m_MsgBg;
     private String m_MessageStr;
     private GameView m_GameView;
     private int m_iPosX;
     private int m_iPosY;
     private final int m_FontSize = 30;
 
+    // game texts
+    private GameText m_WhetherText;
+    private GameText m_YellText;
+
+    // text draw flag
+    private boolean m_bTextFlg;
+    private boolean m_bTextYellFlg;
+
+    // text index
+    private int m_iTextIndex;
+
+    // text date
+    String StrWhether = "おはよう！いい天気だね！";    // Hello and Whether
+    String StrYell = "今日も元気にいこう。";        // Yell For
+
+    // define char array size
+    private final int DISP_BUFFER_SIZE = 32;
+
+    // define Sprite Scale
+    private final double BG_SX = 0.9;
+    private final double BG_SY = 1.1;
+
+    // define zoom speed
+    private final double ZOOM_SPEED =0.2;
+
     public MessageCharacter(GameView gv, int posX, int posY){
         m_GameView = gv;
         m_iPosX = posX;
         m_iPosY = posY;
+        m_bTextFlg =false;
 
-        // message box resource
-        m_MessageBackGround = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.hukidasi);
+        m_iTextIndex = 0;
+        m_bTextYellFlg = false;
 
+        // sprite
+        m_MsgBg = new GameSprite( gv, posX , posY,  R.drawable.hukidasi, BG_SX, 0, 255 );
+
+        // text
+        m_WhetherText = new GameText( gv, DISP_BUFFER_SIZE, posX + 20, posY + 108 );
+        m_YellText = new GameText( gv, DISP_BUFFER_SIZE, posX + 20, posY + 148 );
+    }
+
+    public void update(){
+        if( m_MsgBg != null ){
+            m_MsgBg.zoomIn( AnimKind.ANIM_SY , ZOOM_SPEED, BG_SY);
+            if( m_MsgBg.getScaleY() >= BG_SY ){
+                m_bTextFlg = true;
+            }
+        }
+        if( m_bTextFlg ){
+            if( !m_bTextYellFlg && m_iTextIndex < StrWhether.length() ){
+                // set setring
+                m_WhetherText.setText( StrWhether.charAt(m_iTextIndex), m_iTextIndex );
+                m_iTextIndex++;
+            } else if( !m_bTextYellFlg && m_iTextIndex >= StrWhether.length() )  {
+                m_bTextYellFlg = true;
+                m_iTextIndex = 0;
+            }
+            if( m_bTextYellFlg ){
+                if( m_iTextIndex < StrYell.length() ){
+                    // set setring
+                    m_YellText.setText( StrYell.charAt(m_iTextIndex), m_iTextIndex );
+                }
+                m_iTextIndex++;
+            }
+        }
+        if( m_WhetherText != null ){
+            m_WhetherText.update();
+        }
+        if( m_YellText != null ){
+            m_YellText.update();
+        }
     }
 
     public void draw(Canvas c){
-        double x = m_iPosX * m_GameView.getGamePerWidth();
-        double y = m_iPosY * m_GameView.getGamePerHeight();
-        double w = x + m_MessageBackGround.getIntrinsicWidth()  * m_GameView.getGamePerWidth();
-        double h = y + m_MessageBackGround.getIntrinsicHeight() * m_GameView.getGamePerHeight();
-        double sx = 0.82;
-        double sy = 0.19;
-
-        if (m_MessageBackGround != null) {
-            m_MessageBackGround.setBounds(
-                    (int)x,
-                    (int)y,
-                    (int)( x + (w * sx) ),
-                    (int)( y + (h * sy) )
-            );
-            m_MessageBackGround.draw(c);
+        // draw sprite
+        if( m_MsgBg != null ){
+            m_MsgBg.draw(c);
         }
-        double paddingX =  20 * m_GameView.getGamePerWidth();
-        double paddingY = 108 * m_GameView.getGamePerHeight();
-
-        // text display for test
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-
-        String str1 = "おはよう！いい天気だね！";    // Hello and Whether
-        String str2 = "今日も元気にいこう。";        // Yell For
-        paint.setTextSize(m_FontSize);
-        paint.setColor(Color.BLACK);
-        c.drawText( str1, (int)(x + paddingX), (int)(y + paddingY), paint );
-        c.drawText( str2, (int)(x + paddingX), (int)(y + paddingY + 40), paint );
+        if( m_WhetherText != null ){
+            m_WhetherText.draw(c);
+        }
+        if( m_YellText != null ){
+            m_YellText.draw(c);
+        }
     }
 }
