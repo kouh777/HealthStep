@@ -60,6 +60,16 @@ public class PlayerData{
         return false;
     }
 
+    // empty
+    public boolean isUnlockChr(){
+        for( int i = 0; i < UnlockCharacter.length ; ++i){
+            if( UnlockCharacter[i] ){
+                return true;
+            }
+        }
+        return false;
+    }
+
     // getter
     public int getSelectCharacter(){
         return m_iSelectCharacter;

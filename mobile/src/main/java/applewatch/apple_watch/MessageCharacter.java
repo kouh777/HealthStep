@@ -10,11 +10,9 @@ import android.graphics.drawable.BitmapDrawable;
  */
 public class MessageCharacter {
     private GameSprite m_MsgBg;
-    private String m_MessageStr;
     private GameView m_GameView;
     private int m_iPosX;
     private int m_iPosY;
-    private final int m_FontSize = 30;
 
     // game texts
     private GameText m_WhetherText;
@@ -37,6 +35,16 @@ public class MessageCharacter {
     // define zoom speed
     private final double ZOOM_SPEED =0.2;
 
+    // character voice
+    private GameSound m_CharVoiceHello;
+    private GameSound m_CharVoiceWhether;
+    private GameSound m_CharVoiceYell;
+
+    // voice flags
+    private boolean m_bHello;
+    private boolean m_bWhether;
+    private boolean m_bYell;
+
     public MessageCharacter(GameView gv, int posX, int posY){
         m_GameView = gv;
         m_iPosX = posX;
@@ -53,6 +61,19 @@ public class MessageCharacter {
         // set
         m_WhetherText.setType(true);
         m_YellText.setType(true);
+        m_YellText.setWait(true);
+
+        // if unlock character is nothing
+        if( PlayerData.getInstance().getSelectCharacter() == menu_Character.CHAR_AKEMI_ID ) {
+            m_CharVoiceHello = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.akemi_hello_morinomoko);
+            m_CharVoiceWhether = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.akemi_whether_morinomoko);
+            m_CharVoiceYell = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.akemi_yell_morinomoko);
+        }
+
+        //
+        m_bHello = false;
+        m_bWhether = false;
+        m_bYell = false;
     }
 
     public void update(){
@@ -63,10 +84,25 @@ public class MessageCharacter {
             }
         }
         if( m_bTextFlg ){
+            // play sound voice
+            if( !m_bHello && m_CharVoiceHello != null ) {
+                m_CharVoiceHello.play();
+                m_bHello = true;
+            }
+            if( m_bHello && !m_CharVoiceHello.getIsPlaying() ){
+                m_CharVoiceWhether.play();
+                m_bWhether = true;
+            }
+            if( m_bWhether && !m_CharVoiceWhether.getIsPlaying() ){
+                m_CharVoiceYell.play();
+                m_bYell = true;
+            }
+
             if( m_WhetherText.getType() ) {
                 m_WhetherText.type_anim(StrWhether);
-            }else{
+            }else if( m_bWhether ){
                 m_YellText.type_anim(StrYell);
+                m_YellText.add_wait(10);
             }
         }
         if( m_WhetherText != null ){

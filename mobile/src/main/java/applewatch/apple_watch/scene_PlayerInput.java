@@ -54,7 +54,7 @@ public class scene_PlayerInput extends Task{
 
         setTouchable( true );
         PlayerData.getInstance().setUnlockCharacter(0,true);
-
+        PlayerData.getInstance().setSelectCharacter( menu_Character.CHAR_AKEMI_ID );
         Log.d("TEST", "New PlayerInput Class");
     }
 

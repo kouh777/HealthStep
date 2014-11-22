@@ -42,6 +42,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     // game back ground.this image size is base of screen size
     BitmapDrawable m_GameScr;
 
+    // backgroun_music
+    private GameSound m_GameBgm;
+
+
     private boolean m_bSceneFlg;
 
     public GameView(Context context){

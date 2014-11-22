@@ -18,9 +18,15 @@ public class GameText {
     protected Paint m_Paint;             // paint
     protected char[] m_CharBuffer;     // drawing char[]
 
-    protected boolean m_bDisplay;       // display f;ag
-    protected int m_iIndex;
+    protected boolean m_bDisplay;       // display flag
+
+    // relation to typing text
+    protected int m_iIndex;             // typing text index
     protected boolean m_bType;          // typing animation flag
+
+    // relation to wait
+    protected int m_iTimer;
+    protected boolean m_bWait;
 
     // define default text size
     protected final int DEFAULT_TEXT_SIZE = 30;
@@ -35,6 +41,8 @@ public class GameText {
         m_iIndex = 0;
         m_bDisplay = false;
         m_bType = false;
+        m_iTimer = 0;
+        m_bWait = false;
 
         // set default paint
         m_Paint = new Paint();
@@ -52,6 +60,8 @@ public class GameText {
         m_iIndex = 0;
         m_bDisplay = false;
         m_bType = false;
+        m_iTimer = 0;
+        m_bWait = false;
 
         // set default paint
         m_Paint = new Paint();
@@ -77,9 +87,16 @@ public class GameText {
         if( m_iIndex >= type_str.length() ){
             m_bType = false;
         }
-        if( m_bType ){
+        if( m_bType && !m_bWait ){
             setText( type_str, m_iIndex );
             m_iIndex++;
+        }
+    }
+
+    public void add_wait( int wait_time ){
+        if( m_iTimer++ >= wait_time ){
+            m_bWait = false;
+            m_iTimer = 0;
         }
     }
 
@@ -127,6 +144,7 @@ public class GameText {
     public void setX( int x ){ m_iPosX = x; }
     public void setY( int y ){ m_iPosY = y; }
     public void setType( boolean type_flg ){ m_bType = type_flg; }
+    public void setWait( boolean wait_flg ){ m_bWait = wait_flg; }
 
     // gettter
     public int getX(){ return m_iPosX; }
