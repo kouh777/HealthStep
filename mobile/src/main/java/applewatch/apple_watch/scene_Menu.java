@@ -37,9 +37,6 @@ public class scene_Menu extends Task{
     // define fade in speed
     private final int FADE_IN_SPEED = 40;
 
-    // for test
-//    private boolean m_bSceneEnd;
-
     // constract
     public scene_Menu(GameView gv, int prio){
         super(prio);
@@ -48,14 +45,6 @@ public class scene_Menu extends Task{
         int w = gv.getGameWidth();
         int h = gv.getGameHeight();
 
-        /*
-        // mail
-        m_Mail = new GameSprite(gv, MAIL_X, MAIL_SETTING_Y, R.drawable.mail);
-
-        // setting
-        m_Setting = new GameSprite( gv, SETTING_X, MAIL_SETTING_Y, R.drawable.settei );
-        */
-
         // message
         m_MessageCharacter = new MessageCharacter(gv, 50, 775);
 
@@ -63,8 +52,6 @@ public class scene_Menu extends Task{
         m_btn_Walk = new btn_Walk(gv, (w>>2)*3, h-(w>>1));
         m_Character = new menu_Character(gv, 100, 350);
         m_numImage = new numImage(gv,100,100,1.0f);
-
-//        m_bSceneEnd = false;
 
         // common
         m_H1 = new GameSprite(gv, 0, H1_Y, R.drawable.h1_mypage);

@@ -22,10 +22,6 @@ public class MessageCharacter {
 
     // text draw flag
     private boolean m_bTextFlg;
-    private boolean m_bTextYellFlg;
-
-    // text index
-    private int m_iTextIndex;
 
     // text date
     String StrWhether = "おはよう！いい天気だね！";    // Hello and Whether
@@ -47,15 +43,16 @@ public class MessageCharacter {
         m_iPosY = posY;
         m_bTextFlg =false;
 
-        m_iTextIndex = 0;
-        m_bTextYellFlg = false;
-
         // sprite
         m_MsgBg = new GameSprite( gv, posX , posY,  R.drawable.hukidasi, BG_SX, 0, 255 );
 
         // text
         m_WhetherText = new GameText( gv, DISP_BUFFER_SIZE, posX + 20, posY + 108 );
         m_YellText = new GameText( gv, DISP_BUFFER_SIZE, posX + 20, posY + 148 );
+
+        // set
+        m_WhetherText.setType(true);
+        m_YellText.setType(true);
     }
 
     public void update(){
@@ -66,20 +63,10 @@ public class MessageCharacter {
             }
         }
         if( m_bTextFlg ){
-            if( !m_bTextYellFlg && m_iTextIndex < StrWhether.length() ){
-                // set setring
-                m_WhetherText.setText( StrWhether.charAt(m_iTextIndex), m_iTextIndex );
-                m_iTextIndex++;
-            } else if( !m_bTextYellFlg && m_iTextIndex >= StrWhether.length() )  {
-                m_bTextYellFlg = true;
-                m_iTextIndex = 0;
-            }
-            if( m_bTextYellFlg ){
-                if( m_iTextIndex < StrYell.length() ){
-                    // set setring
-                    m_YellText.setText( StrYell.charAt(m_iTextIndex), m_iTextIndex );
-                }
-                m_iTextIndex++;
+            if( m_WhetherText.getType() ) {
+                m_WhetherText.type_anim(StrWhether);
+            }else{
+                m_YellText.type_anim(StrYell);
             }
         }
         if( m_WhetherText != null ){

@@ -19,7 +19,7 @@ public class GameText {
     protected char[] m_CharBuffer;     // drawing char[]
 
     protected boolean m_bDisplay;       // display f;ag
-    protected int m_iTextIndex;
+    protected int m_iIndex;
     protected boolean m_bType;          // typing animation flag
 
     // define default text size
@@ -32,6 +32,7 @@ public class GameText {
         m_CharBuffer = new char[char_buffer.length];
         m_CharBuffer = char_buffer;
 
+        m_iIndex = 0;
         m_bDisplay = false;
         m_bType = false;
 
@@ -48,6 +49,7 @@ public class GameText {
         m_iPosY = (int)( posY * gv.getGamePerHeight() );
         m_CharBuffer = new char[buffer_size];
 
+        m_iIndex = 0;
         m_bDisplay = false;
         m_bType = false;
 
@@ -67,6 +69,17 @@ public class GameText {
     public void draw( Canvas c ){
         if( !m_bDisplay && m_CharBuffer != null) {
             c.drawText(String.valueOf(m_CharBuffer), m_iPosX, m_iPosY, m_Paint);
+        }
+    }
+
+    // this method can be used in update method
+    public void type_anim( String type_str ){
+        if( m_iIndex >= type_str.length() ){
+            m_bType = false;
+        }
+        if( m_bType ){
+            setText( type_str, m_iIndex );
+            m_iIndex++;
         }
     }
 
