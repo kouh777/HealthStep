@@ -8,11 +8,19 @@ import android.view.MotionEvent;
 /**
  * Created by KOUHO on 2014/11/14.
  */
+
+//--------------------------------------------------
 // Game Sprite Base Class
+// if you draw images, use this class.
+// this class is same to mobile's GameSprite class
+//---------------------------------------------------
+
 public class GameSprite {
 
     private GameView m_GameView;
     private BitmapDrawable m_ImageResource;
+    private SpriteId    m_SpriteId;
+    private Object m_Obj = new Object(); //for synchonize
 
     private int m_iPosX;
     private int m_iPosY;
@@ -39,8 +47,9 @@ public class GameSprite {
     private boolean m_bDisplay;
 
     // easily constructer
-    public GameSprite(GameView gv, int img){
+    public GameSprite(GameView gv, SpriteId id, int img){
         m_GameView = gv;
+        m_SpriteId = id;
         m_bTouch = false;
         m_iPosX = 0;
         m_iPosY = 0;
@@ -70,8 +79,9 @@ public class GameSprite {
     }
 
     // main constructor
-    public GameSprite(GameView gv, int posX, int posY, int img){
+    public GameSprite(GameView gv, SpriteId id,int posX, int posY, int img){
         m_GameView = gv;
+        m_SpriteId = id;
         m_bTouch = false;
         m_iPosX = posX;
         m_iPosY = posY;
@@ -101,8 +111,9 @@ public class GameSprite {
     }
 
     // detail constructor
-    public GameSprite(GameView gv, int posX, int posY, int img, double scaleX, double scaleY, int alpha){
+    public GameSprite(GameView gv, SpriteId id,int posX, int posY, int img, double scaleX, double scaleY, int alpha){
         m_GameView = gv;
+        m_SpriteId = id;
         m_bTouch = false;
         m_iPosX = posX;
         m_iPosY = posY;
@@ -130,53 +141,57 @@ public class GameSprite {
     }
 
     public void draw(Canvas c){
-        if( m_ImageResource != null){
-            int w = m_ImageResource.getIntrinsicWidth();
-            int h = m_ImageResource.getIntrinsicHeight();
+        synchronized (m_Obj) {
+            if (m_ImageResource != null) {
+                int w = m_ImageResource.getIntrinsicWidth();
+                int h = m_ImageResource.getIntrinsicHeight();
 
-            // scaling and fetch to Surface
-            w = (int)(w * m_dScaleX * m_GameView.getGamePerWidth());
-            h = (int)(h * m_dScaleY * m_GameView.getGamePerHeight());
+                // scaling and fetch to Surface
+                w = (int) (w * m_dScaleX * m_GameView.getGamePerWidth());
+                h = (int) (h * m_dScaleY * m_GameView.getGamePerHeight());
 
-            m_iWidth = w;
-            m_iHeight = h;
+                m_iWidth = w;
+                m_iHeight = h;
 
-            if( m_bDisplay ){
-                m_ImageResource.setBounds(
-                        m_iPosX + m_iPaddingLeft,
-                        m_iPosY + m_iPaddingTop,
-                        m_iPosX + w - m_iPaddingLeft - m_iPaddingRight,
-                        m_iPosY + h - m_iPaddingTop - m_iPaddingBottom
-                );
-                m_ImageResource.setAlpha(m_iAlpha);
-                m_ImageResource.draw(c);
+                if (m_bDisplay) {
+                    m_ImageResource.setBounds(
+                            m_iPosX + m_iPaddingLeft,
+                            m_iPosY + m_iPaddingTop,
+                            m_iPosX + w - m_iPaddingLeft - m_iPaddingRight,
+                            m_iPosY + h - m_iPaddingTop - m_iPaddingBottom
+                    );
+                    m_ImageResource.setAlpha(m_iAlpha);
+                    m_ImageResource.draw(c);
+                }
             }
         }
     }
 
     // receive center ( X,Y ) and draw from center;
     public void draw(Canvas c, int cx, int cy){
-        if( m_ImageResource != null ) {
-            int w = m_GameView.getWidth();
-            int h = m_GameView.getHeight();
-            int ww = m_ImageResource.getIntrinsicWidth();
-            int hh = m_ImageResource.getIntrinsicHeight();
-            int cpx = (int) (cx * m_GameView.getGamePerWidth());
-            int cpy = (int) (cy * m_GameView.getGamePerHeight());
+        synchronized (m_Obj) {
+            if (m_ImageResource != null) {
+                int w = m_GameView.getWidth();
+                int h = m_GameView.getHeight();
+                int ww = m_ImageResource.getIntrinsicWidth();
+                int hh = m_ImageResource.getIntrinsicHeight();
+                int cpx = (int) (cx * m_GameView.getGamePerWidth());
+                int cpy = (int) (cy * m_GameView.getGamePerHeight());
 
-            ww = (int) (ww * m_dScaleX * m_GameView.getGamePerWidth());
-            hh = (int) (hh * m_dScaleY * m_GameView.getGamePerHeight());
-            int x = cpx - (ww >> 1);
-            int y = cpy - (hh >> 1);
+                ww = (int) (ww * m_dScaleX * m_GameView.getGamePerWidth());
+                hh = (int) (hh * m_dScaleY * m_GameView.getGamePerHeight());
+                int x = cpx - (ww >> 1);
+                int y = cpy - (hh >> 1);
 
-            if( m_bDisplay ){
-                m_ImageResource.setBounds(
-                        x + m_iPaddingLeft,
-                        y + m_iPaddingTop,
-                        x + ww - m_iPaddingLeft - m_iPaddingRight,
-                        y + hh - m_iPaddingTop - m_iPaddingBottom
-                );
-                m_ImageResource.draw(c);
+                if (m_bDisplay) {
+                    m_ImageResource.setBounds(
+                            x + m_iPaddingLeft,
+                            y + m_iPaddingTop,
+                            x + ww - m_iPaddingLeft - m_iPaddingRight,
+                            y + hh - m_iPaddingTop - m_iPaddingBottom
+                    );
+                    m_ImageResource.draw(c);
+                }
             }
         }
     }
@@ -192,10 +207,10 @@ public class GameSprite {
             if( x > m_iPosX && x < m_iPosX + m_iWidth &&
                     y > m_iPosY && y < m_iPosY + m_iHeight){
                 m_bTouch = true;
-                Log.d("GameSprite", "m_bTouch = true");
+//                Log.d("GameSprite", "m_bTouch = true");
             }else{
                 m_bTouch = false;
-                Log.d("GameSprite", "m_bTouch = false");
+//                Log.d("GameSprite", "m_bTouch = false");
                 return;
             }
         }
@@ -279,14 +294,13 @@ public class GameSprite {
     public double getScaleY(){ return m_dScaleY; }
     public int getAlpha(){ return m_iAlpha;}
     public boolean getTouch(){ return m_bTouch; }
+    public SpriteId getId(){ return m_SpriteId; }
 
     // setter
     public void setX(int mx){
-        m_iPosX = (int)( mx * m_GameView.getGamePerWidth() );
+        m_iPosX = mx;
     }
-    public void setY(int my){
-        m_iPosY = (int)( my * m_GameView.getGamePerHeight() );
-    }
+    public void setY(int my){ m_iPosY = my; }
     public void setScaleX(double sx){ m_dScaleX = sx; }
     public void setScaleY(double sy){ m_dScaleY = sy; }
     public void setAlpha(int alpha){ m_iAlpha = alpha; }

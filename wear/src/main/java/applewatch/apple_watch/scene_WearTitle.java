@@ -2,7 +2,11 @@ package applewatch.apple_watch;
 
 import android.graphics.Canvas;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
+
+import java.util.List;
+import java.util.Vector;
 
 /**
  * Created by KOUHO on 2014/11/16.
@@ -10,18 +14,9 @@ import android.view.MotionEvent;
 public class scene_WearTitle extends Task{
     private boolean m_bMove;
     private GameView m_GameView;
+    private Object m_Obj;
 
-    // sprites
-    private GameSprite m_TitleBack;
-    private GameSprite m_TitleLogo;
-    private GameSprite m_icoBeat;
-    private GameSprite m_chrBeat;
-    private GameSprite m_icoWalk;
-    private GameSprite m_chrWalk;
-    private GameSprite m_icoRanking;
-    private GameSprite m_chrRanking;
-    private GameSprite m_icoSetting;
-    private GameSprite m_chrSetting;
+    private Vector<GameSprite> m_GameSprites; // manage all sprite. all sprites have their specific id
 
     // define sprites position
     private final int BACK_Y = 0;
@@ -43,22 +38,33 @@ public class scene_WearTitle extends Task{
     // for animation
     private int m_iTimer;
 
+    private boolean m_bSnatch;
+
+    private int[] m_iSpritePositions;
+    private final int SP_MAX_SIZE = 16;
+
+    private int m_iTouchY;
+    private boolean m_bIcoWalk;
+    private GameCamera m_GameCamera;
+
+
     // constract
     public scene_WearTitle(GameView gv, int prio){
         super(prio);
         m_GameView = gv;
+        m_GameCamera = new GameCamera();
 
-        // sprites
-        m_TitleLogo = new GameSprite( gv,R.drawable.game_name );
-        m_TitleBack = new GameSprite( gv,R.drawable.name_waku );
-        m_icoBeat = new GameSprite( gv, ICO_X , ICO_BEAT_Y , R.drawable.sinpakusuu_icon );
-        m_chrBeat = new GameSprite( gv, 0 , CHR_BEAT_Y , R.drawable.sinpakusuu_moji );
-        m_icoWalk = new GameSprite( gv, ICO_X , ICO_WALK_Y , R.drawable.souhosu_icon );
-        m_chrWalk = new GameSprite( gv, 0 , CHR_WALK_Y , R.drawable.souhosu_moji );
-        m_icoRanking = new GameSprite( gv, ICO_X , ICO_RANK_Y , R.drawable.ranking_icon );
-        m_chrRanking = new GameSprite( gv, 0 , CHR_RANK_Y , R.drawable.ranking_moji );
-        m_icoSetting = new GameSprite( gv, ICO_X , ICO_SETT_Y , R.drawable.settei_icon );
-        m_chrSetting = new GameSprite( gv, 0 , CHR_SETT_Y , R.drawable.settei_moji );
+        m_GameSprites = new Vector<GameSprite>();
+        m_GameSprites.add( new GameSprite( gv, SpriteId.SP_BACK, R.drawable.name_waku ) );
+        m_GameSprites.add( new GameSprite( gv, SpriteId.SP_LOGO, R.drawable.game_name ) );
+        m_GameSprites.add( new GameSprite( gv, SpriteId.SP_ICO_BEAT, ICO_X , ICO_BEAT_Y , R.drawable.sinpakusuu_icon ) );
+        m_GameSprites.add( new GameSprite( gv, SpriteId.SP_CHR_BEAT, 0 , CHR_BEAT_Y , R.drawable.sinpakusuu_moji ) );
+        m_GameSprites.add( new GameSprite( gv, SpriteId.SP_ICO_WALK, ICO_X , ICO_WALK_Y , R.drawable.souhosu_icon ) );
+        m_GameSprites.add( new GameSprite( gv, SpriteId.SP_CHR_WALK, 0 , CHR_WALK_Y , R.drawable.souhosu_moji ) );
+        m_GameSprites.add( new GameSprite( gv, SpriteId.SP_ICO_RANK, ICO_X , ICO_RANK_Y , R.drawable.ranking_icon ) );
+        m_GameSprites.add( new GameSprite( gv, SpriteId.SP_CHR_RANK, 0 , CHR_RANK_Y , R.drawable.ranking_moji ) );
+        m_GameSprites.add( new GameSprite( gv, SpriteId.SP_ICO_SETT, ICO_X , ICO_SETT_Y , R.drawable.settei_icon ) );
+        m_GameSprites.add( new GameSprite( gv, SpriteId.SP_CHR_SETT, 0 , CHR_SETT_Y , R.drawable.settei_moji ) );
 
         reset();
     }
@@ -67,28 +73,46 @@ public class scene_WearTitle extends Task{
     public void    reset(){
         m_iTimer = 0;
         m_bMove = false;
-        // set position
-        if( m_TitleLogo != null){
-            m_TitleLogo.alignCenterHorizontal();
-            m_TitleLogo.setY( m_TitleLogo.getY() + LOGO_Y );
-        }
-        if( m_chrBeat != null ){
-            m_chrBeat.alignCenterHorizontal();
-            m_chrBeat.setX( m_chrBeat.getX() + CHR_X );
-        }
-        if( m_chrWalk != null ){
-            m_chrWalk.alignCenterHorizontal();
-            m_chrWalk.setX( m_chrWalk.getX() + CHR_X );
-        }
-        if( m_chrRanking != null ){
-            m_chrRanking.alignCenterHorizontal();
-            m_chrRanking.setX( m_chrRanking.getX() + CHR_X );
-        }
-        if( m_chrSetting != null ){
-            m_chrSetting.alignCenterHorizontal();
-            m_chrSetting.setX( m_chrSetting.getX() + CHR_X );
-        }
+        m_bSnatch = false;
+        m_bIcoWalk = false;
+        m_iTouchY = 0;
+        m_Obj = new Object();
 
+        m_iSpritePositions = new int[SP_MAX_SIZE];
+
+        // set sprites
+        if( m_GameSprites != null ) {
+            for (int i = 0; i < m_GameSprites.size(); i++) {
+                GameSprite gs = m_GameSprites.get(i);
+                switch (m_GameSprites.get(i).getId()) {
+                    case SP_LOGO:
+                        gs.alignCenterHorizontal();
+                        gs.setY( gs.getY() + LOGO_Y );
+                        break;
+
+                    case SP_CHR_BEAT:
+                        gs.alignCenterHorizontal();
+                        gs.setX( gs.getX() + CHR_X );
+                        break;
+
+                    case SP_CHR_WALK:
+                        gs.alignCenterHorizontal();
+                        gs.setX( gs.getX() + CHR_X );
+                        break;
+
+                    case SP_CHR_RANK:
+                        gs.alignCenterHorizontal();
+                        gs.setX( gs.getX() + CHR_X );
+                        break;
+
+                    case SP_CHR_SETT:
+                        gs.alignCenterHorizontal();
+                        gs.setX( gs.getX() + CHR_X );
+                        break;
+                }
+
+            }
+        }
         setTouchable( true );
         Log.d("TEST", "New Title Class");
     }
@@ -96,6 +120,14 @@ public class scene_WearTitle extends Task{
     @Override
     public void update(){
         m_iTimer++;
+        m_GameCamera.update();
+        if( m_bIcoWalk ){
+            if(!m_GameCamera.moveToCamera(-120, 15)) {
+                m_GameCamera.setCamera(m_GameSprites, m_iSpritePositions);
+            } else {
+                m_bMove = true;
+            }
+        }
     }
 
     @Override
@@ -107,51 +139,74 @@ public class scene_WearTitle extends Task{
     @Override
     // draw
     public void    draw(Canvas c){
-        if(m_icoBeat != null){
-            m_icoBeat.draw(c);
-        }
-        if(m_chrBeat != null){
-            m_chrBeat.draw(c);
-        }
-        if(m_icoWalk != null){
-            m_icoWalk.draw(c);
-        }
-        if(m_chrWalk != null){
-            m_chrWalk.draw(c);
-        }
-        if(m_icoRanking != null){
-            m_icoRanking.draw(c);
-        }
-        if(m_chrRanking != null){
-            m_chrRanking.draw(c);
-        }
-        if(m_icoSetting != null){
-            m_icoSetting.draw(c);
-        }
-        if(m_chrSetting != null){
-            m_chrSetting.draw(c);
-        }
-        if(m_TitleBack != null){
-            m_TitleBack.draw(c);
-        }
-        if(m_TitleLogo != null){
-            m_TitleLogo.draw(c);
+        if( m_GameSprites != null ) {
+            for (int i = 0; i < m_GameSprites.size(); i++) {
+                if (m_GameSprites.get(i) != null) {
+                    m_GameSprites.get(i).draw(c);
+                }
+            }
         }
     }
 
     @Override
     // touch event
+    // touch
     public void    touch(MotionEvent event){
-        if( getTouchable() ) {
-            // if player don't touch
-            if (event.getAction() != MotionEvent.ACTION_DOWN) {
-                // break
-                return;
-            } else {
-                Log.d("TEST", "get Touch action");
-//                m_bMove = true;
+        int x = (int)event.getX();
+        int y = (int)event.getY();
+
+        switch( event.getAction() ){
+            case MotionEvent.ACTION_DOWN :
+                m_bSnatch = true;
+                saveSpritesPos();
+                m_iTouchY = y;                      // action down y
+                Log.d("getAction()", "ACTION_DOWN");
+                break;
+
+            case  MotionEvent.ACTION_MOVE :
+                if( m_bSnatch ) {
+                    int distance = y - m_iTouchY;               // swipe distance
+                    m_GameCamera.setY(distance);      // set camera position
+                    m_GameCamera.setCamera( m_GameSprites , m_iSpritePositions );
+                }
+                Log.d("getAction()", "ACTION_MOVE");
+                break;
+
+            case MotionEvent.ACTION_UP :
+                Log.d("getAction()", "ACTION_UP");
+                if( m_bSnatch ) {
+                    m_bSnatch = false;
+                }
+                break;
+
+            case MotionEvent.ACTION_CANCEL :
+                Log.d("getAction()", "ACTION_CANCEL");
+                break;
+        }
+
+        if( m_GameSprites != null ) {
+            for (int i = 0; i < m_GameSprites.size(); i++) {
+                if (m_GameSprites.get(i) != null) {
+                    m_GameSprites.get(i).touch(event);
+
+                    // if touch walk
+                    if( m_GameSprites.get(i).getId() == SpriteId.SP_ICO_WALK ){
+                        if( m_GameSprites.get(i).getTouch() ){
+                            m_bIcoWalk = true;
+                            Log.d("ico_walk", "get touch action");
+                        }
+                    }
+                }
             }
         }
     }
 
+    // save sprites positions
+    private void saveSpritesPos(){
+//        synchronized (m_Obj) {
+            for (int i = 0; i < m_GameSprites.size(); i++) {
+                m_iSpritePositions[i] = m_GameSprites.elementAt(i).getY();
+            }
+//        }
+    }
 }

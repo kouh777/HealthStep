@@ -112,6 +112,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
     //
     //  ウィンドウがフォーカスを得た／失った
     public void onWindowFocusChanged(boolean hasWindowFocus) {
+
     }
 
     //
@@ -158,7 +159,6 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
 
     //
     //  Touch イベントの処理
-    boolean mSnatch=false;
     public boolean onTouchEvent(MotionEvent event) {
         TaskManager.getInstance().touch(event);
         return super.onTouchEvent(event);
