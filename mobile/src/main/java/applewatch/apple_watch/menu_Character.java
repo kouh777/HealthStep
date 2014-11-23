@@ -238,4 +238,9 @@ public class menu_Character{
             default: return CHAR_UNKNOWN_ID;
         }
     }
+
+    // getter
+    public CharacterSprite getCharacter(){
+        return m_Character;
+    }
  }

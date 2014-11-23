@@ -46,7 +46,7 @@ public class scene_Menu extends Task{
         int h = gv.getGameHeight();
 
         // message
-        m_MessageCharacter = new MessageCharacter(gv, 50, 775);
+        m_MessageCharacter = new MessageCharacter( this, gv, 50, 775);
 
         // for presentation
         m_btn_Walk = new btn_Walk(gv, (w>>2)*3, h-(w>>1));
@@ -123,6 +123,13 @@ public class scene_Menu extends Task{
                 switch (m_Character.CharacterID) {
                     case menu_Character.CHAR_AKEMI_ID:
                         m_MessageCharacter.draw(c);
+                        break;
+                    case menu_Character.CHAR_BANJYO_ID:
+                        m_MessageCharacter.draw(c);
+                        break;
+                    case menu_Character.CHAR_YUKITO_ID:
+                        m_MessageCharacter.draw(c);
+                        break;
                 }
             }
         }
@@ -149,5 +156,10 @@ public class scene_Menu extends Task{
                 m_btn_Walk.touch(event);
             }
         }
+    }
+
+    // getter
+    public menu_Character getMenuCharacter(){
+        return m_Character;
     }
 }

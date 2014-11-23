@@ -9,11 +9,6 @@ import java.io.IOException;
 /**
  * Created by KOUHO on 2014/11/22.
  */
-enum SoundKind{
-    SOUND_SE,
-    SOUND_VOICE,
-    SOUND_BGM
-}
 // sound total class
 public class GameSound {
 
@@ -66,6 +61,13 @@ public class GameSound {
         if( kind == SoundKind.SOUND_BGM ){
             m_MediaPlayer = MediaPlayer.create(gv.getContext(), raw);
             m_MediaPlayer.setLooping(true);
+            try{
+                m_MediaPlayer.prepare();
+            }catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

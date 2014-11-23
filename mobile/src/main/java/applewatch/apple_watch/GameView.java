@@ -60,6 +60,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
         // a resource of background image
         m_GameScr = (BitmapDrawable)context.getResources().getDrawable(R.drawable.bg);
 
+        // crete bgm
+        m_GameBgm = new GameSound( SoundKind.SOUND_BGM, this, R.raw.bgm_main);
+        m_GameBgm.play();
 
         // creating Google API Client
         GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(context)

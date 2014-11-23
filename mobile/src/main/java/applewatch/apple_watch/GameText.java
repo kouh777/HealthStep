@@ -15,6 +15,9 @@ public class GameText {
     protected int m_iPosX;               // position X
     protected int m_iPosY;               // position Y
 
+    protected int m_iWidth;             // game text width
+    protected int m_iHeight;            // game text height
+
     protected Paint m_Paint;             // paint
     protected char[] m_CharBuffer;     // drawing char[]
 
@@ -33,10 +36,14 @@ public class GameText {
 
     // main constructor
     public GameText( GameView gv, char[] char_buffer, int posX, int posY ){
+        m_GameView = gv;
         m_iPosX = (int)( posX * gv.getGamePerWidth() );
         m_iPosY = (int)( posY * gv.getGamePerHeight() );
         m_CharBuffer = new char[char_buffer.length];
         m_CharBuffer = char_buffer;
+
+        m_iWidth = 0;
+        m_iHeight = 0;
 
         m_iIndex = 0;
         m_bDisplay = false;
@@ -53,9 +60,13 @@ public class GameText {
 
     // constructor : text is empty
     public GameText( GameView gv, int buffer_size, int posX, int posY ){
+        m_GameView = gv;
         m_iPosX = (int)( posX * gv.getGamePerWidth() );
         m_iPosY = (int)( posY * gv.getGamePerHeight() );
         m_CharBuffer = new char[buffer_size];
+
+        m_iWidth = 0;
+        m_iHeight = 0;
 
         m_iIndex = 0;
         m_bDisplay = false;
@@ -72,7 +83,6 @@ public class GameText {
 
     // update
     public void update(){
-
     }
 
     // draw
@@ -93,10 +103,20 @@ public class GameText {
         }
     }
 
+    // animation wait
     public void add_wait( int wait_time ){
         if( m_iTimer++ >= wait_time ){
             m_bWait = false;
             m_iTimer = 0;
+        }
+    }
+
+    // return char byte
+    public int checkByte( char ch ){
+        if( String.valueOf(ch).getBytes().length < 2 ){
+            return 1;    // single byte
+        }else{
+            return 2;    // double byte
         }
     }
 
@@ -140,6 +160,11 @@ public class GameText {
         m_Paint.setAlpha( alpha );
     }
 
+    // set shadow
+    public void setShadow( float radius, float dx, float dy, int color ){
+        m_Paint.setShadowLayer( radius, dx, dy , color );
+    }
+
     // set position
     public void setX( int x ){ m_iPosX = x; }
     public void setY( int y ){ m_iPosY = y; }
@@ -151,4 +176,12 @@ public class GameText {
     public int getY(){ return m_iPosY; }
     public char[] getCharBuffer(){ return m_CharBuffer; }
     public boolean getType(){ return m_bType; }
+    public int getWidth(){
+        int size = 0;   // one character space
+        for( int i=0; m_CharBuffer[i] != '\0' ; ++i ){
+            ++size;
+        }
+        int w = (int)( m_Paint.getTextSize() * size * m_GameView.getGamePerWidth() );
+        return w;
+    }
 }
