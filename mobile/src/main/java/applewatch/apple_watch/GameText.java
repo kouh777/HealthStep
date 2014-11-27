@@ -3,6 +3,7 @@ package applewatch.apple_watch;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 
 /**
  * Created by KOUHO on 2014/11/22.
@@ -120,6 +121,9 @@ public class GameText {
         }
     }
 
+    // set text Argument:String str
+    public void setText(String str){ m_CharBuffer = str.toCharArray();}
+
     // set text Argument:String ,int
     public void setText( String str, int index ){
         m_CharBuffer[index] = str.charAt(index);
@@ -163,6 +167,11 @@ public class GameText {
     // set shadow
     public void setShadow( float radius, float dx, float dy, int color ){
         m_Paint.setShadowLayer( radius, dx, dy , color );
+    }
+
+    //set font-family
+    public void setFamily(Typeface type_face){
+        m_Paint.setTypeface( type_face );
     }
 
     // set position

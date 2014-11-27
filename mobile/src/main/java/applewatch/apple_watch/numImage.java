@@ -56,18 +56,14 @@ public class numImage {
             m_iFigure = str.length();
 
             for(int i = 0; i < m_iFigure; ++i ){
-                char LookChar =  str.charAt(i);             // 1
-//                int takeNum = Integer.valueOf(LookChar) - '0';    // 1
+                char LookChar =  str.charAt(i);
                 int takeNum = Character.getNumericValue(LookChar);
                 m_iImgOX =  takeNum* m_iTrimWidth;
-
                 // change here
                 Rect src = new Rect(m_iImgOX, m_iImgOY, m_iImgOX+m_iTrimWidth,m_iImgOY+m_iImgHeight);
                 Rect dst = new Rect(m_iPosX + (i * m_iTrimWidth),m_iPosY, m_iPosX + m_iTrimWidth + (i * m_iTrimWidth),m_iPosY + m_iImgHeight);
-
                 // use draw bitmap
                 c.drawBitmap(m_Bitmap, src, dst, null);
-
             }
         }
     }

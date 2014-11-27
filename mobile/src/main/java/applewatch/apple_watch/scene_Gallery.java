@@ -70,6 +70,9 @@ public class scene_Gallery extends Task{
         if( m_H1 != null ){
             m_H1.fade_in( FADE_IN_SPED );
         }
+        if( m_UiGroup != null ){
+            m_UiGroup.update();
+        }
     }
 
     @Override

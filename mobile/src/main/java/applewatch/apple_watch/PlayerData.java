@@ -6,10 +6,12 @@ package applewatch.apple_watch;
 
 // use a design pattern 'singleton'
 public class PlayerData{
+    private String m_PlayerName;        // player name
+    private String m_Prefecture;        // prefecture
     private int m_iSelectCharacter;
     private boolean[] UnlockCharacter;
 
-    private int m_iPrefecture;
+//    private int m_iPrefecture;
     private int m_iWalkingCount;
     private int m_iWalkingDistance;
     private int m_iGachaTicket;
@@ -25,12 +27,14 @@ public class PlayerData{
     }
 
     // set method
+    public void setPlayerName( String name ){ m_PlayerName = name; }
+    public void setPrefecture( String pref ){ m_Prefecture = pref; }
     public void setSelectCharacter(int select_character){
         m_iSelectCharacter = select_character;
     }
-    public void setPrefecture(int prefectrure){
-        m_iPrefecture = prefectrure;
-    }
+//    public void setPrefecture(int prefectrure){
+//        m_iPrefecture = prefectrure;
+//    }
     public void setWalkingCount(int walking_count){ m_iWalkingCount = walking_count;}
     public void setWalkingDistance(int walking_distance){
         m_iWalkingDistance = walking_distance;
@@ -71,17 +75,20 @@ public class PlayerData{
     }
 
     // getter
+    public String getPlayerName(){ return m_PlayerName; }
+    public String getPrefecture(){ return m_Prefecture; }
     public int getSelectCharacter(){
         return m_iSelectCharacter;
     }
-    public int getPrefacture(){
-        return m_iPrefecture;
-    }
+    //public int getPrefacture(){
+    //    return m_iPrefecture;
+    //}
     public int getWalkingCount(){
         return m_iWalkingCount;
     }
     public int getWalkingDistance(){
         return m_iWalkingDistance;
     }
+    public int getGachaTicket(){ return m_iGachaTicket; }
     public boolean[] getUnlockCharacter(){ return UnlockCharacter;}
 }

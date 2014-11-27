@@ -9,9 +9,11 @@ import android.view.SurfaceHolder;
 import android.util.Log;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
-
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.View;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -45,7 +47,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     // backgroun_music
     private GameSound m_GameBgm;
 
-
     private boolean m_bSceneFlg;
 
     public GameView(Context context){
@@ -59,10 +60,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
 
         // a resource of background image
         m_GameScr = (BitmapDrawable)context.getResources().getDrawable(R.drawable.bg);
-
-        // crete bgm
-        m_GameBgm = new GameSound( SoundKind.SOUND_BGM, this, R.raw.bgm_main);
-        m_GameBgm.play();
 
         // creating Google API Client
         GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(context)
@@ -111,6 +108,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
 
         m_Thread = new Thread(this);
         m_Thread.start();
+
+        // crete bgm
+        m_GameBgm = new GameSound( SoundKind.SOUND_BGM, this, R.raw.bgm_main);
+        m_GameBgm.play();
     }
 
     @Override
@@ -119,6 +120,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
         //  to inoperable and exit
         m_bActive = false;
         m_Thread = null;
+        m_GameBgm.release();
     }
 
     public void doAnim(){
