@@ -18,5 +18,10 @@ public class char_Rimika extends CharacterSprite{
             addImg( R.drawable.char106_rimika2 );
             addImg( R.drawable.char106_rimika3 );
         }
+
+        // set Strings
+        m_StrHello = "おはよう！";
+        m_StrWhether = "いい天気だね！";
+        m_StrYell = "今日も元気にいこう。";
     }
 }

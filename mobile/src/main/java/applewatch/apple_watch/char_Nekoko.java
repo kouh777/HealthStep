@@ -18,5 +18,10 @@ public class char_Nekoko extends CharacterSprite {
             addImg( R.drawable.char103_nekoko2 );
             addImg( R.drawable.char103_nekoko3 );
         }
+
+        // set Strings
+        m_StrHello = "おはよう！";
+        m_StrWhether = "いい天気だね！";
+        m_StrYell = "今日も元気にいこう。";
     }
 }

@@ -18,5 +18,10 @@ public class char_Banjyo extends CharacterSprite {
             addImg( R.drawable.char204_banjyo2 );
             addImg( R.drawable.char204_banjyo3 );
         }
+
+        // set Strings
+        m_StrHello = "おはよう！";
+        m_StrWhether = "いい天気だな！";
+        m_StrYell = "今日も元気にいこうか。";
     }
 }

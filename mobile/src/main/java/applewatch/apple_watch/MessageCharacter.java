@@ -25,13 +25,9 @@ public class MessageCharacter {
     // text draw flag
     private boolean m_bTextFlg;
 
-    // text date
-    String StrHello = "おはよう！";                    // Hello
-    String StrWhether = "いい天気だね！";            // Whether
-    String StrYell = "今日も元気にいこう。";         // Yell For
-
-    String StrManWhether = "いい天気だな";          // man whether
-    String StrManYell = "今日も元気に行こうか";     // man yell
+    private String m_StrHello;
+    private String m_StrWhether;
+    private String m_StrYell;
 
     // define text position from BG
     private final int TEXT_X = 20;
@@ -53,18 +49,21 @@ public class MessageCharacter {
     private GameSound m_CharVoiceWhether;
     private GameSound m_CharVoiceYell;
 
+    // voice wait times
+    private int m_iHelloWait;
+    private int m_iWhetherWait;
+    private int m_iYellWait;
+
     // voice flags
     private boolean m_bHello;
     private boolean m_bWhether;
     private boolean m_bYell;
 
-    // define wait time
-    private final int WHETHER_WAIT = 15;
-    private final int YELL_WAIT = 10;
+    // now character
+    private CharacterSprite m_NowCharacter;
 
     public MessageCharacter( scene_Menu menu, GameView gv, int posX, int posY){
         m_SceneMenu = menu;
-//        m_resChr = menu.getMenuCharacter().getCharacter();
         m_GameView = gv;
         m_iPosX = posX;
         m_iPosY = posY;
@@ -87,19 +86,26 @@ public class MessageCharacter {
         m_WhetherText.setWait(true);
         m_YellText.setWait(true);
 
-        // set shadow
-//        m_HelloText.setShadow( 3.0f, 0.0f, 0.0f, Color.argb( 255 , 197 ,86 ,120 ) );
-//        m_HelloText.setColor( 255, 255, 255, 255);
+        // initialize strings
+        m_StrHello = "";
+        m_StrWhether = "";
+        m_StrYell = "";
+        m_NowCharacter =  m_SceneMenu.getMenuCharacter().getCharacter();
+        if( m_SceneMenu != null ) {
+            if( m_SceneMenu.getMenuCharacter() != null ) {
+                m_StrHello = m_NowCharacter.getStrHello();
+                m_StrWhether = m_NowCharacter.getStrWhether();
+                m_StrYell = m_NowCharacter.getStrYell();
 
-        // if unlock character akemi is selecting
-        if( PlayerData.getInstance().getSelectCharacter() == menu_Character.CHAR_AKEMI_ID  ||
-            PlayerData.getInstance().getSelectCharacter() == menu_Character.CHAR_BANJYO_ID  ||
-            PlayerData.getInstance().getSelectCharacter() == menu_Character.CHAR_YUKITO_ID ) {
-            m_CharVoiceHello = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.akemi_hello_morinomoko);
-            m_CharVoiceWhether = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.akemi_whether_morinomoko);
-            m_CharVoiceYell = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.akemi_yell_morinomoko);
+                m_CharVoiceHello =  m_NowCharacter.getCharVoiceHello();
+                m_CharVoiceWhether = m_NowCharacter.getCharVoiceWhether();
+                m_CharVoiceYell =  m_NowCharacter.getCharVoiceYell();
+
+                m_iHelloWait =   m_NowCharacter.getWaitHello();
+                m_iWhetherWait =   m_NowCharacter.getWaitWhether();
+                m_iYellWait =   m_NowCharacter.getWaitYell();
+            }
         }
-
         //
         m_bHello = false;
         m_bWhether = false;
@@ -118,7 +124,7 @@ public class MessageCharacter {
             if( !m_bHello && m_CharVoiceHello != null ) {
                 m_CharVoiceHello.play();
                 m_bHello = true;
-                m_SceneMenu.getMenuCharacter().getCharacter().setLipAnim(true);
+                m_NowCharacter.setLipAnim(true);
             }
             if( m_bHello && !m_CharVoiceHello.getIsPlaying() ){
                 m_CharVoiceWhether.play();
@@ -129,19 +135,19 @@ public class MessageCharacter {
                 m_bYell = true;
             }
             if( m_bYell && !m_CharVoiceYell.getIsPlaying() ){
-                m_SceneMenu.getMenuCharacter().getCharacter().setLipAnim(false);
+                m_NowCharacter.setLipAnim(false);
             }
 
             // type text
             if( m_HelloText.getType() ) {
-                m_HelloText.type_anim(StrHello);
+                m_HelloText.type_anim(m_StrHello);
             }else if( m_bHello && m_WhetherText.getType() ){
                 m_WhetherText.setX( m_HelloText.getX() + m_HelloText.getWidth() );
-                m_WhetherText.add_wait(WHETHER_WAIT);
-                m_WhetherText.type_anim(StrManWhether);
+                m_WhetherText.type_anim(m_StrWhether);
+                m_WhetherText.add_wait(m_iWhetherWait);
             }else if( m_bWhether ){
-                m_YellText.type_anim(StrManYell);
-                m_YellText.add_wait(YELL_WAIT);
+                m_YellText.type_anim(m_StrYell);
+                m_YellText.add_wait(m_iYellWait);
             }
         }
         if( m_WhetherText != null ){

@@ -16,5 +16,10 @@ public class char_Ryu extends CharacterSprite {
         if(anim_flg){
             addImg( R.drawable.char303_ryu2 );
         }
+
+        // set Strings
+        m_StrHello = "おはよう！";
+        m_StrWhether = "いい天気だね！";
+        m_StrYell = "今日も元気にいこう。";
     }
 }

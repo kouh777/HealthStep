@@ -18,5 +18,10 @@ public class char_Urara extends CharacterSprite {
             addImg( R.drawable.char101_urara2 );
             addImg( R.drawable.char101_urara3 );
         }
+
+        // set Strings
+        m_StrHello = "おはよう！";
+        m_StrWhether = "いい天気だね！";
+        m_StrYell = "今日も元気にいこう。";
     }
 }

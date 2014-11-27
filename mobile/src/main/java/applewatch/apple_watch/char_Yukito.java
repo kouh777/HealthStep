@@ -18,5 +18,20 @@ public class char_Yukito extends CharacterSprite{
             addImg( R.drawable.char200_yukito2 );
             addImg( R.drawable.char200_yukito3 );
         }
+
+        // set Strings
+        m_StrHello = "おはよう！";
+        m_StrWhether = "いい天気だな！";
+        m_StrYell = "今日も元気にいこうか。";
+
+        // set voices
+        m_CharVoiceHello = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.yukito_hello_hakoi3);
+        m_CharVoiceWhether = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.yukito_whether_hakoi3);
+        m_CharVoiceYell = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.yukito_yell_hakoi3);
+
+        //set wait
+        m_iHelloWait = 0;
+        m_iWhetherWait = 5;
+        m_iYellWait = 10;
     }
 }

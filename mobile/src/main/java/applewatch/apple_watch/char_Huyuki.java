@@ -18,5 +18,10 @@ public class char_Huyuki extends CharacterSprite {
             addImg( R.drawable.char206_huyuki2 );
             addImg( R.drawable.char206_huyuki3 );
         }
+
+        // set Strings
+        m_StrHello = "おはよう！";
+        m_StrWhether = "いい天気だな！";
+        m_StrYell = "今日も元気にいこうか。";
     }
 }

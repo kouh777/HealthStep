@@ -24,10 +24,33 @@ public class CharacterSprite extends AnimSprite {
     private final int LIP_OPEN_SPAN = 3;
     private final int LIP_CLOSE_SPAN = 15;
 
+    // character messages
+    protected String m_StrHello;
+    protected String m_StrWhether;
+    protected String m_StrYell;
+
+    // voice data
+    protected GameSound m_CharVoiceHello;
+    protected GameSound m_CharVoiceWhether;
+    protected GameSound m_CharVoiceYell;
+
+    // define wait time
+    protected int m_iHelloWait;
+    protected int m_iWhetherWait;
+    protected int m_iYellWait;
+
     public CharacterSprite( GameView gv, int posX, int posY, int img, float scale, boolean anim_flg ){
         super(gv, posX, posY, img, scale, scale, 255);
         m_bAnimFlg = anim_flg;
         m_bLipAnim = false;
+        // initialize strings
+        m_StrHello = "";
+        m_StrWhether="";
+        m_StrYell="";
+
+        m_iHelloWait = 0;
+        m_iWhetherWait = 0;
+        m_iYellWait = 0;
     }
 
     public void update(){
@@ -105,4 +128,13 @@ public class CharacterSprite extends AnimSprite {
     // getter
     public int characterID(){ return m_iCharacterID; }
     public CharacterKind getCharacterKind(){ return m_CharacterKind; }
+    public String getStrHello(){ return m_StrHello; }
+    public String getStrWhether(){ return m_StrWhether; }
+    public String getStrYell(){ return m_StrYell; }
+    public GameSound getCharVoiceHello(){ return m_CharVoiceHello; }
+    public GameSound getCharVoiceWhether(){ return m_CharVoiceWhether; }
+    public GameSound getCharVoiceYell(){ return m_CharVoiceYell; }
+    public int getWaitHello(){ return m_iHelloWait; }
+    public int getWaitWhether(){ return m_iWhetherWait; }
+    public int getWaitYell(){ return m_iYellWait; }
 }

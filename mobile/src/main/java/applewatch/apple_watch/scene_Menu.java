@@ -45,13 +45,13 @@ public class scene_Menu extends Task{
         int w = gv.getGameWidth();
         int h = gv.getGameHeight();
 
-        // message
-        m_MessageCharacter = new MessageCharacter( this, gv, 50, 775);
-
         // for presentation
         m_btn_Walk = new btn_Walk(gv, (w>>2)*3, h-(w>>1));
         m_Character = new menu_Character(gv, 100, 350);
         m_numImage = new numImage(gv,100,100,1.0f);
+
+        // message
+        m_MessageCharacter = new MessageCharacter( this, gv, 50, 775);
 
         // common
         m_H1 = new GameSprite(gv, 0, H1_Y, R.drawable.h1_mypage);

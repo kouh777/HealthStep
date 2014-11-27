@@ -18,5 +18,10 @@ public class char_Rin extends CharacterSprite{
             addImg( R.drawable.char107_rin2 );
             addImg( R.drawable.char107_rin3 );
         }
+
+        // set Strings
+        m_StrHello = "おはよう！";
+        m_StrWhether = "いい天気だね！";
+        m_StrYell = "今日も元気にいこう。";
     }
 }
