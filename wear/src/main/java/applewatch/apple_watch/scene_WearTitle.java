@@ -14,7 +14,7 @@ import java.util.Vector;
 public class scene_WearTitle extends Task{
     private boolean m_bMove;
     private GameView m_GameView;
-    private Object m_Obj;
+    private Object m_Obj;   // for synchronizing thread
 
     private Vector<GameSprite> m_GameSprites; // manage all sprite. all sprites have their specific id
 
@@ -32,20 +32,16 @@ public class scene_WearTitle extends Task{
     private final int ICO_SETT_Y = 310;
     private final int CHR_SETT_Y = 320;
 
-    // define Timer
-    private final int BLINK_SPAN = 10;
-
     // for animation
-    private int m_iTimer;
+    private int m_iTimer;   // animation timer
 
-    private boolean m_bSnatch;
+    private boolean m_bSnatch;          // snatch flag
+    private int[] m_iSpritePositions;   // for save sprites positions
+    private final int SP_MAX_SIZE = 16; // Sprite array size
 
-    private int[] m_iSpritePositions;
-    private final int SP_MAX_SIZE = 16;
-
-    private int m_iTouchY;
-    private boolean m_bIcoWalk;
-    private GameCamera m_GameCamera;
+    private int m_iTouchY;              // touch action down y
+    private boolean m_bIcoWalk;        // ico walk touch flag
+    private GameCamera m_GameCamera;    // samera
 
 
     // constract
@@ -121,11 +117,13 @@ public class scene_WearTitle extends Task{
     public void update(){
         m_iTimer++;
         m_GameCamera.update();
+        // scene end animation and new next scene
         if( m_bIcoWalk ){
-            if(!m_GameCamera.moveToCamera(-120, 15)) {
+            if(!m_GameCamera.moveToCamera(-110, 15)) {
                 m_GameCamera.setCamera(m_GameSprites, m_iSpritePositions);
             } else {
                 m_bMove = true;
+                new scene_WearWalk( m_GameView , 20 );
             }
         }
     }
@@ -184,6 +182,7 @@ public class scene_WearTitle extends Task{
                 break;
         }
 
+        // sprites touch event
         if( m_GameSprites != null ) {
             for (int i = 0; i < m_GameSprites.size(); i++) {
                 if (m_GameSprites.get(i) != null) {

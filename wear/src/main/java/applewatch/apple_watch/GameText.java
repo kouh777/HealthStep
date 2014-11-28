@@ -3,8 +3,6 @@ package applewatch.apple_watch;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.Typeface;
 
 /**
  * Created by KOUHO on 2014/11/22.
@@ -37,7 +35,7 @@ public class GameText {
     protected final int DEFAULT_TEXT_SIZE = 30;
 
     // main constructor
-    public GameText( GameView gv, char[] char_buffer, int posX, int posY ){
+    public GameText(GameView gv, char[] char_buffer, int posX, int posY){
         m_GameView = gv;
         m_iPosX = (int)( posX * gv.getGamePerWidth() );
         m_iPosY = (int)( posY * gv.getGamePerHeight() );
@@ -61,11 +59,35 @@ public class GameText {
     }
 
     // constructor : text is empty
-    public GameText( GameView gv, int buffer_size, int posX, int posY ){
+    public GameText(GameView gv, int buffer_size, int posX, int posY){
         m_GameView = gv;
         m_iPosX = (int)( posX * gv.getGamePerWidth() );
         m_iPosY = (int)( posY * gv.getGamePerHeight() );
         m_CharBuffer = new char[buffer_size];
+
+        m_iWidth = 0;
+        m_iHeight = 0;
+
+        m_iIndex = 0;
+        m_bDisplay = false;
+        m_bType = false;
+        m_iTimer = 0;
+        m_bWait = false;
+
+        // set default paint
+        m_Paint = new Paint();
+        m_Paint.setAntiAlias(true);
+        m_Paint.setColor(Color.BLACK);
+        m_Paint.setTextSize(DEFAULT_TEXT_SIZE);
+    }
+
+    // constructor : using String
+    public GameText(GameView gv, String str, int posX, int posY){
+        m_GameView = gv;
+        m_iPosX = (int)( posX * gv.getGamePerWidth() );
+        m_iPosY = (int)( posY * gv.getGamePerHeight() );
+        int length = str.length();
+        m_CharBuffer = new char[length];
 
         m_iWidth = 0;
         m_iHeight = 0;
@@ -122,9 +144,6 @@ public class GameText {
         }
     }
 
-    // set text Argument:String str
-    public void setText(String str){ m_CharBuffer = str.toCharArray();}
-
     // set text Argument:String ,int
     public void setText( String str, int index ){
         m_CharBuffer[index] = str.charAt(index);
@@ -168,33 +187,6 @@ public class GameText {
     // set shadow
     public void setShadow( float radius, float dx, float dy, int color ){
         m_Paint.setShadowLayer( radius, dx, dy , color );
-    }
-
-    //set font-family using normal font
-    public void setFamily(Typeface family, int style){
-        Typeface type_face = Typeface.create( family, style );
-        m_Paint.setTypeface( type_face );
-    }
-    // set font-family using original font
-    public void setFamily( String tff ){
-        Typeface type_face = Typeface.createFromAsset( m_GameView.getContext().getAssets(), tff);
-        m_Paint.setTypeface( type_face );
-    }
-    // set fill Style
-   public void setFillStyle(){
-       m_Paint.setStyle(Style.FILL);
-   }
-   public void setFillAndStrokeStyle(){
-       m_Paint.setStyle(Style.FILL_AND_STROKE);
-   }
-   // set fill Style
-   public void setStrokeStyle(){
-       m_Paint.setStyle(Style.STROKE);
-   }
-
-    // set text stroke
-    public void setStrokeWidth( float width ){
-        m_Paint.setStrokeWidth(width);
     }
 
     // set position

@@ -81,6 +81,16 @@ public class UiGroup {
         // texts
         m_UiPlayerName = new GameText( gv , m_StrPlayerName.toCharArray() , m_iPosX + PN_X, m_iPosY + PN_Y);
         m_UiPrefacture = new GameText( gv , m_StrPrefecture.toCharArray()  ,m_iPosX + PRE_X, m_iPosY + PRE_Y);
+
+        //set text decoration
+        m_UiPlayerName.setFamily("HGRPP1.TTC");
+        m_UiPrefacture.setFamily("HGRPP1.TTC");
+
+        m_UiPlayerName.setColor(255,255,255,255);
+        m_UiPrefacture.setColor(255,255,255,255);
+
+//        m_UiPlayerName.setShadow(10.f,0,0,Color.argb(255,194,81,114));
+//        m_UiPrefacture.setShadow(2.f,0,0,Color.argb(255,194,81,114));
     }
 
     public void update(){
@@ -107,6 +117,15 @@ public class UiGroup {
 
         // for test ui context
         if(m_UiPlayerName != null){
+            /*
+            //draw stroke
+            GameText stroke = m_UiPlayerName;
+            stroke.setStrokeStyle();
+            stroke.setStrokeWidth(3.0f);
+            stroke.setColor(255,194,81,114);
+            stroke.setTextSize(34);
+            stroke.draw(c);
+            */
             m_UiPlayerName.draw(c);
         }
         if(m_UiPrefacture != null){
