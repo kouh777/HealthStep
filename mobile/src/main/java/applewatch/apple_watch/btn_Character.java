@@ -2,12 +2,14 @@ package applewatch.apple_watch;
 
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 /**
  * Created by KOUHO on 2014/10/17.
  */
-public class btn_Character implements Buttons {
+public class btn_Character implements Buttons{
 
     private GameView m_GameView;
     private scene_Gallery m_sceneGallery;
@@ -39,6 +41,15 @@ public class btn_Character implements Buttons {
     // define animation
     private final int BLINK_SPAN = 10;
 
+    // touch
+    private boolean m_bTouchInside;
+    private double m_dTouchDownTime;
+    private double m_dTouchUpTime;
+    private double m_dTouchKeepTime;
+
+    // define touch long press time
+    private final int LONG_PRESS_TIME = 350;
+
     public btn_Character(GameView gv, scene_Gallery sg,int char_num, boolean found,int posX, int posY){
         m_GameView = gv;
         m_sceneGallery = sg;
@@ -48,6 +59,12 @@ public class btn_Character implements Buttons {
         m_bIsSelected = false;  // check select
         m_bBlink = false;       // blink select logo
         m_CharacterNumber = char_num;
+
+        m_bTouchInside = false;
+        m_dTouchDownTime = 0;
+        m_dTouchUpTime = 0;
+        m_dTouchKeepTime = 0;
+        m_bIsTouched = false;
 
         // load background image resources
         m_btnBackGround = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.boy_waku);
@@ -188,21 +205,56 @@ public class btn_Character implements Buttons {
 
     @Override
     public void touch(MotionEvent event){
-        if (event.getAction() != MotionEvent.ACTION_DOWN) {
-            return;
-        }else {
-            int x = (int)event.getX();
-            int y = (int)event.getY();
-            if( x > m_iPosX && x < m_iPosX + m_iBtnWidth &&
-                    y > m_iPosY && y < m_iPosY + m_iBtnHeight){
+        int x = (int)event.getX();
+        int y = (int)event.getY();
 
-                int id = menu_Character.numToID(m_CharacterNumber);
-                PlayerData.getInstance().setSelectCharacter(m_CharacterBase.characterID());
-                m_bIsTouched = true;
-            }else{
-                return;
-            }
+        switch( event.getAction() ){
+            case MotionEvent.ACTION_DOWN:
+                if( x > m_iPosX && x < m_iPosX + m_iBtnWidth &&
+                        y > m_iPosY && y < m_iPosY + m_iBtnHeight){
+                    m_dTouchDownTime = event.getEventTime();
+                    m_bTouchInside = true;
+                }else{
+                    return;
+                }
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                if( x > m_iPosX && x < m_iPosX + m_iBtnWidth &&
+                        y > m_iPosY && y < m_iPosY + m_iBtnHeight && m_bTouchInside ) {
+                    m_dTouchKeepTime = m_dTouchUpTime - event.getEventTime();
+                    if( m_dTouchKeepTime > LONG_PRESS_TIME ) {
+                        onLongTouch();
+                    }
+                }else {
+                    m_bTouchInside = false;
+                }
+
+            case MotionEvent.ACTION_UP:
+                if( m_bTouchInside ) {
+                    m_dTouchUpTime = event.getEventTime();
+                    m_dTouchKeepTime = m_dTouchUpTime - m_dTouchDownTime;
+                    if( m_dTouchKeepTime > LONG_PRESS_TIME ) {
+                        onLongTouch();
+                    }else {
+                        onShortTouch();
+                        //Log.d("keep_time", Double.toString(m_dTouchKeepTime));
+                    }
+                }
         }
+    }
+
+    // long touch
+    public void onLongTouch(){
+        m_bIsTouched = true;
+        Log.d("keep_time", "LongTouch");
+    }
+
+    // short touch
+    public void onShortTouch(){
+        PlayerData.getInstance().setSelectCharacter(m_CharacterBase.characterID());
+//      m_bIsTouched = true;
+        Log.d("keep_time", "ShortTouch");
     }
 
     // this method is only used in this class
@@ -214,10 +266,13 @@ public class btn_Character implements Buttons {
             m_bIsSelected = false;
         }
     }
+    // getter
+    public CharacterSprite getCharacter(){
+        return m_CharacterBase;
+    }
 
     // settter
     public void setIsSelected( boolean select){
         m_bIsSelected = select;
     }
-
 }

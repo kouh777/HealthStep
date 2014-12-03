@@ -136,7 +136,9 @@ public class scene_Gacha extends Task {
                 m_iTimer = 0;
             }
         }
-
+        if( m_UiGroup != null ) {
+            m_UiGroup.update();
+        }
         if( m_MenuGroup != null ) {
             m_MenuGroup.update();
             m_bMove = m_MenuGroup.getMove();

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Debug;
+import android.view.GestureDetector;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.util.Log;
@@ -136,6 +137,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     @Override
     public boolean onTouchEvent(MotionEvent event){
         TaskManager.getInstance().touch(event);
+//        m_GestureDetector.onTouchEvent(event);
         return super.onTouchEvent(event);
     }
 

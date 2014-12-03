@@ -14,9 +14,10 @@ public class char_Rokurou extends CharacterSprite {
         m_iCharacterID = menu_Character.CHAR_ROKUROU_ID;
 
         if(anim_flg){
-            addImg( R.drawable.char207_rokuro4 );
-            addImg( R.drawable.char207_rokuro2 );
-            addImg( R.drawable.char207_rokuro3 );
+            addImg( R.drawable.char207_rokuro4 );   // closing eyes in between animation
+            addImg( R.drawable.char207_rokuro2 );   // closed eye
+            addImg( R.drawable.char207_rokuro3 );   // speaking
+            addImg( R.drawable.char207_rokuro5 );   // speaking in between animation
         }
 
         // set Strings

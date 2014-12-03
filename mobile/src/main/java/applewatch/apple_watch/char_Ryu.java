@@ -14,7 +14,8 @@ public class char_Ryu extends CharacterSprite {
         m_iCharacterID = menu_Character.CHAR_RYU_ID;
 
         if(anim_flg){
-            addImg( R.drawable.char303_ryu2 );
+            addImg( R.drawable.char303_ryu2 );    // speaking
+            addImg( R.drawable.char303_ryu3 );   // speaking in between animation
         }
 
         // set Strings

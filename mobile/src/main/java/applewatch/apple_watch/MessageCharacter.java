@@ -137,7 +137,6 @@ public class MessageCharacter {
             if( m_bYell && !m_CharVoiceYell.getIsPlaying() ){
                 m_NowCharacter.setLipAnim(false);
             }
-
             // type text
             if( m_HelloText.getType() ) {
                 m_HelloText.type_anim(m_StrHello);

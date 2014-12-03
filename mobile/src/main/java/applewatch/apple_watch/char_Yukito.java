@@ -14,9 +14,10 @@ public class char_Yukito extends CharacterSprite{
         m_iCharacterID = menu_Character.CHAR_YUKITO_ID;
 
         if(anim_flg){
-            addImg( R.drawable.char200_yukito4 );
-            addImg( R.drawable.char200_yukito2 );
-            addImg( R.drawable.char200_yukito3 );
+            addImg( R.drawable.char200_yukito4 );   // closing eyes in between animation
+            addImg( R.drawable.char200_yukito2 );   // closed eye
+            addImg( R.drawable.char200_yukito3 );   // speaking
+            addImg( R.drawable.char200_yukito5 );   // speaking in between animation
         }
 
         // set Strings

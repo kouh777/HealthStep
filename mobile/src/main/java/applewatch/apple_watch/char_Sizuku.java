@@ -14,9 +14,10 @@ public class char_Sizuku extends CharacterSprite {
         m_iCharacterID = menu_Character.CHAR_SIZUKU_ID;
 
         if(anim_flg){
-            addImg( R.drawable.char102_shizuku4 );
-            addImg( R.drawable.char102_shizuku2 );
-            addImg( R.drawable.char102_shizuku3 );
+            addImg( R.drawable.char102_shizuku4 );   // closing eyes in between animation
+            addImg( R.drawable.char102_shizuku2 );   // closed eye
+            addImg( R.drawable.char102_shizuku3 );   // speaking
+            addImg( R.drawable.char102_shizuku5 );   // speaking in between animation
         }
 
         // set Strings

@@ -14,9 +14,10 @@ public class char_Hibiki extends  CharacterSprite {
         m_iCharacterID = menu_Character.CHAR_HIBIKI_ID;
 
         if(anim_flg){
-            addImg( R.drawable.char205_hibiki4 );
-            addImg( R.drawable.char205_hibiki2 );
-            addImg( R.drawable.char205_hibiki3 );
+            addImg( R.drawable.char205_hibiki4 );    // closing eyes in between animation
+            addImg( R.drawable.char205_hibiki2 );    // closed eye
+            addImg( R.drawable.char205_hibiki3 );    // speaking
+            addImg( R.drawable.char205_hibiki5 );    // speaking in between animation
         }
 
         // set Strings

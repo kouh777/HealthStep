@@ -14,9 +14,10 @@ public class char_Huyuki extends CharacterSprite {
         m_iCharacterID = menu_Character.CHAR_HUYUKI_ID;
 
         if(anim_flg){
-            addImg( R.drawable.char206_huyuki4 );
-            addImg( R.drawable.char206_huyuki2 );
-            addImg( R.drawable.char206_huyuki3 );
+            addImg( R.drawable.char206_huyuki4 );    // closing eyes in between animation
+            addImg( R.drawable.char206_huyuki2 );    // closed eye
+            addImg( R.drawable.char206_huyuki3 );    // speaking
+            addImg( R.drawable.char206_huyuki5 );    // speaking in between animation
         }
 
         // set Strings

@@ -20,6 +20,9 @@ public class PlayerData{
     private static final PlayerData instance = new PlayerData();
     // constructor
     private PlayerData(){
+        m_iWalkingCount = 0;
+        m_iWalkingDistance = 0;
+        m_iGachaTicket = 0;
         UnlockCharacter = new boolean[20];
     }
     public static PlayerData getInstance(){

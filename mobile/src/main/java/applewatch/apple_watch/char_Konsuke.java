@@ -14,7 +14,8 @@ public class char_Konsuke extends CharacterSprite {
         m_iCharacterID = menu_Character.CHAR_KONSUKE_ID;
 
         if(anim_flg){
-            addImg( R.drawable.char300_konsuke2 );
+            addImg( R.drawable.char300_konsuke2 );   // speaking
+            addImg( R.drawable.char300_konsuke3 );   // speaking in between animation
         }
 
         // set Strings

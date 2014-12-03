@@ -14,9 +14,10 @@ public class char_Rin extends CharacterSprite{
         m_iCharacterID = menu_Character.CHAR_RIN_ID;
 
         if(anim_flg){
-            addImg( R.drawable.char107_rin4 );
-            addImg( R.drawable.char107_rin2 );
-            addImg( R.drawable.char107_rin3 );
+            addImg( R.drawable.char107_rin4 );   // closing eyes in between animation
+            addImg( R.drawable.char107_rin2 );   // closed eye
+            addImg( R.drawable.char107_rin3 );   // speaking
+            addImg( R.drawable.char107_rin5 );   // speaking in between animation
         }
 
         // set Strings

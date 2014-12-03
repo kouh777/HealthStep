@@ -14,6 +14,7 @@ public class menu_Character{
     static final float SCALE_NO = 1.5f;
     static final float SCALE_BUTTON = 0.5f;
     static final float SCALE_INBUTTON = 0.35f;
+    static final float SCALE_DETAIL = 1.1f;
 
     // define animation flag
     static boolean ANIM_OK = true;
@@ -193,6 +194,156 @@ public class menu_Character{
             case CHAR_RYU_ID:
                 if(!m_bFlg) {
                     m_Character = new char_Ryu(gv, posX, posY, SCALE_NO, ANIM_OK) ;
+                    m_bFlg = true;
+                }
+                break;
+        }
+    }
+
+    // constructor using in scene_Detail
+    menu_Character(GameView gv, int posX, int posY, int character_id ){
+        CharacterID = character_id;
+        m_bFlg = false;
+        switch(CharacterID){
+            // girls(100-199)
+            case CHAR_AKEMI_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Akemi(gv, posX, posY, SCALE_DETAIL , ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_URARA_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Urara(gv, posX, posY, SCALE_DETAIL ,ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_SIZUKU_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Sizuku(gv, posX, posY, SCALE_DETAIL, ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_NEKOKO_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Nekoko(gv, posX, posY, SCALE_DETAIL, ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_MIKI_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Miki(gv, posX, posY, SCALE_DETAIL, ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_MOMOKA_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Momoka(gv, posX, posY, SCALE_DETAIL, ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_RIMIKA_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Rimika(gv, posX, posY, SCALE_DETAIL, ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_RIN_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Rin(gv, posX, posY, SCALE_DETAIL, ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            // boys(200-299)
+            case CHAR_YUKITO_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Yukito(gv, posX, posY, SCALE_DETAIL, ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_KAITO_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Kaito(gv, posX, posY, SCALE_NO, ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_SYU_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Syu(gv, posX, posY, SCALE_DETAIL, ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_SHOUTA_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Shouta(gv, posX, posY, SCALE_DETAIL, ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_BANJYO_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Banjyo(gv, posX, posY, SCALE_DETAIL, ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_HIBIKI_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Hibiki(gv, posX, posY, SCALE_DETAIL, ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_HUYUKI_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Huyuki(gv, posX, posY, SCALE_DETAIL, ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_ROKUROU_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Rokurou(gv, posX, posY, SCALE_DETAIL, ANIM_OK);
+                    m_bFlg = true;
+                }
+                break;
+
+            // beasts(300-399)
+            case CHAR_KONSUKE_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Konsuke(gv, posX, posY, SCALE_DETAIL, ANIM_OK) ;
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_DONTA_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Donta(gv, posX, posY, SCALE_DETAIL, ANIM_OK) ;
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_MINMI_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Minmi(gv, posX, posY, SCALE_DETAIL, ANIM_OK) ;
+                    m_bFlg = true;
+                }
+                break;
+
+            case CHAR_RYU_ID:
+                if(!m_bFlg) {
+                    m_Character = new char_Ryu(gv, posX, posY, SCALE_DETAIL, ANIM_OK) ;
                     m_bFlg = true;
                 }
                 break;

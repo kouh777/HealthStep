@@ -14,9 +14,10 @@ public class char_Banjyo extends CharacterSprite {
         m_iCharacterID = menu_Character.CHAR_BANJYO_ID;
 
         if(anim_flg){
-            addImg( R.drawable.char204_banjyo4 );
-            addImg( R.drawable.char204_banjyo2 );
-            addImg( R.drawable.char204_banjyo3 );
+            addImg( R.drawable.char204_banjyo4 );   // closing eyes in between animation
+            addImg( R.drawable.char204_banjyo2 );   // closed eye
+            addImg( R.drawable.char204_banjyo3 );   // speaking
+            addImg( R.drawable.char204_banjyo5 );   // speaking in between animation
         }
 
         // set Strings

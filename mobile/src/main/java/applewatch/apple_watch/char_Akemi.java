@@ -16,12 +16,19 @@ public class char_Akemi extends CharacterSprite {
         m_iCharacterID = menu_Character.CHAR_AKEMI_ID;
 
         if(anim_flg){
-            addImg( R.drawable.char100_akemi4 );
-            addImg( R.drawable.char100_akemi2 );
-            addImg( R.drawable.char100_akemi3 );
+            addImg( R.drawable.char100_akemi4 );    // closing eyes in between animation
+            addImg( R.drawable.char100_akemi2 );    // closed eye
+            addImg( R.drawable.char100_akemi3 );    // speaking
+            addImg( R.drawable.char100_akemi5 );    // speaking in between animation
         }
 
-        // set Strings
+        // set profile Strings
+        m_StrName ="アケミ";
+        m_StrBirthday="10月12日";
+        m_StrGender="女";
+        m_StrComment="リンゴが大好き。朝ご飯はいつもりんごを食べるフルーツ系女子。";
+
+        // set message Strings
         m_StrHello = "おはよう！";
         m_StrWhether = "いい天気だね！";
         m_StrYell = "今日も元気にいこう。";

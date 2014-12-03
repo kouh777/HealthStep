@@ -14,9 +14,10 @@ public class char_Kaito extends CharacterSprite {
         m_iCharacterID = menu_Character.CHAR_KAITO_ID;
 
         if(anim_flg){
-            addImg( R.drawable.char201_kaito4 );
-            addImg( R.drawable.char201_kaito2 );
-            addImg( R.drawable.char201_kaito3 );
+            addImg( R.drawable.char201_kaito4 );    // closing eyes in between animation
+            addImg( R.drawable.char201_kaito2 );    // closed eye
+            addImg( R.drawable.char201_kaito3 );    // speaking
+            addImg( R.drawable.char201_kaito5 );    // speaking in between animation
         }
 
         // set Strings

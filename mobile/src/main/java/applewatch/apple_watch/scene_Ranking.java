@@ -86,14 +86,14 @@ public class scene_Ranking extends Task {
 
     // define Text Positions
     private final int RA_NUM_X = 140;     // num position x
-    private final int RA_NAME_X = 190;    // name position x
+    private final int RA_NAME_X = 210;    // name position x
     private final int RA_OH_NUM_X = 165;  // other name positionX
     private final int RA_OH_NAME_X = 210;  // other name positionX
     private final int RA_SC_X = 370;      // score position x
 
-    private final int RA_NO_1 = 320;    // no1 position y
-    private final int RA_NO_2 = 440;    // no2 position y
-    private final int RA_NO_3 = 560;    // no3 position y
+    private final int RA_NO_1 = 335;    // no1 position y
+    private final int RA_NO_2 = 455;    // no2 position y
+    private final int RA_NO_3 = 575;    // no3 position y
 
     private final int RA_NO_4 = 670;    // no1 position y
     private final int RA_NO_5 = 695;    // no2 position y
@@ -117,9 +117,9 @@ public class scene_Ranking extends Task {
 
         // sprites
         m_H1 = new GameSprite(gv, 0, H1_Y, R.drawable.h1_ranking);
-        m_RankingNo1 = new GameSprite( gv, R.drawable.ranking_no1 );
-        m_RankingNo2 = new GameSprite( gv, R.drawable.ranking_no2 );
-        m_RankingNo3 = new GameSprite( gv, R.drawable.ranking_no3 );
+        m_RankingNo1 = new GameSprite( gv, R.drawable.ranking01_new );
+        m_RankingNo2 = new GameSprite( gv, R.drawable.ranking02_new );
+        m_RankingNo3 = new GameSprite( gv, R.drawable.ranking03_new );
         m_RankingOthers = new GameSprite( gv, R.drawable.ranking_others );
 
         // common
@@ -177,6 +177,9 @@ public class scene_Ranking extends Task {
 
     @Override
     public void update(){
+        if( m_UiGroup != null ) {
+            m_UiGroup.update();
+        }
         if( m_MenuGroup != null ) {
             m_MenuGroup.update();
             m_bMove = m_MenuGroup.getMove();

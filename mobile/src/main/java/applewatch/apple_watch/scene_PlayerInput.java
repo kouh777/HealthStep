@@ -16,8 +16,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -30,12 +33,28 @@ public class scene_PlayerInput extends Task{
     private boolean m_bMove;
     private GameView m_GameView;
 
-    // input player name
-    private EditText p_name;
+    // spinner
     private SpannableStringBuilder sb;
 
+    private menu_Character m_MsgCaracter;
+
+    // game sprites
     private InputSprite m_InputSprite;
-    private GameSprite m_Test;      // for test
+    private GameSprite m_OK;      // ok
+
+    // game text
+    private GameText m_InputMsg;
+
+    // message strings
+    private String m_StrMsg = "はじめに君の名前と、君が住む都道府県を教えて欲しいコン";
+
+    // define text pos
+    private final int IN_MSG_X = 200;
+    private final int IN_MSG_Y  = 150;
+
+    // define text area width
+    private final int IN_MSG_WIDTH = 400;
+    private final int IN_MSG_LINE_HEIGHT = 10;
 
     // relation to Edit Text
     private EditText m_PlayerEdit;
@@ -70,15 +89,17 @@ public class scene_PlayerInput extends Task{
     public scene_PlayerInput(GameView gv, int prio){
         super(prio);
         m_GameView = gv;
-        m_InputSprite = new InputSprite(gv, R.drawable.gacha_no);
-        m_Test = new GameSprite(gv,200,0, R.drawable.gacha_yes);
+        m_InputSprite = new InputSprite(gv, R.drawable.ok);
+        m_OK = new GameSprite(gv,200,0, R.drawable.gacha_yes);
 
-        //　SurfaceViewと重ねるTextViewを準備
+        m_InputMsg = new GameText(gv,m_StrMsg.toCharArray(),IN_MSG_X,IN_MSG_Y);
+
+        m_MsgCaracter = new menu_Character(gv,-70,-90,menu_Character.CHAR_KONSUKE_ID);
+
+        //　Draw TextView over SurfaceView
         m_PlayerEdit = new EditText(gv.getRootView().getContext());
-//        m_PlayerEdit.setText("");
-//        tv.setY(200f);
         m_PlayerEdit.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT ));    // important!
-        m_PlayerEdit.setHint("Player Name");
+        m_PlayerEdit.setHint("ここに名前を入力してね");
         m_PlayerEdit.setMaxEms(32);     // max chars
         m_PlayerEdit.setY((int) (gv.getHeight() * 0.3));
         m_PlayerEdit.setX((int) (gv.getWidth() * 0.1));
@@ -102,6 +123,34 @@ public class scene_PlayerInput extends Task{
         MobileActivity ma = (MobileActivity)gv.getContext();
         ma.getFrame().addView(m_PlayerEdit);
 
+        // use spinner in select box
+        /*
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(gv.getContext(), android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // アイテムを追加します
+        adapter.add("red");
+        adapter.add("green");
+        adapter.add("blue");
+        Spinner spinner = new Spinner(gv.getContext());
+//        Spinner spinner = (Spinner) findViewById(id.spinner);
+        // アダプターを設定します
+        spinner.setAdapter(adapter);
+        // スピナーのアイテムが選択された時に呼び出されるコールバックリスナーを登録します
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                Spinner spinner = (Spinner) parent;
+                // 選択されたアイテムを取得します
+                String item = (String) spinner.getSelectedItem();
+//                Toast.makeText(SpinnerSampleActivity.this, item, Toast.LENGTH_LONG).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+        ma.getFrame().addView(spinner);
+        */
         reset();
     }
 
@@ -110,6 +159,9 @@ public class scene_PlayerInput extends Task{
         if( m_InputSprite != null ){
 //            m_InputSprite.update();
             // if m_PlayerEdit isn't focused, hide window
+        }
+        if( m_InputMsg != null){
+            m_InputMsg.update();
         }
     }
 
@@ -135,8 +187,14 @@ public class scene_PlayerInput extends Task{
         if( m_InputSprite != null ){
             m_InputSprite.draw(c);
         }
-        if( m_Test != null ){
-            m_Test.draw(c);
+        if( m_InputMsg != null ){
+            m_InputMsg.multiline_draw(c,IN_MSG_WIDTH,IN_MSG_LINE_HEIGHT);
+        }
+        if( m_MsgCaracter != null ){
+            m_MsgCaracter.draw(c);
+        }
+        if( m_OK != null ){
+            m_OK.draw(c);
         }
         if( m_bMove ){
             new scene_Menu( m_GameView, 25);
@@ -144,6 +202,7 @@ public class scene_PlayerInput extends Task{
     }
 
     public void onButtonClick(){
+        /*
         // create intent
         try{
             Intent intent = new Intent(
@@ -156,12 +215,14 @@ public class scene_PlayerInput extends Task{
                     "VoiceRecognitionStart");
 
 
+
             // result of intent
             //startActivityForResult(intent, REQUEST_CODE);
         }catch( ActivityNotFoundException e){
             // if activity doesn't install
             Toast.makeText( m_GameView.getContext(), "AcivityNotFoundException",Toast.LENGTH_LONG).show();
         }
+        */
 
     }
 
@@ -183,9 +244,9 @@ public class scene_PlayerInput extends Task{
                     new scene_Menu(  m_GameView, 24);
                 }
             }
-            if( m_Test != null ) {
-                m_Test.touch(event);
-                if (m_Test.getTouch()) {
+            if( m_OK != null ) {
+                m_OK.touch(event);
+                if (m_OK.getTouch()) {
                     showList();
                 }
             }

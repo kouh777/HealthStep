@@ -14,9 +14,10 @@ public class char_Urara extends CharacterSprite {
         m_iCharacterID = menu_Character.CHAR_URARA_ID;
 
         if(anim_flg){
-            addImg( R.drawable.char101_urara4 );
-            addImg( R.drawable.char101_urara2 );
-            addImg( R.drawable.char101_urara3 );
+            addImg( R.drawable.char101_urara4 );   // closing eyes in between animation
+            addImg( R.drawable.char101_urara2 );   // closed eye
+            addImg( R.drawable.char101_urara3 );   // speaking
+            addImg( R.drawable.char101_urara5 );   // speaking in between animation
         }
 
         // set Strings

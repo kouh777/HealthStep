@@ -14,9 +14,10 @@ public class char_Miki extends CharacterSprite {
         m_iCharacterID = menu_Character.CHAR_MIKI_ID;
 
         if(anim_flg){
-            addImg( R.drawable.char104_miki4 );
-            addImg( R.drawable.char104_miki2 );
-            addImg( R.drawable.char104_miki3 );
+            addImg( R.drawable.char104_miki4 );    // closing eyes in between animation
+            addImg( R.drawable.char104_miki2 );    // closed eye
+            addImg( R.drawable.char104_miki3 );    // speaking
+            addImg( R.drawable.char104_miki5 );    // speaking in between animation
         }
 
         // set Strings

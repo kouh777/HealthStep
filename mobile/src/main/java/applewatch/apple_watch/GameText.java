@@ -6,6 +6,9 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Typeface;
 
+import java.util.List;
+import java.util.Vector;
+
 /**
  * Created by KOUHO on 2014/11/22.
  */
@@ -35,6 +38,8 @@ public class GameText {
 
     // define default text size
     protected final int DEFAULT_TEXT_SIZE = 30;
+
+    static final String BR = System.getProperty("line.separator");
 
     // main constructor
     public GameText( GameView gv, char[] char_buffer, int posX, int posY ){
@@ -93,6 +98,57 @@ public class GameText {
             c.drawText(String.valueOf(m_CharBuffer), m_iPosX, m_iPosY, m_Paint);
         }
     }
+
+    // draw stroke
+    public void draw_stroke( Canvas c, float stroke_width, int color ){
+        if( !m_bDisplay && m_CharBuffer != null) {
+            Paint paint = new Paint(m_Paint);
+            paint.setStyle(Style.STROKE);
+            paint.setStrokeWidth(stroke_width);
+            paint.setColor(color);
+            c.drawText(String.valueOf(m_CharBuffer), m_iPosX, m_iPosY, paint);
+        }
+    }
+
+    // draw from right egde
+    public void align_right( final int rx ){
+        m_iPosX = rx - ( (int)( m_Paint.getTextSize() *  extra_legnth(m_CharBuffer)) ) ;
+    }
+
+    // check char whether half or all
+    public float extra_legnth( char[] char_buffer ){
+        float ex_len = 0;
+        for( int i = 0; i < char_buffer.length ; i++ ){
+            if( Character.isLetterOrDigit(char_buffer[i]) ){
+                ex_len += 0.5f;
+            }else{
+                ex_len += 1.0f;
+            }
+        }
+        return ex_len;
+    }
+
+    // separate draw
+    public void multiline_draw( Canvas c, int box_width , int line_height ){
+        if( !m_bDisplay && m_CharBuffer != null) {
+            int w = (int)( box_width * m_GameView.getGamePerWidth() );
+            int text_size = (int)m_Paint.getTextSize();
+            int NumOfCharInRow = (int)(w / text_size );
+            char[] l = new char[NumOfCharInRow];
+            int lines = m_CharBuffer.length / NumOfCharInRow + 1;
+            for(int j = 0; j < lines ; j++){
+                for(int i=0; i < NumOfCharInRow; i++) {
+                    if( NumOfCharInRow*j + i < m_CharBuffer.length  ) {
+                        l[i] = m_CharBuffer[i + j * NumOfCharInRow];
+                    }else{
+                        l[i] = '\0';
+                    }
+                }
+                c.drawText( String.valueOf(l), m_iPosX,m_iPosY + j * text_size + j * line_height, m_Paint );
+            }
+        }
+    }
+
 
     // this method can be used in update method
     public void type_anim( String type_str ){
@@ -196,6 +252,26 @@ public class GameText {
     public void setStrokeWidth( float width ){
         m_Paint.setStrokeWidth(width);
     }
+
+    // presets likely css class
+    // detail list texts decoration
+    public void setUiPreset(){
+        setTextSize(30);
+        setFamily("HGRPP1.TTC");
+        setColor(255,255,255,255);
+        setShadow(3.f,0,0,Color.argb(255,194,81,114));
+    }
+
+    public void setDetailListPreset(){
+        setTextSize(24);
+        m_Paint.setARGB(255,0,0,0);
+        setShadow(2,0,0,Color.argb( 255,255,255,255) );
+    }
+    // detail comment text decoration
+    public void setDetailCommentPreset(){
+
+    }
+
 
     // set position
     public void setX( int x ){ m_iPosX = x; }

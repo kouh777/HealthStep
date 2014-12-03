@@ -14,7 +14,8 @@ public class char_Donta extends CharacterSprite {
         m_iCharacterID = menu_Character.CHAR_DONTA_ID;
 
         if(anim_flg){
-            addImg( R.drawable.char301_donta2 );
+            addImg( R.drawable.char301_donta2 );    // speaking
+            addImg( R.drawable.char301_donta3 );   // speaking in between animation
         }
 
         // set Strings
