@@ -24,5 +24,15 @@ public class char_Miki extends CharacterSprite {
         m_StrHello = "おはよう！";
         m_StrWhether = "いい天気だね！";
         m_StrYell = "今日も元気にいこう。";
+
+        // set voices
+        m_CharVoiceHello = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.miki_hello_kujyou);
+        m_CharVoiceWhether = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.miki_whether_kujyou);
+        m_CharVoiceYell = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.miki_yell_kujyou);
+
+        //set wait
+        m_iHelloWait = 0;
+        m_iWhetherWait = 15;
+        m_iYellWait =10;
     }
 }

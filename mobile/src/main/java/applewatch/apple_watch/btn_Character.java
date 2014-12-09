@@ -48,7 +48,9 @@ public class btn_Character implements Buttons{
     private double m_dTouchKeepTime;
 
     // define touch long press time
-    private final int LONG_PRESS_TIME = 350;
+    private final int LONG_PRESS_TIME = 500;
+
+    Object m_Obj;   // for synchronize
 
     public btn_Character(GameView gv, scene_Gallery sg,int char_num, boolean found,int posX, int posY){
         m_GameView = gv;
@@ -65,6 +67,8 @@ public class btn_Character implements Buttons{
         m_dTouchUpTime = 0;
         m_dTouchKeepTime = 0;
         m_bIsTouched = false;
+
+        m_Obj = new Object();
 
         // load background image resources
         m_btnBackGround = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.boy_waku);
@@ -210,35 +214,42 @@ public class btn_Character implements Buttons{
 
         switch( event.getAction() ){
             case MotionEvent.ACTION_DOWN:
-                if( x > m_iPosX && x < m_iPosX + m_iBtnWidth &&
-                        y > m_iPosY && y < m_iPosY + m_iBtnHeight){
-                    m_dTouchDownTime = event.getEventTime();
-                    m_bTouchInside = true;
-                }else{
-                    return;
+                synchronized (m_Obj) {
+                    if (x > m_iPosX && x < m_iPosX + m_iBtnWidth &&
+                            y > m_iPosY && y < m_iPosY + m_iBtnHeight) {
+                        m_dTouchDownTime = event.getEventTime();
+                        m_bTouchInside = true;
+                    } else {
+                        return;
+                    }
                 }
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                if( x > m_iPosX && x < m_iPosX + m_iBtnWidth &&
-                        y > m_iPosY && y < m_iPosY + m_iBtnHeight && m_bTouchInside ) {
-                    m_dTouchKeepTime = m_dTouchUpTime - event.getEventTime();
-                    if( m_dTouchKeepTime > LONG_PRESS_TIME ) {
-                        onLongTouch();
+                synchronized (m_Obj) {
+                    if (x > m_iPosX && x < m_iPosX + m_iBtnWidth &&
+                            y > m_iPosY && y < m_iPosY + m_iBtnHeight && m_bTouchInside) {
+                        m_dTouchKeepTime = event.getEventTime() - m_dTouchDownTime;
+                        if (m_dTouchKeepTime > LONG_PRESS_TIME) {
+                            onLongTouch();
+                        }
+                    } else {
+                        m_bTouchInside = false;
                     }
-                }else {
-                    m_bTouchInside = false;
                 }
+                break;
 
             case MotionEvent.ACTION_UP:
-                if( m_bTouchInside ) {
-                    m_dTouchUpTime = event.getEventTime();
-                    m_dTouchKeepTime = m_dTouchUpTime - m_dTouchDownTime;
-                    if( m_dTouchKeepTime > LONG_PRESS_TIME ) {
-                        onLongTouch();
-                    }else {
-                        onShortTouch();
-                        //Log.d("keep_time", Double.toString(m_dTouchKeepTime));
+                synchronized (m_Obj) {
+                    if (m_bTouchInside) {
+                        m_dTouchUpTime = event.getEventTime();
+                        m_dTouchKeepTime = m_dTouchUpTime - m_dTouchDownTime;
+                        if (m_dTouchKeepTime > LONG_PRESS_TIME) {
+                            onLongTouch();
+                        } else {
+                            onShortTouch();
+                            //Log.d("keep_time", Double.toString(m_dTouchKeepTime));
+                        }
                     }
                 }
         }
@@ -247,12 +258,14 @@ public class btn_Character implements Buttons{
     // long touch
     public void onLongTouch(){
         m_bIsTouched = true;
+        m_bTouchInside = false;
         Log.d("keep_time", "LongTouch");
     }
 
     // short touch
     public void onShortTouch(){
         PlayerData.getInstance().setSelectCharacter(m_CharacterBase.characterID());
+        m_bTouchInside = false;
 //      m_bIsTouched = true;
         Log.d("keep_time", "ShortTouch");
     }

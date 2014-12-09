@@ -92,7 +92,7 @@ public class MessageCharacter {
         m_StrYell = "";
         m_NowCharacter =  m_SceneMenu.getMenuCharacter().getCharacter();
         if( m_SceneMenu != null ) {
-            if( m_SceneMenu.getMenuCharacter() != null ) {
+            if( m_SceneMenu.getMenuCharacter() != null && m_NowCharacter != null ) {
                 m_StrHello = m_NowCharacter.getStrHello();
                 m_StrWhether = m_NowCharacter.getStrWhether();
                 m_StrYell = m_NowCharacter.getStrYell();

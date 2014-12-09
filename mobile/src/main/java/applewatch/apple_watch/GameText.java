@@ -6,9 +6,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Typeface;
 
-import java.util.List;
-import java.util.Vector;
-
 /**
  * Created by KOUHO on 2014/11/22.
  */
@@ -119,13 +116,38 @@ public class GameText {
     public float extra_legnth( char[] char_buffer ){
         float ex_len = 0;
         for( int i = 0; i < char_buffer.length ; i++ ){
-            if( Character.isLetterOrDigit(char_buffer[i]) ){
+            if( char_buffer[i] > 21 && char_buffer[i] < 84 ){
                 ex_len += 0.5f;
             }else{
                 ex_len += 1.0f;
             }
         }
         return ex_len;
+    }
+
+    // draw with br
+    public void draw_with_br( Canvas c , int line_height ){
+        if( !m_bDisplay && m_CharBuffer != null ){
+            final int text_size = (int)m_Paint.getTextSize();
+            int lines = 0;
+            int NumOfCharInRaw = 0;
+            for( int i = 0; i < m_CharBuffer.length ; i++ ){
+                //  check br
+                if( m_CharBuffer[i] == BR.charAt(0) ){
+                    // br process
+                    ++lines;
+                    NumOfCharInRaw = -1;
+                }
+                // draw process
+                c.drawText(
+                        String.valueOf( m_CharBuffer[i] ) ,
+                        m_iPosX + NumOfCharInRaw * text_size ,
+                        m_iPosY + lines * ( text_size + line_height ),
+                        m_Paint
+                );
+                ++NumOfCharInRaw;
+            }
+        }
     }
 
     // separate draw
@@ -262,16 +284,30 @@ public class GameText {
         setShadow(3.f,0,0,Color.argb(255,194,81,114));
     }
 
+    // detail text preset
     public void setDetailListPreset(){
         setTextSize(24);
         m_Paint.setARGB(255,0,0,0);
         setShadow(2,0,0,Color.argb( 255,255,255,255) );
     }
+
     // detail comment text decoration
     public void setDetailCommentPreset(){
-
     }
 
+    // mail text preset
+    public void setMailSubAndSendPreset(){
+        setTextSize(26);
+        setFamily("HGRPP1.TTC");
+        setColor(255,255,255,255);
+    }
+
+    // mail text preset
+    public void setMailRecvTimePreset(){
+        setTextSize(18);
+        setFamily("HGRPP1.TTC");
+        setColor(255,255,255,255);
+    }
 
     // set position
     public void setX( int x ){ m_iPosX = x; }

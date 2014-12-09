@@ -28,12 +28,15 @@ public class scene_Gallery extends Task{
     // define fade in speed
     private final int FADE_IN_SPED = 40;
 
+    private Object m_Obj;
+
     // constructer
     public scene_Gallery(GameView gv, int prio){
         super(prio);
         m_GameView = gv;
 
         m_btn_Character = new btn_Character[20];
+        m_Obj = new Object();
 
         for(int i=0; i < m_btn_Character.length; ++i){
             m_btn_Character[i] = new  btn_Character(
@@ -70,11 +73,11 @@ public class scene_Gallery extends Task{
             for(int i=0; i < m_btn_Character.length ; ++i) {
                 if(m_btn_Character[i] != null) {
                     m_btn_Character[i].update();
-                }
-                if( m_btn_Character[i].isTouched() ){
-                    m_bMove = true;
-                    new scene_Detail( m_GameView, 20, m_btn_Character[i].getCharacter() );
-                    break;
+                    if (m_btn_Character[i].isTouched()) {
+                        m_bMove = true;
+                        new scene_Detail(m_GameView, 20, m_btn_Character[i].getCharacter());
+                        break;
+                    }
                 }
             }
         }
@@ -122,12 +125,16 @@ public class scene_Gallery extends Task{
     public void    touch(MotionEvent event){
         if( getTouchable() ) {
             if (m_MenuGroup != null) {
-                m_MenuGroup.touch(event);
+                synchronized (m_Obj) {
+                    m_MenuGroup.touch(event);
+                }
             }
             if (m_btn_Character != null) {
                 for (int i = 0; i < m_btn_Character.length; ++i) {
-                    if (m_btn_Character != null) {
-                        m_btn_Character[i].touch(event);
+                    synchronized (m_Obj) {
+                        if (m_btn_Character != null) {
+                            m_btn_Character[i].touch(event);
+                        }
                     }
                 }
             }

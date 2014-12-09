@@ -119,6 +119,7 @@ public class gacha_Animation {
 
         // setDisplay
         if( m_iTimer > DELAY_TIME && m_iTimer < CLOUD_MIN_FADEOUT_TIME){
+            m_GameView.playSE( R.raw.se_gacha_cloud );
             m_GachaCloudMin.setDisplay(true);
         }
         if( m_iTimer > CLOUD_MIN_FADEOUT_TIME && m_iTimer < CLOUD_BIG_FADEOUT_TIME){
@@ -131,6 +132,7 @@ public class gacha_Animation {
         }
         if( m_iTimer > CAPSEL_TOP_OPEN_START_TIME && m_iTimer < CAPSEL_TOP_OPEN_END_TIME){
             m_GachaCoreLight.setDisplay(true);
+            m_GameView.playSE( R.raw.se_gacha_open );
         }
         if( m_iTimer > CAPSEL_TOP_OPEN_END_TIME && m_iTimer < SPOT_LIGHT_START_TIME){
             m_GachaCoreLight.setDisplay(false);

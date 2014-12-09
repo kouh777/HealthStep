@@ -20,6 +20,7 @@ public class char_Akemi extends CharacterSprite {
             addImg( R.drawable.char100_akemi2 );    // closed eye
             addImg( R.drawable.char100_akemi3 );    // speaking
             addImg( R.drawable.char100_akemi5 );    // speaking in between animation
+            addImg( R.drawable.darkakemi );          // unselected used in player input scene
         }
 
         // set profile Strings

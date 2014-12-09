@@ -47,6 +47,38 @@ public class GameSprite {
     private boolean m_bDisplay;
 
     // easily constructer
+    public GameSprite(GameView gv, int img){
+        m_GameView = gv;
+        m_SpriteId = SpriteId.SP_NONE;
+        m_bTouch = false;
+        m_iPosX = 0;
+        m_iPosY = 0;
+        m_iPosX = (int)( m_iPosX * gv.getGamePerWidth() );
+        m_iPosY = (int)( m_iPosY * gv.getGamePerHeight() );
+        m_dScaleX = 1.0;
+        m_dScaleY = 1.0;
+        m_iAlpha = 255; // opacity
+        m_bCenterHorizontal = false;
+        m_bCenterVertical = false;
+
+        m_iPaddingTop = 0;
+        m_iPaddingRight = 0;
+        m_iPaddingBottom = 0;
+        m_iPaddingLeft = 0;
+        m_bDisplay = true;
+
+        m_ImageResource = (BitmapDrawable)gv.getResources().getDrawable(img);
+
+        if( !(m_ImageResource instanceof BitmapDrawable ) ) {
+            m_ImageResource = null;
+        }
+        if( m_ImageResource != null ) {
+            m_iWidth = (int) (m_ImageResource.getIntrinsicWidth() * gv.getGamePerWidth());
+            m_iHeight = (int) (m_ImageResource.getIntrinsicHeight() * gv.getGamePerHeight());
+        }
+    }
+
+    // easily constructer
     public GameSprite(GameView gv, SpriteId id, int img){
         m_GameView = gv;
         m_SpriteId = id;
@@ -77,6 +109,39 @@ public class GameSprite {
             m_iHeight = (int) (m_ImageResource.getIntrinsicHeight() * gv.getGamePerHeight());
         }
     }
+
+    // main constructor
+    public GameSprite(GameView gv, int posX, int posY, int img){
+        m_GameView = gv;
+        m_SpriteId = SpriteId.SP_NONE;
+        m_bTouch = false;
+        m_iPosX = posX;
+        m_iPosY = posY;
+        m_iPosX = (int)( m_iPosX * gv.getGamePerWidth() );
+        m_iPosY = (int)( m_iPosY * gv.getGamePerHeight() );
+        m_dScaleX = 1.0;
+        m_dScaleY = 1.0;
+        m_iAlpha = 255; // opacity
+        m_bCenterHorizontal = false;
+        m_bCenterVertical = false;
+
+        m_iPaddingTop = 0;
+        m_iPaddingRight = 0;
+        m_iPaddingBottom = 0;
+        m_iPaddingLeft = 0;
+        m_bDisplay = true;
+
+        m_ImageResource = (BitmapDrawable)gv.getResources().getDrawable(img);
+
+        if( !(m_ImageResource instanceof BitmapDrawable ) ) {
+            m_ImageResource = null;
+        }
+        if( m_ImageResource != null ) {
+            m_iWidth = (int) (m_ImageResource.getIntrinsicWidth() * gv.getGamePerWidth());
+            m_iHeight = (int) (m_ImageResource.getIntrinsicHeight() * gv.getGamePerHeight());
+        }
+    }
+
 
     // main constructor
     public GameSprite(GameView gv, SpriteId id,int posX, int posY, int img){
@@ -114,6 +179,36 @@ public class GameSprite {
     public GameSprite(GameView gv, SpriteId id,int posX, int posY, int img, double scaleX, double scaleY, int alpha){
         m_GameView = gv;
         m_SpriteId = id;
+        m_bTouch = false;
+        m_iPosX = posX;
+        m_iPosY = posY;
+        m_iPosX = (int)( m_iPosX * gv.getGamePerWidth() );
+        m_iPosY = (int)( m_iPosY * gv.getGamePerHeight() );
+        m_dScaleX = scaleX;
+        m_dScaleY = scaleY;
+        m_iAlpha = alpha;
+
+        m_iPaddingTop = 0;
+        m_iPaddingRight = 0;
+        m_iPaddingBottom = 0;
+        m_iPaddingLeft = 0;
+        m_bDisplay = true;
+
+        m_ImageResource = (BitmapDrawable)gv.getResources().getDrawable(img);
+
+        if( !(m_ImageResource instanceof BitmapDrawable)  ) {
+            m_ImageResource = null;
+        }
+        if( m_ImageResource != null ) {
+            m_iWidth = (int)( m_ImageResource.getIntrinsicWidth() * gv.getGamePerWidth() * scaleX );
+            m_iHeight = (int)( m_ImageResource.getIntrinsicHeight() * gv.getGamePerHeight() * scaleY);
+        }
+    }
+
+    // detail constructor
+    public GameSprite(GameView gv, int posX, int posY, int img, double scaleX, double scaleY, int alpha){
+        m_GameView = gv;
+        m_SpriteId = SpriteId.SP_NONE;
         m_bTouch = false;
         m_iPosX = posX;
         m_iPosY = posY;

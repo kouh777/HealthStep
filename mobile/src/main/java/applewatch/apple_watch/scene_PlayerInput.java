@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.content.DialogInterface;
@@ -32,25 +33,29 @@ public class scene_PlayerInput extends Task{
 
     private boolean m_bMove;
     private GameView m_GameView;
-
-    // spinner
-    private SpannableStringBuilder sb;
-
     private menu_Character m_MsgCaracter;
 
     // game sprites
-    private InputSprite m_InputSprite;
-    private GameSprite m_OK;      // ok
+    private GameSprite m_OK;
+    private GameSprite m_Balloon;
 
     // game text
     private GameText m_InputMsg;
 
     // message strings
-    private String m_StrMsg = "はじめに君の名前と、君が住む都道府県を教えて欲しいコン";
+    private String m_StrMsg = "はじめに君の名前と、君が住む都道府県を教えて欲しいコン。名前と都道府県が入力出来たら、ＯＫを押して欲しいコン。";
+
+    // define sprite position
+    private final int BALLON_X = 150;
+    private final int BALLON_Y = 85;
+    private final int OK_X = 450;
+    private final int OK_Y = 450;
 
     // define text pos
     private final int IN_MSG_X = 200;
-    private final int IN_MSG_Y  = 150;
+    private final int IN_MSG_Y  = 130;
+    private final int CH_X = -70;
+    private final int CH_Y = -70;
 
     // define text area width
     private final int IN_MSG_WIDTH = 400;
@@ -58,6 +63,12 @@ public class scene_PlayerInput extends Task{
 
     // relation to Edit Text
     private EditText m_PlayerEdit;
+
+    // relation to Spinner
+    private Spinner m_PrefectureSpinner;
+
+    // game sound
+//    private GameSound m_SeYes;
 
     // prefectures list
     private CharSequence[] m_PreList={
@@ -89,20 +100,20 @@ public class scene_PlayerInput extends Task{
     public scene_PlayerInput(GameView gv, int prio){
         super(prio);
         m_GameView = gv;
-        m_InputSprite = new InputSprite(gv, R.drawable.ok);
-        m_OK = new GameSprite(gv,200,0, R.drawable.gacha_yes);
-
+        m_OK = new GameSprite(gv, OK_X, OK_Y, R.drawable.ok);
+        m_Balloon = new GameSprite( gv, BALLON_X , BALLON_Y , R.drawable.hukidashi_yoko );
         m_InputMsg = new GameText(gv,m_StrMsg.toCharArray(),IN_MSG_X,IN_MSG_Y);
+        m_MsgCaracter = new menu_Character(gv,CH_X,CH_Y,menu_Character.CHAR_KONSUKE_ID);
 
-        m_MsgCaracter = new menu_Character(gv,-70,-90,menu_Character.CHAR_KONSUKE_ID);
-
+        PlayerData.getInstance().setPlayerName("");
         //　Draw TextView over SurfaceView
         m_PlayerEdit = new EditText(gv.getRootView().getContext());
-        m_PlayerEdit.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT ));    // important!
-        m_PlayerEdit.setHint("ここに名前を入力してね");
+        FrameLayout.LayoutParams pe_params = new FrameLayout.LayoutParams( ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT );  // important!
+        pe_params.topMargin = (int) (gv.getHeight() * 0.3);
+        pe_params.leftMargin = (int) (gv.getWidth() * 0.1);
+        m_PlayerEdit.setLayoutParams(pe_params);
+        m_PlayerEdit.setHint("ここに名前を入力して下さい");
         m_PlayerEdit.setMaxEms(32);     // max chars
-        m_PlayerEdit.setY((int) (gv.getHeight() * 0.3));
-        m_PlayerEdit.setX((int) (gv.getWidth() * 0.1));
         m_PlayerEdit.setWidth((int) (gv.getWidth() * 0.8));
         m_PlayerEdit.setMaxHeight(80);
         m_PlayerEdit.setTextColor(Color.BLACK);
@@ -114,6 +125,7 @@ public class scene_PlayerInput extends Task{
                 if( keyEvent.getAction() == KeyEvent.ACTION_DOWN ){
                   // enter key
                   if( key_code == KeyEvent.KEYCODE_ENTER ){
+                      m_GameView.playSE(R.raw.se_yes );;
                       hideKeyBoard();
                   }
                 }
@@ -124,44 +136,52 @@ public class scene_PlayerInput extends Task{
         ma.getFrame().addView(m_PlayerEdit);
 
         // use spinner in select box
-        /*
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(gv.getContext(), android.R.layout.simple_spinner_item);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(gv.getContext(),android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(gv.getContext(),
+                R.array.prefecture_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // アイテムを追加します
-        adapter.add("red");
-        adapter.add("green");
-        adapter.add("blue");
-        Spinner spinner = new Spinner(gv.getContext());
-//        Spinner spinner = (Spinner) findViewById(id.spinner);
-        // アダプターを設定します
-        spinner.setAdapter(adapter);
-        // スピナーのアイテムが選択された時に呼び出されるコールバックリスナーを登録します
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        m_PrefectureSpinner = new Spinner(gv.getContext());
+
+        // set adapter
+        m_PrefectureSpinner.setAdapter(adapter);
+        // call back listener when spinner on click
+        m_PrefectureSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 Spinner spinner = (Spinner) parent;
-                // 選択されたアイテムを取得します
+                // get selecting item
                 String item = (String) spinner.getSelectedItem();
-//                Toast.makeText(SpinnerSampleActivity.this, item, Toast.LENGTH_LONG).show();
+                if( position != 0 ) {
+                    PlayerData.getInstance().setPrefecture(item);
+                }else{
+                    m_GameView.playSE(R.raw.se_yes );
+                    PlayerData.getInstance().setPrefecture("");
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
-        ma.getFrame().addView(spinner);
-        */
+        FrameLayout.LayoutParams ps_params = new FrameLayout.LayoutParams( ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT );
+        ps_params.topMargin = (int) (gv.getHeight() * 0.4);
+        ps_params.leftMargin = (int) (gv.getWidth() * 0.05);
+        m_PrefectureSpinner.setLayoutParams(ps_params);
+        ma.getFrame().addView(m_PrefectureSpinner);
         reset();
     }
 
     @Override
     public void update(){
-        if( m_InputSprite != null ){
-//            m_InputSprite.update();
+        if( m_OK != null ){
+//            m_OK.update();
             // if m_PlayerEdit isn't focused, hide window
         }
         if( m_InputMsg != null){
             m_InputMsg.update();
+        }
+        if( m_bMove ){
+            new scene_Menu( m_GameView, 25);
         }
     }
 
@@ -170,8 +190,8 @@ public class scene_PlayerInput extends Task{
         m_bMove = false;
 
         setTouchable( true );
-        PlayerData.getInstance().setUnlockCharacter(0,true);
-        PlayerData.getInstance().setSelectCharacter( menu_Character.CHAR_AKEMI_ID );
+//        PlayerData.getInstance().setUnlockCharacter(0,true);
+//        PlayerData.getInstance().setSelectCharacter( menu_Character.CHAR_AKEMI_ID );
         Log.d("TEST", "New PlayerInput Class");
     }
 
@@ -184,20 +204,17 @@ public class scene_PlayerInput extends Task{
     @Override
     // draw
     public void    draw(Canvas c){
-        if( m_InputSprite != null ){
-            m_InputSprite.draw(c);
-        }
-        if( m_InputMsg != null ){
-            m_InputMsg.multiline_draw(c,IN_MSG_WIDTH,IN_MSG_LINE_HEIGHT);
+        if( m_OK != null ){
+            m_OK.draw(c);
         }
         if( m_MsgCaracter != null ){
             m_MsgCaracter.draw(c);
         }
-        if( m_OK != null ){
-            m_OK.draw(c);
+        if( m_Balloon != null ){
+            m_Balloon.draw(c);
         }
-        if( m_bMove ){
-            new scene_Menu( m_GameView, 25);
+        if( m_InputMsg != null ){
+            m_InputMsg.multiline_draw(c,IN_MSG_WIDTH,IN_MSG_LINE_HEIGHT);
         }
     }
 
@@ -230,26 +247,32 @@ public class scene_PlayerInput extends Task{
     // touch event
     public void    touch(MotionEvent event){
         if( getTouchable() ) {
-            if( m_InputSprite != null ){
-                m_InputSprite.touch(event);
-                if( m_InputSprite.getTouch() ){
+            if( m_OK != null ){
+                m_OK.touch(event);
+                if( m_OK.getTouch() ){
+                    m_GameView.playSE(R.raw.se_yes );
+                    String name = m_PlayerEdit.getText().toString().trim();
+                    PlayerData.getInstance().setPlayerName( name );
                     onButtonClick();
-                    m_bMove = true;
-
-                    // delete input space
-                    MobileActivity ma = (MobileActivity)m_GameView.getContext();
-                    ma.getFrame().removeView(m_PlayerEdit);
-                    hideKeyBoard();
-                    PlayerData.getInstance().setPlayerName(m_PlayerEdit.getText().toString());
-                    new scene_Menu(  m_GameView, 24);
+                    if( checkInput() ) {
+                        m_bMove = true;
+                        // delete input space
+                        MobileActivity ma = (MobileActivity) m_GameView.getContext();
+                        ma.getFrame().removeView(m_PlayerEdit);
+                        ma.getFrame().removeView(m_PrefectureSpinner);
+                        hideKeyBoard();
+                        new scene_PartnerSelect(m_GameView, 24);
+                    }
                 }
             }
+            /*
             if( m_OK != null ) {
                 m_OK.touch(event);
                 if (m_OK.getTouch()) {
                     showList();
                 }
             }
+            */
         }
     }
 
@@ -275,5 +298,18 @@ public class scene_PlayerInput extends Task{
         builder.setItems(m_PreList, mItemListener );
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    // check input
+    public boolean checkInput(){
+        if( PlayerData.getInstance().getPlayerName().isEmpty() ){
+            m_InputMsg.setText("名前が入力されていないコン。確認して欲しいコン。");
+            return false;
+        }else if( PlayerData.getInstance().getPrefecture() == ""){
+            m_InputMsg.setText("都道府県が選択されていないコン。確認して欲しいコン。");
+            return false;
+        }else{
+            return true;
+        }
     }
 }

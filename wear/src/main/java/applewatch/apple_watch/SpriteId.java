@@ -5,6 +5,7 @@ package applewatch.apple_watch;
  */
 // define Sprite ID
 public enum SpriteId {
+    SP_NONE,
     SP_BACK,
     SP_LOGO,
     SP_ICO_BEAT,

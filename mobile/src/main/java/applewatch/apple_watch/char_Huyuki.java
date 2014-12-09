@@ -24,5 +24,15 @@ public class char_Huyuki extends CharacterSprite {
         m_StrHello = "おはよう！";
         m_StrWhether = "いい天気だな！";
         m_StrYell = "今日も元気にいこうか。";
+
+        // set voices
+        m_CharVoiceHello = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.huyuki_hello_yokkorasyo);
+        m_CharVoiceWhether = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.huyuki_whether_yokkorasyo);
+        m_CharVoiceYell = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.huyuki_yell_yokkorasyo);
+
+        //set wait
+        m_iHelloWait = 0;
+        m_iWhetherWait = 15;
+        m_iYellWait =10;
     }
 }

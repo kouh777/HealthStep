@@ -1,6 +1,7 @@
 package applewatch.apple_watch;
 
 import android.graphics.Canvas;
+import android.view.MotionEvent;
 
 /**
  * Created by KOUHO on 2014/10/15.
@@ -348,6 +349,16 @@ public class menu_Character{
                 }
                 break;
         }
+    }
+
+    public boolean touch(MotionEvent event){
+        if( m_Character != null ){
+            m_Character.touch(event);
+            if( m_Character.getTouch() ){
+                return true;
+            }
+        }
+        return false;
     }
 
     // update

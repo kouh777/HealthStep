@@ -15,6 +15,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
     private SurfaceHolder   mSurfaceHolder = null;
     private Paint           mPaint = null;
     private int            mInt = 0;
+//    static final  Object m_Obj = new Object();
 
     private Rect    mRect = new Rect();
 
@@ -66,9 +67,10 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
     public void    doAnim(){
         mInt++;
         if(!m_bSceneFlag) {
-            new scene_WearTitle(this, 30);
+            new scene_WearTotal(this, 30);
             m_bSceneFlag = true;
         }
+        TaskManager.getInstance().update();
     }
 
     //
@@ -80,7 +82,6 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
         c.drawRect(0,0,c.getWidth(),getHeight(),mPaint);
 
         // draw tasks
-        TaskManager.getInstance().update();
         TaskManager.getInstance().draw(c);
 
         //  draw test
@@ -112,7 +113,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
     //
     //  ウィンドウがフォーカスを得た／失った
     public void onWindowFocusChanged(boolean hasWindowFocus) {
-
+        Log.d("GameView","onWindowFocusChanged");
     }
 
     //
@@ -123,6 +124,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
         mRect.left = 0;
         mRect.bottom = getHeight();
         mRect.right = getWidth();
+        Log.d("GameView","surfaceChanged");
     }
 
     //  サーフェイスの生成が完了した際コールバックされる
@@ -145,6 +147,8 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
 
         mThread = new Thread(this);
         mThread.start();
+
+        Log.d("GameView","surfaceCreated");
     }
 
     //
@@ -154,6 +158,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
         //  操作不能にし、Thread を終了させる
         bActive = false;
         mThread = null;
+        Log.d("GameView","surfaceDestroyed");
     }
 
 

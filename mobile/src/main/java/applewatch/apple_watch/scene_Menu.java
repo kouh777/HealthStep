@@ -42,11 +42,7 @@ public class scene_Menu extends Task{
         super(prio);
         m_GameView = gv;
 
-        int w = gv.getGameWidth();
-        int h = gv.getGameHeight();
-
         // for presentation
-        m_btn_Walk = new btn_Walk(gv, (w>>2)*3, h-(w>>1));
         m_Character = new menu_Character(gv, 100, 350);
         m_numImage = new numImage(gv,100,100,1.0f);
 
@@ -67,7 +63,6 @@ public class scene_Menu extends Task{
         setTouchable( true );
 
         m_H1.setAlpha(0);
-//        m_H1.setX( -600 );
 
         Log.d("TEST", "Menu::Reset");
     }
@@ -76,10 +71,11 @@ public class scene_Menu extends Task{
     public void update(){
         if( m_UiGroup != null ) {
             m_UiGroup.update();
+            if( !m_bMove ) m_bMove = m_UiGroup.getMove();
         }
         if( m_MenuGroup != null ) {
             m_MenuGroup.update();
-            m_bMove = m_MenuGroup.getMove();
+            if( !m_bMove ) m_bMove = m_MenuGroup.getMove();
         }
         if (m_Character != null) {
             m_Character.update();
@@ -101,36 +97,15 @@ public class scene_Menu extends Task{
     @Override
     // draw
     public void    draw(Canvas c) {
-        int w = m_GameView.getWidth();
-        int h = m_GameView.getHeight();
         if (m_UiGroup != null) {
             m_UiGroup.draw(c);
         }
         if (m_Character != null) {
             m_Character.draw(c);
         }
-        /*
-        if (m_numImage != null) {
-            m_numImage.draw(c);
-        }
-
-        if (m_btn_Walk != null) {
-            m_btn_Walk.draw(c);
-        }
-        */
         if( m_MessageCharacter != null ){
             if(m_Character != null) {
-                switch (m_Character.CharacterID) {
-                    case menu_Character.CHAR_AKEMI_ID:
-                        m_MessageCharacter.draw(c);
-                        break;
-                    case menu_Character.CHAR_BANJYO_ID:
-                        m_MessageCharacter.draw(c);
-                        break;
-                    case menu_Character.CHAR_YUKITO_ID:
-                        m_MessageCharacter.draw(c);
-                        break;
-                }
+                m_MessageCharacter.draw(c);
             }
         }
         if( m_H1 != null ){
@@ -141,10 +116,6 @@ public class scene_Menu extends Task{
         }
     }
 
-    public void endAnimation(){
-
-    }
-
     @Override
     // touch event
     public void    touch(MotionEvent event){
@@ -152,8 +123,8 @@ public class scene_Menu extends Task{
             if (m_MenuGroup != null) {
                 m_MenuGroup.touch(event);
             }
-            if (m_btn_Walk != null) {
-                m_btn_Walk.touch(event);
+            if (m_UiGroup != null) {
+                m_UiGroup.touch(event);
             }
         }
     }

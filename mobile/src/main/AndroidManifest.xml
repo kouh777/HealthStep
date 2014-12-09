@@ -4,7 +4,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/health_step_icon"
+        android:icon="@drawable/icon_new"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity

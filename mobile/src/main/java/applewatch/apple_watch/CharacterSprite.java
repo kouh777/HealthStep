@@ -72,7 +72,7 @@ public class CharacterSprite extends AnimSprite {
     // select animation
     public void doAnim(){
         m_iTimer++;
-        if(m_CharResources.size() == WINK_ANIMATION_SIZE){
+        if(m_CharResources.size() >= WINK_ANIMATION_SIZE){
             if( m_bLipAnim ) {
                 doLipAnim();
             }else {
@@ -170,6 +170,12 @@ public class CharacterSprite extends AnimSprite {
 
     //setter
     public void setLipAnim( boolean anim_flg ){ m_bLipAnim = anim_flg; }
+
+    public void setIndex( int index ){
+        if( m_CharResources.size() > index ){
+            m_iIndex = index;
+        }
+    }
 
     // getter
     public int characterID(){ return m_iCharacterID; }

@@ -18,6 +18,7 @@ public class char_Yukito extends CharacterSprite{
             addImg( R.drawable.char200_yukito2 );   // closed eye
             addImg( R.drawable.char200_yukito3 );   // speaking
             addImg( R.drawable.char200_yukito5 );   // speaking in between animation
+            addImg( R.drawable.darkyukito );         // unselected used in player input scene
         }
 
         // set Strings

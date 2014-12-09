@@ -46,18 +46,22 @@ public class MenuGroup {
     public void update(){
         if(m_btn_MyPage != null && m_btn_MyPage.isTouched()){
             m_bMove = true;
+            m_GameView.playSE( R.raw.se_menu );
             new scene_Menu(m_GameView, 21);
         }
         if(m_btn_Ranking != null && m_btn_Ranking.isTouched()){
             m_bMove = true;
+            m_GameView.playSE( R.raw.se_menu );
             new scene_Ranking(m_GameView, 22);
         }
         if(m_btn_Gallery != null && m_btn_Gallery.isTouched()) {
             m_bMove = true;
+            m_GameView.playSE( R.raw.se_menu );
             new scene_Gallery(m_GameView, 23);
         }
         if(m_btn_Gacha != null && m_btn_Gacha.isTouched()){
             m_bMove = true;
+            m_GameView.playSE( R.raw.se_menu );
             new scene_Gacha(m_GameView, 20);
         }
     }

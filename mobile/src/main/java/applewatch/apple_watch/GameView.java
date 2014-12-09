@@ -30,6 +30,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     private boolean m_bActive = false;
     private SurfaceHolder m_SurfaceHolder = null;
     private Paint m_Paint = null;
+    private SoundManager m_SoundManager;
 
     // game scene
     private int m_Int = 0;
@@ -46,7 +47,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
     BitmapDrawable m_GameScr;
 
     // backgroun_music
-    private GameSound m_GameBgm;
+//    private GameSound m_GameBgm;
 
     private boolean m_bSceneFlg;
 
@@ -58,6 +59,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
         m_holder.addCallback(this);
         m_SurfaceHolder = m_holder;
         m_bActive = true;
+        m_SoundManager = new SoundManager( this.getContext() );
 
         // a resource of background image
         m_GameScr = (BitmapDrawable)context.getResources().getDrawable(R.drawable.bg);
@@ -111,17 +113,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
         m_Thread.start();
 
         // crete bgm
-        m_GameBgm = new GameSound( SoundKind.SOUND_BGM, this, R.raw.bgm_main);
-        m_GameBgm.play();
+        playBGM( R.raw.bgm_main );
+//        m_GameBgm = new GameSound( SoundKind.SOUND_BGM, this, R.raw.bgm_main);
+//        m_GameBgm.play();
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         Log.d("TEST", "surfaceDestroyed");
         //  to inoperable and exit
+        m_SoundManager.dispose();
         m_bActive = false;
         m_Thread = null;
-        m_GameBgm.release();
+//        m_GameBgm.release();
     }
 
     public void doAnim(){
@@ -172,6 +176,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback,Runn
             }
             Thread.yield();
         }
+    }
+
+    public void playSE( int rawId ){
+        if( !( m_SoundManager.isLoaded( rawId ) ) ){
+            m_SoundManager.loadFromRaw( rawId , rawId );
+        }
+        m_SoundManager.play( rawId );
+    }
+
+    public void playBGM( int rawId ){
+        if( !( m_SoundManager.isLoaded( rawId ) ) ){
+            m_SoundManager.loadFromRaw( rawId , rawId );
+        }
+        m_SoundManager.play( rawId , true );
     }
 
     // getter

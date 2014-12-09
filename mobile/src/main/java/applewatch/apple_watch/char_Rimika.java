@@ -24,5 +24,15 @@ public class char_Rimika extends CharacterSprite{
         m_StrHello = "おはよう！";
         m_StrWhether = "いい天気だね！";
         m_StrYell = "今日も元気にいこう。";
+
+        // set voices
+        m_CharVoiceHello = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.rimika_hello_ono_miu2);
+        m_CharVoiceWhether = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.rimika_whether_ono_miu2);
+        m_CharVoiceYell = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.rimika_yell_ono_miu2);
+
+        //set wait
+        m_iHelloWait = 0;
+        m_iWhetherWait = 15;
+        m_iYellWait =10;
     }
 }

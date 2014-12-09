@@ -23,6 +23,8 @@ public class PlayerData{
         m_iWalkingCount = 0;
         m_iWalkingDistance = 0;
         m_iGachaTicket = 0;
+        m_PlayerName="";
+        m_Prefecture="";
         UnlockCharacter = new boolean[20];
     }
     public static PlayerData getInstance(){
@@ -35,9 +37,6 @@ public class PlayerData{
     public void setSelectCharacter(int select_character){
         m_iSelectCharacter = select_character;
     }
-//    public void setPrefecture(int prefectrure){
-//        m_iPrefecture = prefectrure;
-//    }
     public void setWalkingCount(int walking_count){ m_iWalkingCount = walking_count;}
     public void setWalkingDistance(int walking_distance){
         m_iWalkingDistance = walking_distance;

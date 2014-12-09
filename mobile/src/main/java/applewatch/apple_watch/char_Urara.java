@@ -24,5 +24,15 @@ public class char_Urara extends CharacterSprite {
         m_StrHello = "おはよう！";
         m_StrWhether = "いい天気だね！";
         m_StrYell = "今日も元気にいこう。";
+
+        // set voices
+        m_CharVoiceHello = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.urara_hello_kuronosu);
+        m_CharVoiceWhether = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.urara_whether_kuronosu);
+        m_CharVoiceYell = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.urara_yell_kuronosu);
+
+        //set wait
+        m_iHelloWait = 0;
+        m_iWhetherWait = 15;
+        m_iYellWait =10;
     }
 }

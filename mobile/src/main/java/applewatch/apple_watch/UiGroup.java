@@ -17,7 +17,6 @@ public class UiGroup {
     private GameText m_UiWalkingCount;
     private GameText m_UiTicketNum;
 
-//    private GameSprite m_UiWalkingCount;
     private GameSprite m_UiTicket;
 //    private FrameSprite m_UiTicketNum;
 //    private GameSprite m_UiTicketUint;
@@ -35,6 +34,7 @@ public class UiGroup {
 
     private int m_iPosX;
     private int m_iPosY;
+    private boolean m_bMove;
 
     // define sprites positions and scales
     private final int PN_X = 320;   // player name X
@@ -52,49 +52,60 @@ public class UiGroup {
     private final int SETTING_X = 535;
     private final int MAIL_SETTING_Y = 150;
 
-    private final double UI_SX = 0.82;
-    private final double UI_SY = 0.19;
+    private Object m_Obj;
 
     public UiGroup(GameView gv, int posX, int posY){
         m_GameView = gv;
         m_iPosX = posX;
         m_iPosY = posY;
+        m_bMove = false;
 
-        // ui background resource
-        m_UiBackGround = (BitmapDrawable)gv.getResources().getDrawable(R.drawable.name_bar);
+        m_Obj = new Object();
+        synchronized (m_Obj) {
+            // ui background resource
+            m_UiBackGround = (BitmapDrawable) gv.getResources().getDrawable(R.drawable.name_bar);
 
-        // GameSprite
-        m_UiTicket = new GameSprite( gv, m_iPosX + TI_X, m_iPosY + TI_Y, R.drawable.ticket );
+            // GameSprite
+            m_UiTicket = new GameSprite(gv, m_iPosX + TI_X, m_iPosY + TI_Y, R.drawable.ticket);
 
-        m_Mail = new GameSprite(gv, MAIL_X, MAIL_SETTING_Y, R.drawable.mail);
-        m_Setting = new GameSprite( gv, SETTING_X, MAIL_SETTING_Y, R.drawable.settei );
+            m_Mail = new GameSprite(gv, MAIL_X, MAIL_SETTING_Y, R.drawable.mail);
+            m_Setting = new GameSprite(gv, SETTING_X, MAIL_SETTING_Y, R.drawable.settei);
 
-        // receive data from player data
-        m_StrPlayerName = PlayerData.getInstance().getPlayerName();
-        m_StrPrefecture = PlayerData.getInstance().getPrefecture();
-        m_iWalkingCount = PlayerData.getInstance().getWalkingCount();
-        m_iGachaTicketNum = PlayerData.getInstance().getGachaTicket();
+            // receive data from player data
+            m_StrPlayerName = PlayerData.getInstance().getPlayerName();
+            m_StrPrefecture = PlayerData.getInstance().getPrefecture();
+            m_iWalkingCount = PlayerData.getInstance().getWalkingCount();
+            m_iGachaTicketNum = PlayerData.getInstance().getGachaTicket();
 
-        // texts
-        m_UiWalkingCount= new GameText( gv , ("総歩数"+String.valueOf(m_iWalkingCount)).toCharArray() , m_iPosX + WC_X, m_iPosY + WC_Y);
-        m_UiPlayerName = new GameText( gv , m_StrPlayerName.toCharArray() , m_iPosX + PN_X, m_iPosY + PN_Y);
-        m_UiPrefacture = new GameText( gv , m_StrPrefecture.toCharArray()  ,m_iPosX + PRE_X, m_iPosY + PRE_Y);
-        m_UiTicketNum = new GameText( gv, (String.valueOf(m_iGachaTicketNum)+"枚").toCharArray() , m_iPosX + TN_X, m_iPosY + TN_Y );
+            // texts
+            m_UiWalkingCount = new GameText(gv, ("総歩数　" + String.valueOf(m_iWalkingCount)).toCharArray(), m_iPosX + WC_X, m_iPosY + WC_Y);
+            m_UiPlayerName = new GameText(gv, m_StrPlayerName.toCharArray(), m_iPosX + PN_X, m_iPosY + PN_Y);
+            m_UiPrefacture = new GameText(gv, m_StrPrefecture.toCharArray(), m_iPosX + PRE_X, m_iPosY + PRE_Y);
+            m_UiTicketNum = new GameText(gv, (String.valueOf(m_iGachaTicketNum) + "　枚").toCharArray(), m_iPosX + TN_X, m_iPosY + TN_Y);
 
-        //set text decoration
-        m_UiWalkingCount.setUiPreset();
-        m_UiPlayerName.setUiPreset();
-        m_UiPrefacture.setUiPreset();
-        m_UiTicketNum.setUiPreset();
+            //set text decoration
+            m_UiWalkingCount.setUiPreset();
+            m_UiPlayerName.setUiPreset();
+            m_UiPrefacture.setUiPreset();
+            m_UiTicketNum.setUiPreset();
+            m_UiTicketNum.align_right(TN_X);
+        }
     }
 
     public void update(){
         m_iWalkingCount = PlayerData.getInstance().getWalkingCount();
         m_iGachaTicketNum = PlayerData.getInstance().getGachaTicket();
 
-        m_UiWalkingCount.setText( "総歩数　"+String.valueOf(m_iGachaTicketNum) );
-        m_UiTicketNum.setText(String.valueOf(m_iWalkingCount)+"　枚");
+        m_UiWalkingCount.setText( "総歩数　"+String.valueOf(m_iWalkingCount) );
+        m_UiTicketNum.setText(String.valueOf(m_iGachaTicketNum)+"　枚");
 
+        m_UiTicketNum.align_right(TN_X);
+
+        if( m_Mail != null && m_Mail.getTouch() ){
+            m_GameView.playSE( R.raw.se_yes );
+            new scene_Mail( m_GameView , 18 );
+            m_bMove = true;
+        }
     }
 
     public void draw(Canvas c){
@@ -119,7 +130,6 @@ public class UiGroup {
             m_UiTicket.draw(c);
         }
         if( m_UiTicketNum != null ){
-            m_UiTicketNum.align_right(TN_X);
             m_UiTicketNum.draw_stroke(c,5.0f,Color.argb(255,194,81,114));
             m_UiTicketNum.draw(c);
         }
@@ -138,4 +148,6 @@ public class UiGroup {
             m_Setting.touch(event);
         }
     }
+    // getter
+    public boolean getMove(){ return m_bMove; }
 }

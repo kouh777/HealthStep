@@ -57,20 +57,6 @@ public class GachaMessage {
         m_GachaNo.setScaleX(0);
         m_GachaNo.setScaleY(0);
 
-        /*
-        m_GachaMsgBack.alignCenterHorizontal();
-        m_GachaMsgBack.alignCenterVertical();
-
-        m_GachaYes.alignCenterHorizontal();
-        m_GachaYes.alignCenterVertical();
-        m_GachaYes.setY( m_GachaYes.getY() + YES_NO_Y );
-        m_GachaYes.setX( m_GachaYes.getX() - YES_X );
-
-        m_GachaNo.alignCenterHorizontal();
-        m_GachaNo.alignCenterVertical();
-        m_GachaNo.setY( m_GachaNo.getY() + YES_NO_Y );
-        m_GachaNo.setX( m_GachaNo.getX() + NO_X );
-        */
     }
 
     public void update(){
@@ -102,6 +88,7 @@ public class GachaMessage {
             m_GachaYes.touch(event);
             if( m_GachaYes.getTouch() ) {
                 m_ActionID = ACT_YES;
+                m_GameView.playSE(R.raw.se_yes);
                 Log.d("GachaMsg", "Yes-touch");
             }
         }
@@ -109,6 +96,7 @@ public class GachaMessage {
             m_GachaNo.touch(event);
             if( m_GachaNo.getTouch() ) {
                 m_ActionID = ACT_NO;
+                m_GameView.playSE(R.raw.se_no);
                 Log.d("GachaMsg", "No-touch");
             }
         }

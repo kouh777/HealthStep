@@ -13,6 +13,7 @@ public class scene_Detail extends Task{
     // game sprite
     private GameSprite m_DetailBack;
     private GameSprite m_DetailWaku;
+    private GameSprite m_Return;
     private menu_Character m_DetailCharacter;
 
     // game texts
@@ -28,8 +29,8 @@ public class scene_Detail extends Task{
     // define Text Positions
     private final int TEXT_COMMENT_X = 90;
     private final int TEXT_LIST_X = 420;
-    private final int TEXT_NAME_Y = 110;
-    private final int TEXT_BIRTHDAY_Y = 160;
+    private final int TEXT_NAME_Y = 120;
+    private final int TEXT_BIRTHDAY_Y = 170;
     private final int TEXT_GENDER_Y = 210;
     private final int TEXT_COMMENT_Y = 450;
 
@@ -39,7 +40,7 @@ public class scene_Detail extends Task{
 
     // common
     private GameView m_GameView;
-    private MenuGroup m_MenuGroup;
+//    private MenuGroup m_MenuGroup;
     private UiGroup m_UiGroup;
     private GameSprite m_H1;
 
@@ -54,6 +55,8 @@ public class scene_Detail extends Task{
     private final int CH_POS_X = 15;
     private final int CH_POS_Y = 55;
     private final float WAKU_SCALE = 0.8f;
+    private final int RETURN_X = 400;
+    private final int RETURN_Y = 1000;
 
     // constract
     public scene_Detail(GameView gv, int prio, CharacterSprite ch){
@@ -73,6 +76,7 @@ public class scene_Detail extends Task{
                 break;
         }
         m_DetailBack = new GameSprite(gv,R.drawable.setsumei);
+        m_Return = new GameSprite( gv, RETURN_X,RETURN_Y , R.drawable.modoru );
         m_DetailCharacter = new menu_Character(gv,CH_POS_X,BG_POS_Y + CH_POS_Y,ch.characterID());
 
         m_NameText = new GameText( gv, LIST_BUFFER_SIZE, TEXT_LIST_X, BG_POS_Y + TEXT_NAME_Y );
@@ -100,7 +104,7 @@ public class scene_Detail extends Task{
 
         // common
         m_H1 = new GameSprite(gv, 0, H1_Y, R.drawable.h1_garaly);
-        m_MenuGroup = new MenuGroup(gv);
+  //      m_MenuGroup = new MenuGroup(gv);
         m_UiGroup = new UiGroup(gv, 0, 0);
 
         reset();
@@ -127,10 +131,6 @@ public class scene_Detail extends Task{
         if( m_UiGroup != null ) {
             m_UiGroup.update();
         }
-        if( m_MenuGroup != null ) {
-            m_MenuGroup.update();
-            m_bMove = m_MenuGroup.getMove();
-        }
         if( m_H1 != null){
             m_H1.fade_in( FADE_IN_SPEED );
         }
@@ -149,6 +149,12 @@ public class scene_Detail extends Task{
         if( m_CommentText != null ){
             m_CommentText.update();
         }
+        if( m_Return != null ){
+            if( m_Return.getTouch() ) {
+                m_bMove = true;
+                new scene_Gallery(m_GameView, 20);
+            }
+        }
     }
 
     @Override
@@ -165,9 +171,6 @@ public class scene_Detail extends Task{
         }
         if(m_H1 != null){
             m_H1.draw(c);
-        }
-        if( m_MenuGroup != null){
-            m_MenuGroup.draw(c);
         }
         if( m_DetailBack != null ){
             m_DetailBack.draw(c);
@@ -190,14 +193,17 @@ public class scene_Detail extends Task{
         if( m_CommentText != null ){
             m_CommentText.multiline_draw(c, COMMENT_WIDTH, COMMENT_LINE_HEGHT );
         }
+        if( m_Return != null ){
+            m_Return.draw(c);
+        }
     }
 
     @Override
     // touch event
     public void    touch(MotionEvent event){
         if( getTouchable() ) {
-            if (m_MenuGroup != null) {
-                m_MenuGroup.touch(event);
+            if ( m_Return != null) {
+                m_Return.touch(event);
             }
         }
     }

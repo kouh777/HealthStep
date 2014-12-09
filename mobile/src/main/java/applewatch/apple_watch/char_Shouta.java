@@ -21,5 +21,15 @@ public class char_Shouta extends CharacterSprite {
         m_StrHello = "おはよう！";
         m_StrWhether = "いい天気だな！";
         m_StrYell = "今日も元気にいこうか。";
+
+        // set voices
+        m_CharVoiceHello = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.shouta_hello_kinato);
+        m_CharVoiceWhether = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.shouta_whether_kinato);
+        m_CharVoiceYell = new GameSound( SoundKind.SOUND_VOICE, m_GameView, R.raw.shouta_yell_kinato);
+
+        //set wait
+        m_iHelloWait = 0;
+        m_iWhetherWait = 15;
+        m_iYellWait =10;
     }
 }
