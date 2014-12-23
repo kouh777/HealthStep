@@ -1,6 +1,7 @@
 package applewatch.apple_watch;
 
 import android.graphics.Canvas;
+import android.view.MotionEvent;
 
 /**
  * Created by KOUHO on 2014/12/09.
@@ -35,5 +36,10 @@ public class WearKcalGroup extends ObjectGroup{
     @Override
     public void draw(Canvas c){
         super.draw(c);
+    }
+
+    @Override
+    public void touch(MotionEvent event){
+        super.touch(event);
     }
 }

@@ -67,6 +67,7 @@ class GameView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
     public void    doAnim(){
         mInt++;
         if(!m_bSceneFlag) {
+//            new scene_BackGround(this, 33);
             new scene_WearTotal(this, 30);
             m_bSceneFlag = true;
         }

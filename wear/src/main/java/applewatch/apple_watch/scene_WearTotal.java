@@ -19,7 +19,7 @@ public class scene_WearTotal extends Task {
     private Object m_Obj;   // for synchronizing thread
     private Map< Object , ObjectGroup > m_ObjGroupMap;
 
-    private Vector<GameSprite> m_GameSprites; // manage all sprite. all sprites have their specific id
+   private Vector<GameSprite> m_GameSprites; // manage all sprite. all sprites have their specific id
 
     // define sprites position
     private final int LOGO_Y = 5;
@@ -31,11 +31,7 @@ public class scene_WearTotal extends Task {
     private int[] m_iSpritePositions;   // for save sprites positions
     private final int SP_MAX_SIZE = 16; // Sprite array size
 
-//    private int m_iTouchY;              // touch action down y
-    private boolean m_bIcoWalk;        // ico walk touch flag
-    private boolean m_bIcoBeat;
-    private boolean m_bIcoSett;
-
+    private GROUP_ID m_GroupId;
     private GameCamera m_GameCamera;    // samera
 
     // relation to touch
@@ -44,7 +40,7 @@ public class scene_WearTotal extends Task {
     private boolean m_bLeftSwipe;
     private boolean m_bRightSwipe;
     // define Check Swipe
-    private final int SWIPE_LEN = 2500;
+    private final int SWIPE_LEN = 1500;
 
     // define relation to moving RankingGroup
     private final int SLIDE_PER_SPEED = 3;  //
@@ -58,10 +54,10 @@ public class scene_WearTotal extends Task {
     public scene_WearTotal(GameView gv, int prio){
         super(prio);
         m_ObjGroupMap = new HashMap<Object,ObjectGroup>();
-        m_ObjGroupMap.put( "Step" , new WearStepsGroup( gv ) );
-        m_ObjGroupMap.put( "Dist" , new WearDistanceGroup( gv ) );
-        m_ObjGroupMap.put( "Kcal" , new WearKcalGroup( gv ) );
-        m_ObjGroupMap.put( "Sett" , new WearSettingGroup( gv ) );
+        m_ObjGroupMap.put( GROUP_ID.STEP , new WearStepsGroup( gv ) );
+        m_ObjGroupMap.put( GROUP_ID.DIST , new WearDistanceGroup( gv ) );
+        m_ObjGroupMap.put( GROUP_ID.KCAL , new WearKcalGroup( gv ) );
+        m_ObjGroupMap.put( GROUP_ID.SETT , new WearSettingGroup( gv ) );
 
         // set slide member
         SLIDE_LEFT_END_X = (int)( gv.getGameWidth() * 0.6 );
@@ -71,19 +67,21 @@ public class scene_WearTotal extends Task {
         SLIDE_SPEED = SLIDE_LEFT_END_X / SLIDE_PER_SPEED;
 
         // Object Group's Initialized Positions
-        m_ObjGroupMap.get("Step").moveX( (int)( -SLIDE_LEFT_END_X ) );  //  gv.getGameWidth() * -0.6
-        m_ObjGroupMap.get("Kcal").moveX( (int)( 0 ) );                    //   gv.getGameWidth() * 0
-        m_ObjGroupMap.get("Dist").moveX( (int)( SLIDE_LEFT_END_X ) );     // gv.getGameWidth() * 0.6
-        m_ObjGroupMap.get("Sett").moveX( (int)( SLIDE_RIGHT_END_X ) );     // gv.getGameWidth() * 1.2
+        m_ObjGroupMap.get(GROUP_ID.STEP).moveX( (int)( -SLIDE_LEFT_END_X ) );  //  gv.getGameWidth() * -0.6
+        m_ObjGroupMap.get(GROUP_ID.DIST).moveX( (int)( 0 ) );                    //   gv.getGameWidth() * 0
+        m_ObjGroupMap.get(GROUP_ID.KCAL).moveX( (int)( SLIDE_LEFT_END_X ) );     // gv.getGameWidth() * 0.6
+        m_ObjGroupMap.get(GROUP_ID.SETT).moveX( (int)( SLIDE_RIGHT_END_X ) );     // gv.getGameWidth() * 1.2
 
         m_GameView = gv;
         m_GameCamera = new GameCamera();
+
 
         m_GameSprites = new Vector<GameSprite>();
         m_GameSprites.add( new GameSprite( gv, 0, 0 , R.drawable.wear_bg , 1.03, 1.03, 255 ) ) ;
         m_GameSprites.add( new GameSprite( gv, 0, 0 , R.drawable.name_waku , 1.03, 1.03, 255 ) );
         m_GameSprites.add( new GameSprite( gv, 0, LOGO_Y, R.drawable.game_name ,1.03,1.03, 255 ) );
         m_GameSprites.lastElement().alignCenterHorizontal();
+
 
         reset();
     }
@@ -93,20 +91,18 @@ public class scene_WearTotal extends Task {
         m_iTimer = 0;
         m_bMove = false;
         m_bSnatch = false;
-        m_bIcoWalk = false;
-        m_bIcoBeat = false;
-        m_bIcoSett = false;
 
         m_iTouchX = 0;
         m_iTouchY = 0;
         m_bLeftSwipe = false;
         m_bRightSwipe = false;
         m_Obj = new Object();
+        m_GroupId = GROUP_ID.NONE;
 
         m_iSpritePositions = new int[SP_MAX_SIZE];
         setTouchable( true );
 
-        Log.d("TEST", "New Title Class");
+        Log.d("TEST", "New Wear Total Class");
     }
 
     @Override
@@ -122,13 +118,13 @@ public class scene_WearTotal extends Task {
                 while (it.hasNext()) {
                     Object o = it.next();
                     // swipe left end
-                    if (m_bLeftSwipe && m_ObjGroupMap.get(o).getX() <= -SLIDE_LEFT_END_X) {
-                        m_ObjGroupMap.get(o).moveX(SLIDE_LEFT_INIT_X);
+                    if (m_bLeftSwipe && m_ObjGroupMap.get(o).getX() <= -SLIDE_LEFT_END_X * 2) {
+                        m_ObjGroupMap.get(o).moveX(SLIDE_LEFT_END_X * 4);
                         m_bLeftSwipe = false;
                     }
                     // swipe right end
                     if (m_bRightSwipe && m_ObjGroupMap.get(o).getX() >= SLIDE_RIGHT_END_X) {
-                        m_ObjGroupMap.get(o).moveX(SLIDE_RIGHT_INIT_X);
+                        m_ObjGroupMap.get(o).moveX(SLIDE_LEFT_END_X * -4);
                         m_bRightSwipe = false;
                     }
                 }
@@ -151,38 +147,29 @@ public class scene_WearTotal extends Task {
                 }
             }
         }
+        switch( m_GroupId ){
+            case STEP:
+                m_bMove  = true;
+                new scene_WearWalk(m_GameView,20);
+                Log.d("new scene","scene_WearWalk");
 
-        /*
-        // scene end animation and new next scene
-        if( m_bIcoBeat ){
-            if(!m_GameCamera.moveToCamera(-30, 15)) {
-                m_GameCamera.setCamera(m_GameSprites, m_iSpritePositions);
-            } else {
-                m_bMove = true;
-                new scene_HeartRate( m_GameView , 20 );
-            }
+              break;
+            case DIST:
+                new scene_WearWalk(m_GameView,20);
+                Log.d("new scene","scene_WearWalk");
+                m_bMove  = true;
+                break;
+            case KCAL:
+                new scene_WearWalk(m_GameView,20);
+                Log.d("new scene","scene_WearWalk");
+                m_bMove  = true;
+                break;
+            case SETT:
+                new scene_WearWalk(m_GameView,20);
+                Log.d("new scene","scene_WearWalk");
+                m_bMove  = true;
+                break;
         }
-
-        // scene end animation and new next scene
-        if( m_bIcoWalk ){
-            if(!m_GameCamera.moveToCamera(-110, 15)) {
-                m_GameCamera.setCamera(m_GameSprites, m_iSpritePositions);
-            } else {
-                m_bMove = true;
-                new scene_WearWalk( m_GameView , 20 );
-            }
-        }
-
-        // scene end animation and new next scene
-        if( m_bIcoSett ){
-            if(!m_GameCamera.moveToCamera(-270, 15)) {
-                m_GameCamera.setCamera(m_GameSprites, m_iSpritePositions);
-            } else {
-                m_bMove = true;
-                new scene_Setting( m_GameView , 20 );
-            }
-        }
-        */
     }
 
     @Override
@@ -246,8 +233,23 @@ public class scene_WearTotal extends Task {
                 break;
 
         }
+        if( m_ObjGroupMap != null ) {
+            Iterator it = m_ObjGroupMap.keySet().iterator();
+            while( it.hasNext() ){
+                Object o = it.next();
+                m_ObjGroupMap.get(o).touch(event);
+                if( m_ObjGroupMap.get(o).getTouch() ) {
+                    if ( o == GROUP_ID.STEP || o == GROUP_ID.DIST
+                            || o == GROUP_ID.KCAL || o == GROUP_ID.SETT){
+                        m_GroupId = (GROUP_ID) o;
+                        return;
+                    }
+                }
+            }
+        }
     }
 
+    /*
     // save sprites positions
     private void saveSpritesPos(){
         if( m_GameSprites != null ) {
@@ -256,4 +258,5 @@ public class scene_WearTotal extends Task {
             }
         }
     }
+    */
 }

@@ -7,10 +7,9 @@ import android.view.MotionEvent;
 import java.util.Vector;
 
 /**
- * Created by KOUHO on 2014/12/06.
+ * Created by KOUHO on 2014/12/15.
  */
-public class ObjectGroup {
-
+public class ObjectGroup  {
     protected GameView m_GameView;
     protected Vector<GameText> m_VecText;
     protected Vector<GameSprite> m_VecSprite;
@@ -62,19 +61,6 @@ public class ObjectGroup {
         m_iPosX += mx;
     }
 
-    public void touch(MotionEvent event){
-        if( m_VecSprite != null ) {
-            for (int i = 0; i < m_VecSprite.size(); i++) {
-                m_VecSprite.get(i).touch(event);
-                if(  m_VecSprite.get(i).getLongTouch() ){
-                    m_bTouch = true;
-                    Log.d( "ObjectGroup", "LongTouch" );
-                    return;
-                }
-            }
-        }
-    }
-
     public void addText( GameText text ){
         if( text != null ) m_VecText.addElement(text);
     }
@@ -87,5 +73,7 @@ public class ObjectGroup {
     public int getX(){
         return m_iPosX;
     }
-    public boolean getTouch(){ return m_bTouch; }
+    public boolean getTouch(){
+        return m_bTouch;
+    }
 }

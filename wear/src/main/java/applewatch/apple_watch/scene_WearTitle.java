@@ -12,6 +12,7 @@ import java.util.Vector;
  * Created by KOUHO on 2014/11/16.
  */
 public class scene_WearTitle extends Task{
+
     private boolean m_bMove;
     private GameView m_GameView;
     private Object m_Obj;   // for synchronizing thread
@@ -52,6 +53,7 @@ public class scene_WearTitle extends Task{
         m_GameView = gv;
         m_GameCamera = new GameCamera();
 
+        /*
         m_GameSprites = new Vector<GameSprite>();
         m_GameSprites.add( new GameSprite( gv, SpriteId.SP_BACK, R.drawable.name_waku ) );
         m_GameSprites.add( new GameSprite( gv, SpriteId.SP_LOGO, R.drawable.game_name ) );
@@ -63,6 +65,7 @@ public class scene_WearTitle extends Task{
         m_GameSprites.add( new GameSprite( gv, SpriteId.SP_CHR_RANK, 0 , CHR_RANK_Y , R.drawable.ranking_moji ) );
         m_GameSprites.add( new GameSprite( gv, SpriteId.SP_ICO_SETT, ICO_X , ICO_SETT_Y , R.drawable.settei_icon ) );
         m_GameSprites.add( new GameSprite( gv, SpriteId.SP_CHR_SETT, 0 , CHR_SETT_Y , R.drawable.settei_moji ) );
+        */
 
         reset();
     }
@@ -81,6 +84,7 @@ public class scene_WearTitle extends Task{
 
         m_iSpritePositions = new int[SP_MAX_SIZE];
 
+        /*
         // set sprites
         if( m_GameSprites != null ) {
             for (int i = 0; i < m_GameSprites.size(); i++) {
@@ -114,6 +118,7 @@ public class scene_WearTitle extends Task{
 
             }
         }
+        */
         setTouchable( true );
         Log.d("TEST", "New Title Class");
     }
@@ -209,6 +214,7 @@ public class scene_WearTitle extends Task{
                 break;
         }
 
+        /*
         // sprites touch event
         if( m_GameSprites != null ) {
             for (int i = 0; i < m_GameSprites.size(); i++) {
@@ -245,6 +251,7 @@ public class scene_WearTitle extends Task{
                 }
             }
         }
+        */
     }
 
     // save sprites positions

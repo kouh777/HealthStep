@@ -24,8 +24,8 @@ public class scene_HeartRate extends Task{
 
     public scene_HeartRate( GameView gv, int prio ) {
         super(prio);
-        m_icoBeat = new GameSprite(gv, SpriteId.SP_ICO_BEAT, ICO_X, ICO_BEAT_Y, R.drawable.sinpakusuu_icon);
-        m_chrBeat = new GameSprite(gv, SpriteId.SP_ICO_BEAT, 0, CHR_BEAT_Y, R.drawable.sinpakusuu_moji);
+        m_icoBeat = new GameSprite(gv, ICO_X, ICO_BEAT_Y, R.drawable.sinpakusuu_icon);
+        m_chrBeat = new GameSprite(gv, 0, CHR_BEAT_Y, R.drawable.sinpakusuu_moji);
         m_iHeartRate = 0;
 
         m_HeartRate = new GameText(gv, String.valueOf(m_iHeartRate), 100, 100);

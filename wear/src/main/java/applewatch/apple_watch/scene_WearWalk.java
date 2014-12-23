@@ -14,6 +14,7 @@ public class scene_WearWalk extends Task {
     // this class doesn't have many sprite so don't use Vector<GameSprite>
     private GameSprite m_icoWalk;
     private GameSprite m_chrWalk;
+    private GameSprite m_GameBack;
 
     private GameText m_TotalWalkNum;
     private GameText m_Walking;
@@ -35,10 +36,13 @@ public class scene_WearWalk extends Task {
     public scene_WearWalk( GameView gv, int prio ){
         super(prio);
         m_GameView = gv;
-        m_icoWalk = new GameSprite(gv, SpriteId.SP_ICO_WALK, ICO_X, ICO_WALK_Y, R.drawable.souhosu_icon);
-        m_chrWalk = new GameSprite(gv, SpriteId.SP_CHR_WALK, 0, CHR_WALK_Y, R.drawable.souhosu_moji);
+        m_icoWalk = new GameSprite(gv, ICO_X, ICO_WALK_Y, R.drawable.souhosu_icon);
+        m_chrWalk = new GameSprite(gv, 0, CHR_WALK_Y, R.drawable.souhosu_moji);
+        m_GameBack = new GameSprite( gv, 0, 0 , R.drawable.wear_bg , 1.03, 1.03, 255 );
         M_iTotalWalkingCount = 0;
         m_bMove = false;
+        m_iTouchX = 0;
+        m_iTouchY = 0;
 
         m_TotalWalkNum = new GameText( gv, String.valueOf(M_iTotalWalkingCount), 100,100 );
 
@@ -62,6 +66,9 @@ public class scene_WearWalk extends Task {
 
     @Override
     public void draw(Canvas c){
+        if( m_GameBack != null ){
+            m_GameBack.draw(c);
+        }
         if( m_icoWalk != null ){
             m_icoWalk.draw(c);
         }
@@ -99,7 +106,7 @@ public class scene_WearWalk extends Task {
                 int distance = v_x * v_x + v_y * v_y;
                 if( distance > 4500 ){
                     m_bMove = true;
-                    new scene_WearTitle( m_GameView, 20 );
+                    new scene_WearTotal( m_GameView, 20 );
                     Log.d("wear_walk","swipe");
                 }
                 Log.d("wear_walk:distance",String.valueOf(distance) );

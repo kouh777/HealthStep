@@ -21,8 +21,8 @@ public class scene_Setting extends Task {
 
     public scene_Setting( GameView gv, int prio ) {
         super(prio);
-        m_icoSett = new GameSprite(gv, SpriteId.SP_ICO_BEAT, ICO_X, ICO_SETT_Y, R.drawable.sinpakusuu_icon);
-        m_chrSett = new GameSprite(gv, SpriteId.SP_ICO_BEAT, 0, CHR_SETT_Y, R.drawable.sinpakusuu_moji);
+//        m_icoSett = new GameSprite(gv, SpriteId.SP_ICO_BEAT, ICO_X, ICO_SETT_Y, R.drawable.sinpakusuu_icon);
+ //       m_chrSett = new GameSprite(gv, SpriteId.SP_ICO_BEAT, 0, CHR_SETT_Y, R.drawable.sinpakusuu_moji);
         m_Obj = new Object();
 
         reset();
